@@ -60,7 +60,8 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 .fly-cell.danger .star-num{color:var(--red)}
 .fly-cell.center{border-color:rgba(108,140,255,0.4);background:rgba(108,140,255,0.08)}
 .fly-cell.center .star-num{color:var(--accent)}
-.fly-compass{text-align:center;font-size:11px;color:var(--dim);margin-top:2px}
+.fly-compass{text-align:center;font-size:10.5px;color:rgba(255,255,255,0.6);margin-bottom:4px;letter-spacing:0.5px}
+.fly-dir{text-align:center;font-size:11.5px;color:var(--orange);margin-bottom:8px}
 /* ── 犯太歲 ── */
 .ts-controls{display:flex;gap:12px;align-items:center;justify-content:center;margin:14px 0;flex-wrap:wrap}
 .ts-controls label{font-size:13px;color:var(--dim)}
@@ -111,6 +112,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 </select>
 </div>
 <div class="fly-year-label" id="fly-label"></div>
+<div class="fly-dir" id="fly-dir" style="font-size:11.5px;color:var(--orange);margin-bottom:8px;text-align:center"></div>
 <div class="fly-grid" id="fly-grid"></div>
 </div>
 </div>
@@ -1522,9 +1524,9 @@ const STAR_DATA={
   9:{name:'九紫右弼',el:'火',type:'auspicious',remedy:'宜放紅色或紫色物品，催旺喜慶'}
 };
 const LUOSHU=[[4,9,2],[3,5,7],[8,1,6]];
-const COMPASS=[['SE (巽)','S (離)','SW (坤)'],['E (震)','中宮','W (兌)'],['NE (艮)','N (坎)','NW (乾)']];
+const COMPASS=[['東南 (SE)','南 (S)','西南 (SW)'],['東 (E)','中宮','西 (W)'],['東北 (NE)','北 (N)','西北 (NW)']];
 function centerStar(y){let c=3-((y-2024)%9);if(c<=0)c+=9;return c}
-function getGrid(c){return LUOSHU.map(r=>r.map(v=>((v-5+c-1)%9)+1))}
+function getGrid(c){return LUOSHU.map(r=>r.map(v=>(((v+c-6)%9+9)%9)+1))}
 function renderFly(){
   const y=+document.getElementById('fly-year').value;
   const c=centerStar(y),g=getGrid(c);
@@ -1533,11 +1535,12 @@ function renderFly(){
     const d=STAR_DATA[s];
     const cell=document.createElement('div');
     cell.className='fly-cell '+d.type+(ri===1&&ci===1?' center':'');
-    cell.innerHTML='<div class="star-num">'+s+'</div><div class="star-info">'+d.name+' ('+d.el+')</div><div class="star-remedy">'+d.remedy+'</div>';
+    cell.innerHTML='<div class="fly-compass">'+COMPASS[ri][ci]+'</div><div class="star-num">'+s+'</div><div class="star-info">'+d.name+' ('+d.el+')</div><div class="star-remedy">'+d.remedy+'</div>';
     el.appendChild(cell);
   }));
+  const dirnote='上南（離）下北（坎）· 左東右西 · 洛書戴九履一';
   document.getElementById('fly-label').textContent=y+'年九宮飛星（'+STAR_DATA[c].name+'入中）';
-  document.getElementById('fly-year-title').textContent=y;
+  document.getElementById('fly-dir').textContent=dirnote;
 }
 
 const ANIMALS=['鼠','牛','虎','兔','龍','蛇','馬','羊','猴','雞','狗','豬'];
@@ -1559,6 +1562,20 @@ const TS_REMEDIES={
   '害':'拜太歲、防小人暗害、注意飲食健康、慎交友',
   '破':'拜太歲、慎防破財、不宜冒險投資、保守理財'
 };
+const PENDANT={
+  '鼠':'牛（六合）／猴、龍（三合）',
+  '牛':'鼠（六合）／蛇、雞（三合）',
+  '虎':'豬（六合）／馬、狗（三合）',
+  '兔':'狗（六合）／豬、羊（三合）',
+  '龍':'雞（六合）／猴、鼠（三合）',
+  '蛇':'猴（六合）／雞、牛（三合）',
+  '馬':'羊（六合）／虎、狗（三合）',
+  '羊':'馬（六合）／兔、豬（三合）',
+  '猴':'蛇（六合）／鼠、龍（三合）',
+  '雞':'龍（六合）／蛇、牛（三合）',
+  '狗':'兔（六合）／虎、馬（三合）',
+  '豬':'虎（六合）／兔、羊（三合）'
+};
 function renderTS(){
   const y=+document.getElementById('ts-year').value;
   const z=document.getElementById('ts-zodiac').value;
@@ -1573,7 +1590,8 @@ function renderTS(){
   else{type='無犯太歲';label='-';detail='屬'+z+'今年無犯太歲，運程相對平穩，宜把握機遇。'}
   const cls=label==='-'?'normal':'tai';
   r.innerHTML='<div class="ts-rel"><span class="badge '+cls+'">'+type+'</span> '+detail+'</div>'
-    +'<div class="ts-remedy"><b>化解建議：</b>'+(TS_REMEDIES[label]||'保持心態平和，多行善事，佩戴平安飾物。')+'</div>';
+    +'<div class="ts-remedy"><b>化解建議：</b>'+(TS_REMEDIES[label]||'保持心態平和，多行善事，佩戴平安飾物。')+'</div>'
+    +'<div class="ts-remedy"><b>飾物建議：</b>屬'+z+'可佩戴 <span style="color:var(--green);font-weight:600">'+PENDANT[z]+'</span> 生肖飾物，以三合或六合催旺貴人運。</div>';
 }
 
 renderFly();
