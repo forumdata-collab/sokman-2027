@@ -162,14 +162,40 @@ details.zodiac-sec .sec-body hr.divider{border:none;border-top:1px solid var(--b
 
 <div class="section" id="mingcalc">
 <div class="section-title"><span class="zodiac-icon">🔥</span><span>寒熱平命快查 <span class="zodiac-en">· 蘇民峰招牌論命法</span></span></div>
-<p style="font-size:14px;color:var(--dim);margin-bottom:14px">以出生當日所處節氣為準，判斷寒熱平三命。<strong>蘇民峰體系</strong>：熱命＝立夏後至立秋前出生（巳午未月，喜木火利東南）；平命＝立春後至立夏前＋立秋後至立冬前出生（寅卯辰＋申酉戌月，金水稍佳）；寒命＝立冬後至立春前出生（亥子丑月，喜木火利東南）。揀你嘅出生日期：</p>
+<p style="font-size:14px;color:var(--dim);margin-bottom:14px">以出生當日所處節氣為準，判斷寒熱平三命。<strong>蘇民峰官方定義</strong>（masterso.com）：寒命＝立秋後至驚蟄前出生（跨年，喜火）；熱命＝立夏後至立秋前出生（喜水）；平命＝驚蟄後至立夏前出生（喜水不忌火，清明前較平、清明後較熱之平命）。揀你嘅出生日期：</p>
 <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin-bottom:8px">
 <label style="font-size:13px;color:var(--dim)">出生年月日
 <input id="ming-date" type="date" min="1930-01-01" max="2035-12-31" value="1990-06-01" style="display:block;margin-top:4px;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:8px 10px;font-size:14px"></label>
 <button onclick="calcMing()" style="background:var(--accent);color:#fff;border:none;border-radius:8px;padding:9px 18px;font-size:14px;cursor:pointer;font-weight:600">計算</button>
 </div>
 <div id="ming-result" class="ming-result"></div>
-<p style="font-size:12px;color:var(--dim);margin-top:12px">※ 以出生當日所處節氣（立夏／立秋／立冬／立春）為準，數據由開源曆法庫計算。日期預設只為示範。</p>
+<p style="font-size:12px;color:var(--dim);margin-top:12px">※ 以出生當日所處節氣（立秋／驚蟄／立夏／清明）為準，數據由開源曆法庫計算。日期預設只為示範。</p>
+</div>
+
+<div class="section" id="大門地氈">
+<div class="section-title"><span class="zodiac-icon">🧭</span><span>大門地氈旺宅化病法 <span class="zodiac-en">· 蘇民峰獨門法</span></span></div>
+<p style="font-size:13.5px;color:var(--dim);margin-bottom:10px">依《癸卯兔年運程》p47-51「大門地氈顏色旺宅化病方法」：每年飛星隨方位流轉，大門開向不同方位會迎入吉凶星，以特定顏色地氈及化解物催旺吉星、洩化凶星（五行生剋推理）。選你大門開向：</p>
+<div class="ts-controls">
+<label>年份：</label>
+<select id="door-year" onchange="renderDoor()">
+<option value="2024">2024 甲辰年</option>
+<option value="2025">2025 乙巳年</option>
+<option value="2026">2026 丙午年</option>
+<option value="2027" selected>2027 丁未年</option>
+<option value="2028">2028 戊申年</option>
+<option value="2029">2029 己酉年</option>
+<option value="2030">2030 庚戌年</option>
+</select>
+<label>大門開向：</label>
+<select id="door-dir" onchange="renderDoor()">
+<option value="東南">東南</option><option value="南">正南</option><option value="西南">西南</option>
+<option value="東" selected>正東</option><option value="中宮">中宮</option><option value="西">正西</option>
+<option value="東北">東北</option><option value="北">正北</option><option value="西北">西北</option>
+</select>
+</div>
+<div class="fly-year-label" id="door-label"><!-- label --></div>
+<div class="fly-grid" id="door-grid" style="max-width:440px;margin:0 auto 12px"></div>
+<div class="ts-result" id="door-result" style="display:none"></div>
 </div>
 <div class="toc">
 <a href="#鼠">鼠 · Rat</a>
@@ -1676,12 +1702,50 @@ function calcMing(){
     '<p style="font-size:11.5px;color:var(--dim);margin-top:10px">※ 依據蘇民峰官方定義（masterso.com 玄學教室·風水命理析疑）：立秋後至驚蟄前為寒命、立夏後至立秋前為熱命、驚蟄後至立夏前為平命（清明前較平／清明後較熱之平命）。</p>';
   document.getElementById('ming-result').style.display='block';
 }
+
+/* ── 大門地氈（蘇民峰《癸卯兔年運程》p47-51 旺宅化病法，按年度飛星推算）── */
+const DOOR_REQUIRE = { /* 星 → 大門開向該星方位時的地氈處理 */
+  1:{star:'一白貪狼',lab:'桃花位',treat:'催桃花：門外放粉紅色地氈；已婚防桃花劫：門內放灰色或藍色地氈洩之'},
+  2:{star:'二黑巨門',lab:'細病位',treat:'門內放灰色地氈，地氈底放金屬物件（金泄土），化病星'},
+  3:{star:'三碧祿存',lab:'爭鬥位',treat:'門內外放粉紅色地氈（火泄木），化解是非'},
+  4:{star:'四綠文曲',lab:'文昌位',treat:'門內放灰色地氈，並在門內外放綠色布或一杯水，催旺文昌'},
+  5:{star:'五黃廉貞',lab:'大病位',treat:'門內灰色地氈＋屋內金屬物件＋掛風鈴＋門旁音樂盒（金泄土），化五黃煞'},
+  6:{star:'六白武曲',lab:'武曲位',treat:'門外放黃或啡色地氈（土生金）＋門內灰色地氈，利武職財運升遷'},
+  7:{star:'七赤破軍',lab:'破軍位',treat:'門內放灰色地氈引財（金生水），或門旁放一杯水洩金煞'},
+  8:{star:'八白左輔',lab:'財位',treat:'門外放紅色地氈（火生土），催旺財星'},
+  9:{star:'九紫右弼',lab:'喜慶位',treat:'室外放綠色地氈（木生火），催旺喜慶桃花'}
+};
+function renderDoor(){
+  const y=+document.getElementById('door-year').value;
+  const c=centerStar(y),g=getGrid(c);
+  const d=document.getElementById('door-dir').value;
+  const pos={東南:[0,0],南:[0,1],西南:[0,2],東:[1,0],中宮:[1,1],西:[1,2],東北:[2,0],北:[2,1],西北:[2,2]}[d];
+  if(!pos)return;
+  const star=g[pos[0]][pos[1]];
+  const r=DOOR_REQUIRE[star];
+  const el=document.getElementById('door-result');
+  el.style.display='block';
+  const ausp=star===8||star===9||star===4||star===6||star===1;
+  el.innerHTML='<div class="ts-rel"><span class="badge '+(ausp?'he':'tai')+'">'+y+'年'+d+'：'+r.star+'（'+r.lab+'）</span></div>'
+    +'<div class="ts-remedy" style="color:var(--text);font-size:14px;line-height:1.8">大門開在'+d+'，今年該方位飛入'+r.star+'（'+r.lab+'）。<br><b style="color:var(--orange)">蘇民峰化解法：</b>'+r.treat+'</div>'
+    +'<div class="ts-remedy" style="font-size:12px;color:var(--dim)">※ 依《癸卯兔年運程》p47-51「大門地氈顏色旺宅化病方法」，按每年飛星方位推算（2027丁未·九紫入中）。</div>';
+  const gridEl=document.getElementById('door-grid');gridEl.innerHTML='';
+  g.forEach((row,ri)=>row.forEach((s,ci)=>{
+    const cell=document.createElement('div');
+    cell.className='fly-cell '+(ri===pos[0]&&ci===pos[1]?'center':'');
+    cell.innerHTML='<div class="fly-compass">'+['東南','南','西南','東','中宮','西','東北','北','西北'][ri*3+ci]+'</div><div class="star-num">'+s+'</div><div class="star-info">'+DOOR_REQUIRE[s].star+'</div>';
+    gridEl.appendChild(cell);
+  }));
+  document.getElementById('door-label').textContent=y+'年大門地氈法（'+STAR_DATA[c].name+'入中）';
+}
+
 /* ── 生肖收折 ── */
 function toggleAll(open){document.querySelectorAll('details.zodiac-sec').forEach(d=>{open?d.setAttribute('open',''):d.removeAttribute('open')})}
 
 renderFly();
 renderTS();
 calcMing();
+renderDoor();
 </script>
 </body>
 </html>
