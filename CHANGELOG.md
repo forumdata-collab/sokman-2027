@@ -3,6 +3,16 @@
 All notable changes will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [1.3.0] - 2026-09-18
+### Added
+- **開源化**：納入完整建置源碼（`build_site.py` / `content/` / `assets/` / `compute_terms.py` / `solar_terms.json`），任何人可從源碼重建網站。
+- **可重現性驗證**：由源碼在空目錄重建的 `index.html` 與發布版 SHA256 完全一致。
+- 腳本路徑去硬編碼（改為相對路徑），可在任何位置運行認證工具。
+
+### Changed
+- README 全面專業化：功能表／六層推理摘要／認證系統文件／建置說明。
+- 用語潤飾：移除「《癸卯兔年運程》pXX」單年引用，改為「蘇民峰曆書／體系」，強調每年按飛星重新適用。
+
 ## [1.2.0] - 2026-09-18
 ### Added
 - **兔年 OCR 備份**：`rabbit-2023-ocr-backup.tar.gz`（蘇民峰《癸卯兔年運程》362頁掃描 OCR 文字 + 關鍵原圖，SHA256 `996b07884ed16d031b3cf51a0c735a903a058e8f692f65b5bf24a348e7f43e78`）。
