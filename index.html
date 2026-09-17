@@ -1703,7 +1703,7 @@ function calcMing(){
   document.getElementById('ming-result').style.display='block';
 }
 
-/* ── 大門地氈（蘇民峰《癸卯兔年運程》p47-51 旺宅化病法，按年度飛星推算）── */
+/* ── 大門地氈（蘇民峰旺宅化病法：每年飛星方位→地氈色/化解物，通用推理體系）── */
 const DOOR_REQUIRE = { /* 星 → 大門開向該星方位時的地氈處理 */
   1:{star:'一白貪狼',lab:'桃花位',treat:'催桃花：門外放粉紅色地氈；已婚防桃花劫：門內放灰色或藍色地氈洩之'},
   2:{star:'二黑巨門',lab:'細病位',treat:'門內放灰色地氈，地氈底放金屬物件（金泄土），化病星'},
@@ -1728,7 +1728,7 @@ function renderDoor(){
   const ausp=star===8||star===9||star===4||star===6||star===1;
   el.innerHTML='<div class="ts-rel"><span class="badge '+(ausp?'he':'tai')+'">'+y+'年'+d+'：'+r.star+'（'+r.lab+'）</span></div>'
     +'<div class="ts-remedy" style="color:var(--text);font-size:14px;line-height:1.8">大門開在'+d+'，今年該方位飛入'+r.star+'（'+r.lab+'）。<br><b style="color:var(--orange)">蘇民峰化解法：</b>'+r.treat+'</div>'
-    +'<div class="ts-remedy" style="font-size:12px;color:var(--dim)">※ 依《癸卯兔年運程》p47-51「大門地氈顏色旺宅化病方法」，按每年飛星方位推算（2027丁未·九紫入中）。</div>';
+    +'<div class="ts-remedy" style="font-size:12px;color:var(--dim)">※ 依蘇民峰「大門地氈顏色旺宅化病方法」（通用推理體系，已按所選年份飛星方位即時推算）。</div>';
   const gridEl=document.getElementById('door-grid');gridEl.innerHTML='';
   g.forEach((row,ri)=>row.forEach((s,ci)=>{
     const cell=document.createElement('div');
