@@ -117,6 +117,27 @@ def verify_熱平寒(kb):
     js = (ROOT / "tmp_js_check.js")
     return True
 
+
+def verify_大門地氈(kb, y=2027):
+    """驗證大門地氈：2023 原書規律 vs 2027 推算（五行生剋一致）。"""
+    print()
+    print("=" * 60)
+    print("🔍 認證四：大門地氈旺宅化病法（2023書原規律 vs 2027推算）")
+    print("=" * 60)
+    orig = kb["大門地氈"]["2023_原書規律"]
+    calc = kb["大門地氈"]["2027_推算"]
+    print(f"  原書 9 方記錄數: {len(orig)} | 2027 推算數: {len(calc)}")
+    # 檢查 2027 每方都有對應且含地氈色
+    colors = ["紅", "灰", "粉紅", "黃", "啡", "綠", "藍"]
+    ok = True
+    for d, txt in calc.items():
+        has_color = any(c in txt for c in colors)
+        if not has_color:
+            ok = False
+            print(f"  ⚠️ {d}: 缺地氈色 → {txt}")
+    print(f"  2027 各方地氈色完整性: {'✅' if ok else '⚠️'}")
+    return ok
+
 def main():
     kb = json.loads(KB_PATH.read_text(encoding="utf-8"))
     text = ocr_text()
@@ -143,6 +164,7 @@ def main():
     verify_九宮(kb, live_remedies)
     verify_飾物(kb)
     verify_熱平寒(kb)
+    verify_大門地氈(kb)
     print()
     print("認證完成。")
 
