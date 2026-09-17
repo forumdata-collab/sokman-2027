@@ -6,3 +6,5 @@ __pycache__/
 node_modules/
 secrets/
 *.pdf
+# OCR 原始掃描（已打包入 backup tar）
+ocr/

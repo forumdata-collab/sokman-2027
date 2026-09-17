@@ -14,7 +14,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang TC','Micr
 .hero-badge{display:inline-block;background:rgba(108,140,255,0.12);color:var(--accent);border:1px solid rgba(108,140,255,0.3);border-radius:20px;padding:3px 14px;font-size:12px;margin-bottom:14px}
 h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 .hero p{color:var(--dim);font-size:14px;margin-bottom:8px}
-.disclaimer{background:rgba(251,146,60,0.08);border:1px solid rgba(251,146,60,0.25);border-radius:10px;padding:12px 16px;font-size:12.5px;color:var(--orange);margin:14px auto 0;max-width:640px}
+.disclaimer{background:rgba(251,146,60,0.08);border:1px solid rgba(251,146,60,0.25);border-radius:10px;padding:12px 16px;font-size:12.5px;color:var(--orange);margin:14px auto 0;max-width:640px;line-height:1.7}
 .toc{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:26px 0 10px}
 .toc a{font-size:13px;color:var(--dim);text-decoration:none;padding:5px 14px;border-radius:8px;border:1px solid var(--border);transition:all .2s}
 .toc a:hover{color:var(--text);border-color:rgba(255,255,255,0.2);transform:translateY(-1px)}
@@ -41,9 +41,38 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 .info-item{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:10px;padding:12px}
 .info-item .k{font-size:12px;color:var(--dim);margin-bottom:4px}
 .info-item .v{font-size:13.5px;color:var(--text)}
+/* ── 飛星九宮格 ── */
+.fly-wrap{max-width:480px;margin:14px auto 0}
+.fly-controls{display:flex;gap:10px;align-items:center;justify-content:center;margin-bottom:12px;flex-wrap:wrap}
+.fly-controls label{font-size:13px;color:var(--dim)}
+.fly-controls select{background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:7px 12px;font-size:14px;cursor:pointer}
+.fly-year-label{text-align:center;font-size:13px;color:var(--dim);margin-bottom:10px}
+.fly-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.fly-cell{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 6px;text-align:center;min-height:85px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all .2s}
+.fly-cell .star-num{font-size:28px;font-weight:700;line-height:1}
+.fly-cell .star-info{font-size:11px;color:var(--dim);margin-top:4px;line-height:1.4}
+.fly-cell .star-remedy{font-size:10.5px;color:rgba(255,255,255,0.55);margin-top:4px;line-height:1.4}
+.fly-cell.auspicious{border-color:rgba(74,222,128,0.3);background:rgba(74,222,128,0.06)}
+.fly-cell.auspicious .star-num{color:var(--green)}
+.fly-cell.inauspicious{border-color:rgba(251,146,60,0.3);background:rgba(251,146,60,0.06)}
+.fly-cell.inauspicious .star-num{color:var(--orange)}
+.fly-cell.danger{border-color:rgba(248,113,113,0.3);background:rgba(248,113,113,0.08)}
+.fly-cell.danger .star-num{color:var(--red)}
+.fly-cell.center{border-color:rgba(108,140,255,0.4);background:rgba(108,140,255,0.08)}
+.fly-cell.center .star-num{color:var(--accent)}
+.fly-compass{text-align:center;font-size:11px;color:var(--dim);margin-top:2px}
+/* ── 犯太歲 ── */
+.ts-controls{display:flex;gap:12px;align-items:center;justify-content:center;margin:14px 0;flex-wrap:wrap}
+.ts-controls label{font-size:13px;color:var(--dim)}
+.ts-controls select{background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:7px 12px;font-size:14px;cursor:pointer}
+.ts-result{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin-top:14px;display:none}
+.ts-result .ts-rel{font-size:17px;font-weight:700;margin-bottom:8px}
+.ts-result .ts-detail{font-size:14px;color:var(--text);margin-bottom:6px;line-height:1.7}
+.ts-result .ts-remedy{font-size:13.5px;color:var(--dim);line-height:1.7}
+.ts-result .ts-remedy b{color:var(--orange)}
 .footer{text-align:center;padding:30px 20px 42px;color:var(--dim);font-size:12.5px;border-top:1px solid var(--border);margin-top:28px}
 .footer a{color:var(--teal);text-decoration:none}
-@media(max-width:600px){h1{font-size:24px}.section{padding:20px 16px}}
+@media(max-width:600px){h1{font-size:24px}.section{padding:20px 16px}.fly-cell{min-height:72px;padding:8px 4px}.fly-cell .star-num{font-size:22px}.fly-cell .star-info,.fly-cell .star-remedy{font-size:10px}}
 </style>
 </head>
 <body>
@@ -53,7 +82,9 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <div class="hero-badge">2027 · 丁未 · 九紫入中</div>
 <h1>🐏 2027 丁未羊年 十二生肖運程</h1>
 <p>以開源曆法庫計算真實干支／飛星／太歲關係 · 風格參考蘇民峰《生肖運程》</p>
-<div class="disclaimer">⚠️ 本頁內容為 <b>AI 風格模仿生成</b>，並非蘇民峰親筆著作；曆法／干支／飛星／犯太歲關係由開源庫計算（客觀可驗），運程文字僅供娛樂參考。</div>
+<div class="disclaimer">
+⚠️ <b>免責聲明</b>：本頁內容為 <b>AI 風格模仿生成</b>，並非蘇民峰親筆著作，僅供娛樂參考。每年運程不同，<b>過往內容只供參考，不應直接抄用</b>。曆法／干支／飛星／犯太歲關係由開源庫計算（客觀可驗），運程文字由 AI 按每年實際干支重新生成。如有疑問，請諮詢專業風水師。
+</div>
 </div>
 
 <div class="year-bar">
@@ -63,6 +94,51 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <div class="year-card"><div class="y">2022-27</div><div class="g">木火流年</div><div class="s">利寒命人</div></div>
 </div>
 
+<div class="section" id="飛星">
+<div class="section-title"><span class="zodiac-icon">✦</span><span>九宮飛星互動圖</span></div>
+<p style="font-size:13.5px;color:var(--dim);margin-bottom:10px">選擇年份查看當年九宮飛星分佈及化解方法。吉星宜催旺，凶星宜化解。</p>
+<div class="fly-wrap">
+<div class="fly-controls">
+<label>選擇年份：</label>
+<select id="fly-year" onchange="renderFly()">
+<option value="2024">2024 甲辰年</option>
+<option value="2025">2025 乙巳年</option>
+<option value="2026">2026 丙午年</option>
+<option value="2027" selected>2027 丁未年</option>
+<option value="2028">2028 戊申年</option>
+<option value="2029">2029 己酉年</option>
+<option value="2030">2030 庚戌年</option>
+</select>
+</div>
+<div class="fly-year-label" id="fly-label"></div>
+<div class="fly-grid" id="fly-grid"></div>
+</div>
+</div>
+
+<div class="section" id="犯太歲">
+<div class="section-title"><span class="zodiac-icon">⚡</span><span>犯太歲速查</span></div>
+<p style="font-size:13.5px;color:var(--dim);margin-bottom:6px">選擇年份及生肖，查看犯太歲類型及化解建議。</p>
+<div class="ts-controls">
+<label>年份：</label>
+<select id="ts-year" onchange="renderTS()">
+<option value="2024">2024 甲辰年</option>
+<option value="2025">2025 乙巳年</option>
+<option value="2026">2026 丙午年</option>
+<option value="2027" selected>2027 丁未年</option>
+<option value="2028">2028 戊申年</option>
+<option value="2029">2029 己酉年</option>
+<option value="2030">2030 庚戌年</option>
+</select>
+<label>生肖：</label>
+<select id="ts-zodiac" onchange="renderTS()">
+<option value="鼠">鼠</option><option value="牛">牛</option><option value="虎">虎</option>
+<option value="兔">兔</option><option value="龍">龍</option><option value="蛇">蛇</option>
+<option value="馬">馬</option><option value="羊" selected>羊</option><option value="猴">猴</option>
+<option value="雞">雞</option><option value="狗">狗</option><option value="豬">豬</option>
+</select>
+</div>
+<div class="ts-result" id="ts-result"></div>
+</div>
 <div class="toc">
 <a href="#鼠">鼠 · Rat</a>
 <a href="#牛">牛 · Ox</a>
@@ -77,67 +153,6 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <a href="#狗">狗 · Dog</a>
 <a href="#豬">豬 · Pig</a>
 </div>
-
-<!-- 寒熱平命計算器 -->
-
-<div class="section" id="evidence">
-<div class="section-title"><span class="zodiac-icon">📊</span><span>四年評語對照 <span class="zodiac-en">· 作者原文抽取（虎/龍/蛇/馬年）</span></span></div>
-<p style="font-size:13.5px;color:var(--dim);margin-bottom:12px">以下係從四本原書（2022 虎 / 2024 龍 / 2025 蛇 / 2026 馬年）逐章節 OCR 後抽出嘅「作者點評」—— 你可以睇到同一生肖喺唔同太歲關係下，作者點樣變主題同星象。2027 羊年嘅關係已標喺每項。</p>
-<div class="info-grid">
-<div class="info-item"><div class="k">規則發現 · 主題年</div><div class="v">「辛苦個人力量得財年」×13、「財運年」×8、「思想學習投資年」×7、「權力地位提升年」×6、「貴人舒服懶年」×5</div></div>
-<div class="info-item"><div class="k">規則發現 · 太歲關係分類</div><div class="v">「平常」×15、「太歲相合年」×8、「沖太歲」×4、「犯太歲」×3</div></div>
-</div>
-<details style="margin:8px 0;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:10px 14px">
-<summary style="cursor:pointer;font-size:15px;font-weight:600;color:var(--text)">鼠 屬你 · 四年評語 <span style="color:var(--orange);font-weight:400;font-size:12px">2027 = 害太歲</span></summary>
-<div style="overflow-x:auto;margin-top:8px"><table style="width:100%;border-collapse:collapse;font-size:12.5px"><tr style="color:var(--dim)"><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">年份</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">與太歲</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">作者主題年</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">吉凶星（節錄）</th></tr><tr><td>2022 虎年（壬寅）</td><td>平常</td><td>驛馬年</td><td>—</td></tr><tr><td>2024 龍年（甲辰）</td><td>平常</td><td>權力地位提升年</td><td>吉 金匱，吉 將星，凶 飛刃，凶 白虎</td></tr><tr><td>2025 蛇年（乙巳）</td><td>平常</td><td>辛苦個人力量得財年</td><td>吉 玉堂，吉 紫微，吉 龍德，凶 天厄，凶 暴敗</td></tr><tr><td>2026 馬年（丙午）</td><td>沖太歲</td><td>權力地位提升年</td><td>吉 月空，凶 天哭，凶 大耗</td></tr></table></div>
-</details><details style="margin:8px 0;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:10px 14px">
-<summary style="cursor:pointer;font-size:15px;font-weight:600;color:var(--text)">牛 屬你 · 四年評語 <span style="color:var(--orange);font-weight:400;font-size:12px">2027 = 沖太歲</span></summary>
-<div style="overflow-x:auto;margin-top:8px"><table style="width:100%;border-collapse:collapse;font-size:12.5px"><tr style="color:var(--dim)"><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">年份</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">與太歲</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">作者主題年</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">吉凶星（節錄）</th></tr><tr><td>2022 虎年（壬寅）</td><td>平常</td><td>辛苦個人力量得財年</td><td>吉 紅鸞</td></tr><tr><td>2024 龍年（甲辰）</td><td>破太歲</td><td>辛苦個人力量得財年</td><td>吉 福星，吉 福德，吉 天德，凶 卷舌，凶 陰煞</td></tr><tr><td>2025 蛇年（乙巳）</td><td>平常</td><td>財運年</td><td>凶 羊刃，凶 天哭</td></tr><tr><td>2026 馬年（丙午）</td><td>平常</td><td>辛苦個人力量得財年</td><td>吉 龍德，吉 紫微，凶 暴敗，凶 天厄</td></tr></table></div>
-</details><details style="margin:8px 0;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:10px 14px">
-<summary style="cursor:pointer;font-size:15px;font-weight:600;color:var(--text)">虎 屬你 · 四年評語 <span style="color:var(--orange);font-weight:400;font-size:12px">2027 = 暗合</span></summary>
-<div style="overflow-x:auto;margin-top:8px"><table style="width:100%;border-collapse:collapse;font-size:12.5px"><tr style="color:var(--dim)"><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">年份</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">與太歲</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">作者主題年</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">吉凶星（節錄）</th></tr><tr><td>2022 虎年（壬寅）</td><td>值太歲</td><td>財運年</td><td>凶 劍鋒，凶 伏尸</td></tr><tr><td>2024 龍年（甲辰）</td><td>平常</td><td>財運年</td><td>吉 驛馬，凶 天哭，凶 天狗</td></tr><tr><td>2025 蛇年（乙巳）</td><td>平常</td><td>貴人舒服懶年</td><td>吉 福星，吉 福德，吉 天德，凶 卷舌，凶 天哭</td></tr><tr><td>2026 馬年（丙午）</td><td>三合</td><td>財運年</td><td>凶 指背，凶 地煞</td></tr></table></div>
-</details><details style="margin:8px 0;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:10px 14px">
-<summary style="cursor:pointer;font-size:15px;font-weight:600;color:var(--text)">兔 屬你 · 四年評語 <span style="color:var(--orange);font-weight:400;font-size:12px">2027 = 三合</span></summary>
-<div style="overflow-x:auto;margin-top:8px"><table style="width:100%;border-collapse:collapse;font-size:12.5px"><tr style="color:var(--dim)"><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">年份</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">與太歲</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">作者主題年</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">吉凶星（節錄）</th></tr><tr><td>2022 虎年（壬寅）</td><td>三合</td><td>財運年</td><td>吉 太陽，凶 咸池，凶 天空</td></tr><tr><td>2024 龍年（甲辰）</td><td>平常</td><td>財運年</td><td>吉 陌越，凶 病符，凶 六害</td></tr><tr><td>2025 蛇年（乙巳）</td><td>三合</td><td>貴人舒服得財年</td><td>吉 八座，凶 吊客，凶 天狗</td></tr><tr><td>2026 馬年（丙午）</td><td>平常</td><td>財運年</td><td>吉 天德，吉 福星，吉 福德，凶 咸池，凶 卷舌</td></tr></table></div>
-</details><details style="margin:8px 0;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:10px 14px">
-<summary style="cursor:pointer;font-size:15px;font-weight:600;color:var(--text)">龍 屬你 · 四年評語 <span style="color:var(--orange);font-weight:400;font-size:12px">2027 = 平常</span></summary>
-<div style="overflow-x:auto;margin-top:8px"><table style="width:100%;border-collapse:collapse;font-size:12.5px"><tr style="color:var(--dim)"><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">年份</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">與太歲</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">作者主題年</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">吉凶星（節錄）</th></tr><tr><td>2022 虎年（壬寅）</td><td>平常</td><td>辛苦個人力量得財年</td><td>—</td></tr><tr><td>2024 龍年（甲辰）</td><td>值太歲</td><td>辛苦個人力量得財年</td><td>凶 劍鋒，凶 伏尸</td></tr><tr><td>2025 蛇年（乙巳）</td><td>平常</td><td>桃花年、財運年</td><td>吉 陌越，吉 天喜，凶 囚獄，凶 病符</td></tr><tr><td>2026 馬年（丙午）</td><td>三合</td><td>辛苦個人力量得財年</td><td>吉 天解，吉 解神，吉 八座，凶 血刃，凶 浮沉</td></tr></table></div>
-</details><details style="margin:8px 0;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:10px 14px">
-<summary style="cursor:pointer;font-size:15px;font-weight:600;color:var(--text)">蛇 屬你 · 四年評語 <span style="color:var(--orange);font-weight:400;font-size:12px">2027 = 平常</span></summary>
-<div style="overflow-x:auto;margin-top:8px"><table style="width:100%;border-collapse:collapse;font-size:12.5px"><tr style="color:var(--dim)"><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">年份</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">與太歲</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">作者主題年</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">吉凶星（節錄）</th></tr><tr><td>2022 虎年（壬寅）</td><td>平常</td><td>思想學習投資年</td><td>—</td></tr><tr><td>2025 蛇年（乙巳）</td><td>值太歲</td><td>權力地位提升年</td><td>吉 天解，吉 解神，凶 劍鋒，凶 伏尸</td></tr><tr><td>2026 馬年（丙午）</td><td>平常</td><td>思想學習投資年</td><td>吉 陌越，凶 亡神，凶 天官符</td></tr></table></div>
-</details><details style="margin:8px 0;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:10px 14px">
-<summary style="cursor:pointer;font-size:15px;font-weight:600;color:var(--text)">馬 屬你 · 四年評語 <span style="color:var(--orange);font-weight:400;font-size:12px">2027 = 六合</span></summary>
-<div style="overflow-x:auto;margin-top:8px"><table style="width:100%;border-collapse:collapse;font-size:12.5px"><tr style="color:var(--dim)"><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">年份</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">與太歲</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">作者主題年</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">吉凶星（節錄）</th></tr><tr><td>2022 虎年（壬寅）</td><td>三合</td><td>思想學習投資年</td><td>凶 四顆是非星</td></tr><tr><td>2024 龍年（甲辰）</td><td>平常</td><td>思想學習投資年</td><td>吉 八座，吉 天解，吉 解神，凶 血刃，凶 羊刃</td></tr><tr><td>2025 蛇年（乙巳）</td><td>六合</td><td>權力地位提升年</td><td>吉 太陽，凶 咸池，凶 天空</td></tr><tr><td>2026 馬年（丙午）</td><td>值太歲</td><td>思想學習投資年</td><td>吉 金匱，吉 將星，凶 劍鋒，凶 伏屍</td></tr></table></div>
-</details><details style="margin:8px 0;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:10px 14px">
-<summary style="cursor:pointer;font-size:15px;font-weight:600;color:var(--text)">羊 屬你 · 四年評語 <span style="color:var(--orange);font-weight:400;font-size:12px">2027 = 值太歲</span></summary>
-<div style="overflow-x:auto;margin-top:8px"><table style="width:100%;border-collapse:collapse;font-size:12.5px"><tr style="color:var(--dim)"><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">年份</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">與太歲</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">作者主題年</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">吉凶星（節錄）</th></tr><tr><td>2022 虎年（壬寅）</td><td>平常</td><td>辛苦個人力量得財年</td><td>吉 桃花</td></tr><tr><td>2024 龍年（甲辰）</td><td>平常</td><td>辛苦個人力量得財年</td><td>吉 太陰，凶 囚獄，凶 卒暴</td></tr><tr><td>2025 蛇年（乙巳）</td><td>三合</td><td>財運加暗中權力地位提升年</td><td>凶 月煞，凶 大煞</td></tr><tr><td>2026 馬年（丙午）</td><td>三合</td><td>辛苦個人力量得財年</td><td>吉 太陽，吉 歲合，吉 扳鞍，凶 天空，凶 晦氣</td></tr></table></div>
-</details><details style="margin:8px 0;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:10px 14px">
-<summary style="cursor:pointer;font-size:15px;font-weight:600;color:var(--text)">猴 屬你 · 四年評語 <span style="color:var(--orange);font-weight:400;font-size:12px">2027 = 平常</span></summary>
-<div style="overflow-x:auto;margin-top:8px"><table style="width:100%;border-collapse:collapse;font-size:12.5px"><tr style="color:var(--dim)"><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">年份</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">與太歲</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">作者主題年</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">吉凶星（節錄）</th></tr><tr><td>2022 虎年（壬寅）</td><td>平常</td><td>貴人舒服懶年</td><td>—</td></tr><tr><td>2024 龍年（甲辰）</td><td>三合</td><td>貴人舒服得財年</td><td>吉 三台，凶 飛符，凶 官符</td></tr><tr><td>2025 蛇年（乙巳）</td><td>平常</td><td>思想學習投資年</td><td>吉 歲合，吉 貴人，吉 太陰，凶 天官符，凶 亡神</td></tr><tr><td>2026 馬年（丙午）</td><td>平常</td><td>貴人舒服懶年</td><td>吉 驛馬，凶 孤辰，凶 喪門</td></tr></table></div>
-</details><details style="margin:8px 0;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:10px 14px">
-<summary style="cursor:pointer;font-size:15px;font-weight:600;color:var(--text)">雞 屬你 · 四年評語 <span style="color:var(--orange);font-weight:400;font-size:12px">2027 = 平常</span></summary>
-<div style="overflow-x:auto;margin-top:8px"><table style="width:100%;border-collapse:collapse;font-size:12.5px"><tr style="color:var(--dim)"><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">年份</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">與太歲</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">作者主題年</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">吉凶星（節錄）</th></tr><tr><td>2022 虎年（壬寅）</td><td>平常</td><td>貴人舒服懶年</td><td>—</td></tr><tr><td>2024 龍年（甲辰）</td><td>六合</td><td>貴人舒服懶年</td><td>吉 地解，吉 歲合，吉 月德，凶 咸池，凶 死符</td></tr><tr><td>2025 蛇年（乙巳）</td><td>三合</td><td>思想學習投資年</td><td>吉 地解，吉 將星，吉 三台，凶 飛符，凶 官符</td></tr><tr><td>2026 馬年（丙午）</td><td>平常</td><td>貴人舒服得財年</td><td>吉 太陰，吉 紅鸞，凶 羊刃，凶 卒暴</td></tr></table></div>
-</details><details style="margin:8px 0;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:10px 14px">
-<summary style="cursor:pointer;font-size:15px;font-weight:600;color:var(--text)">狗 屬你 · 四年評語 <span style="color:var(--orange);font-weight:400;font-size:12px">2027 = 刑太歲</span></summary>
-<div style="overflow-x:auto;margin-top:8px"><table style="width:100%;border-collapse:collapse;font-size:12.5px"><tr style="color:var(--dim)"><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">年份</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">與太歲</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">作者主題年</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">吉凶星（節錄）</th></tr><tr><td>2024 龍年（甲辰）</td><td>沖太歲</td><td>辛苦個人力量得財年</td><td>吉 月空，凶 大耗，凶 歲破</td></tr><tr><td>2025 蛇年（乙巳）</td><td>平常</td><td>財運年</td><td>吉 紅鸞，吉 月德，吉 扳鞍，凶 死符，凶 小耗</td></tr><tr><td>2026 馬年（丙午）</td><td>平常</td><td>辛苦個人力量得財年</td><td>吉 地解，吉 三台，凶 五鬼，凶 飛符</td></tr></table></div>
-</details><details style="margin:8px 0;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:10px 14px">
-<summary style="cursor:pointer;font-size:15px;font-weight:600;color:var(--text)">豬 屬你 · 四年評語 <span style="color:var(--orange);font-weight:400;font-size:12px">2027 = 三合</span></summary>
-<div style="overflow-x:auto;margin-top:8px"><table style="width:100%;border-collapse:collapse;font-size:12.5px"><tr style="color:var(--dim)"><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">年份</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">與太歲</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">作者主題年</th><th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">吉凶星（節錄）</th></tr><tr><td>2024 龍年（甲辰）</td><td>平常</td><td>權力地位提升年</td><td>吉 紫微，吉 龍德，吉 紅鸞，凶 亡神，凶 天官符</td></tr><tr><td>2025 蛇年（乙巳）</td><td>六合</td><td>辛苦個人力量得財年</td><td>吉 驛馬，吉 月空，凶 大耗，凶 歲破</td></tr><tr><td>2026 馬年（丙午）</td><td>平常</td><td>權力地位提升年</td><td>吉 月德，凶 劫煞，凶 死符</td></tr></table></div>
-</details>
-</div>
-
-<div class="section" id="mingcalc">
-<div class="section-title"><span class="zodiac-icon">🔥</span><span>寒熱平命快查 <span class="zodiac-en">· 蘇民峰招牌論命法（1994 創立）</span></span></div>
-<p style="font-size:14px;color:var(--dim);margin-bottom:14px">寒命喜火、熱命喜水、平命喜水不忌火 —— 知道自己屬邊種命，就知道一生運程大方向，亦知道 2027 丁未年係咪你嘅年份。揀你嘅出生日期：</p>
-<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin-bottom:8px">
-<label style="font-size:13px;color:var(--dim)">出生年月日
-<input id="ming-date" type="date" min="1930-01-01" max="2035-12-31" value="1990-06-01" style="display:block;margin-top:4px;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:8px 10px;font-size:14px"></label>
-<button onclick="calcMing()" style="background:var(--accent);color:#fff;border:none;border-radius:8px;padding:9px 18px;font-size:14px;cursor:pointer;font-weight:600">計算</button>
-</div>
-<div id="ming-result" style="display:none;margin-top:10px"></div>
-<p style="font-size:12px;color:var(--dim);margin-top:12px">※ 以出生當日所處節氣（立春／驚蟄／立夏／立秋）為準，數據由開源曆法庫計算。日期預設只為示範。</p>
-</div>
-
 <div class="section" id="鼠">
 <div class="section-title"><span class="zodiac-icon">鼠</span><span>屬鼠的你 <span class="zodiac-en">· Rat</span></span><span class="badge badge tai">害太歲</span></div>
 <h3>屬鼠的你</h3>
@@ -147,14 +162,14 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p><b>熱命人</b>（芒種後至立秋前出生）：火土當令之年本就偏燥，熱命人再逢此氣，情緒易有波動，財運亦較反覆。今年宜多往西北方走動，借助金水之氣調和，則可減輕流年之燥熱。</p>
 <p><b>平命人</b>（驚蟄後至芒種前出生）：平命人今年運勢中規中矩，無大起亦無大落。金水較為有利，不妨多穿白、金、銀、黑、灰、藍等色，日常決策以穩健為原則，相信一年亦可平安度過。</p>
 <hr class="divider">
-<p><b>二〇二〇年庚子鼠年出生</b>：學業初見壓力，惟專注一科則有進益，相信師長提點能化解害太歲之擾。</p>
-<p><b>二〇〇八年戊子鼠年出生</b>：升學試臨門，心緒易散，惟定下目標則不為朋輩所惑，相信沉穩應對可保平穩。</p>
-<p><b>一九九六年丙子鼠年出生</b>：初入職場多變動，惟謙虛學藝則逢凶化吉，相信貴人暗中提攜。</p>
-<p><b>一九八四年甲子鼠年出生</b>：事業財運暗湧，合作須防口舌，惟簽約審慎則免招損失，相信退一步海闊天空。</p>
-<p><b>一九七二年壬子鼠年出生</b>：職場人事紛擾，財來財去，惟守成不貪則根基不動，相信年中後運勢漸穩。</p>
-<p><b>一九六〇年庚子鼠年出生</b>：健康為要，腸胃舊疾易發，惟作息定時則無大礙，相信家人陪伴最為療癒。</p>
-<p><b>一九四八年戊子鼠年出生</b>：手足親緣或有誤會，惟少理閒事則心寬體泰，相信順其自然自能化解。</p>
-<p><b>一九三六年丙子鼠年出生</b>：氣血稍弱，出入宜有人隨，惟心境平和則精神爽利，相信兒孫之福可享天年。</p>
+<p><b>二〇二〇年庚子鼠年出生</b>：庚子年出生者，今年害太岁，惟你年纪尚幼，运势之变多在家庭环境。不论父母搬迁或转职，都毋须过虑，动中自有机，成长反见扎实。</p>
+<p><b>二〇〇八年戊子鼠年出生</b>：戊子年出生者，正值求学或初入职场，害太岁之年以人事反复为多，同学同事之间易有口舌，惟不必介怀。相信凭借进修或转岗，动中带机，反可在变动中觅得方向。</p>
+<p><b>一九九六年丙子鼠年出生</b>：丙子年出生者，入社会数年，事业正在上坡。今年害太岁，防合作生变或小人是非，凡事宜亲力亲为；惟整体运势动中带机，转工或开拓新业务，反有可为。</p>
+<p><b>一九八四年甲子鼠年出生</b>：甲子年出生者，中年运程以稳健为要。今年害太岁，忌与人合伙过密，防合约之失；则当动而未动之时，静守本职更有把握。财上不可投机，动中带机只在正途。</p>
+<p><b>一九七二年壬子鼠年出生</b>：壬子年出生者，事业财运趋近收成。今年害太岁，驿马之象令你奔波难免，收益却未必与辛劳成正比；惟若把变动视为机遇，趁势重整资产，动中带机，亦可安稳过渡。</p>
+<p><b>一九六〇年庚子鼠年出生</b>：庚子年出生者，年逾花甲，害太岁之年健康防血压或心血之疾，不宜过劳。家庭方面则因子女变动带来小扰，惟身边老伴相助，常能化解；不论起居或饮食，定时有序便好。</p>
+<p><b>一九四八年戊子鼠年出生</b>：戊子年出生者，今年害太岁，惟流年压力不足为患，反而子女家宅多事端。相信你阅历丰富，能从容面对；健康防湿重或肠胃不适，饮食清淡，则一年平安。</p>
+<p><b>一九三六年丙子鼠年出生</b>：丙子年出生者，享寿之龄，运势平淡久矣。今年害太岁，健康防头部及晕眩之症，出入起居宜有人随伴；惟家庭和睦，家人照顾周到，动中带机，你自可安然度岁。</p>
 <h4>每月運程</h4>
 <p><b>農曆一月（壬寅月）</b></p>
 <p>本月為思想學習投資月。</p>
@@ -275,14 +290,15 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p>寒命人今年為火炎土燥之年，運程相信會更為暢順。丁未火土當令，與寒命所需契合，不論事業拓展或財運進取，皆可較為進取，東南方為吉方，青綠紅橙紫有利運勢。熱命人則需知所進退，火土再疊加恐令命局更燥，宜守不宜攻，重大決定不妨留待秋冬金水當令時再作定奪，西北方、白金銀黑灰藍有助平衡。平命人今年金水較為有利，火土之年雖非大忌，惟亦不宜過於冒進，平穩度日、見步行步則佳。</p>
 <hr class="divider">
 <hr class="divider">
-<p><b>二〇二一年辛丑牛年出生</b>：今年沖太歲，學業上難免心浮氣躁，惟專注一科則有突破；初入小學者適應新環境需時，相信家長多予耐心，下半年自能站穩陣腳。</p>
-<p><b>二〇〇九年己丑牛年出生</b>：沖太歲之年，升學考試壓力陡增，則宜早定溫習計劃；新入中學者人際變動頻仍，相信低調處之、不強出頭，可避無謂口舌。</p>
-<p><b>一九九七年丁丑牛年出生</b>：今年事業初階遇沖，轉工念頭時起，惟未見穩妥機會則寧守舊崗；財來財去難積聚，相信開源節流並行，年底方有餘裕。</p>
-<p><b>一九八五年乙丑牛年出生</b>：沖太歲動事業宮，職場變動或公司改組在所難免，則以靜制動、不主動求變為上；偏財勿貪，相信正財穩守，家宅安和即是福。</p>
-<p><b>一九七三年癸丑牛年出生</b>：今年財運波動，投資決策宜再三斟酌，惟長線持有則可抵短期震盪；事業上貴人隱現，相信謙和待人，秋冬自有轉機。</p>
-<p><b>一九六一年辛丑牛年出生</b>：沖太歲最忌動氣，健康首重血壓心血管，則定期檢查不可疏懶；子女事業或有變動，相信放手讓其歷練，反能成器。</p>
-<p><b>一九四九年己丑牛年出生</b>：年逢沖克，關節舊患易發，惟適量活動則勝於久臥；家庭瑣事或擾心神，相信寬心少慮，與老伴相互照應為要。</p>
-<p><b>一九三七年丁丑牛年出生</b>：高齡逢沖，出入務必小心地滑跌倒，則減少遠行為妙；兒孫或各有忙碌，相信電話問安亦足溫情，自顧身體即是減輕負擔。</p>
+<hr class="divider">
+<p><b>二〇二一年辛丑牛年出生</b>：年幼之龄，沖太歲之象體現在情緒較易波動，惟整體成長步伐未受大礙。相信父母多加陪伴，不論作息定時或遊戲學習，都能安定心神。</p>
+<p><b>二〇〇九年己丑牛年出生</b>：正值求學階段，沖太歲年學業上易生變動，惟變動中亦藏轉機。則宜主動適應新環境，不論選科或課外活動，謹記專注當下，自能穩步前行。</p>
+<p><b>一九九七年丁丑牛年出生</b>：此年沖太歲，事業上或遇崗位調動或轉職機遇，動中帶機。惟本身與流年天干相合，貴人暗藏，相信只要把握變動，則財運事業皆可更上一層樓。</p>
+<p><b>一九八五年乙丑牛年出生</b>：沖太歲之年，財運起伏較大，投資決策不宜冒進。惟正財平穩，事業上或有調遷之象，則視為重新布局的良機。不論職場人際或業務拓展，以靜制動，自可化險為夷。</p>
+<p><b>一九七三年癸丑牛年出生</b>：此年沖太歲，事業上易有突破性變化，惟你命帶三合貴人，逆境中反得助力。相信憑藉多年經驗，則能在變動中開創新局。不論合作夥伴或下屬，皆可助你一臂之力，財運亦隨之轉穩。</p>
+<p><b>一九六一年辛丑牛年出生</b>：沖太歲之年，健康方面須加倍留意關節及腸胃，惟整體無大礙。則宜定期檢查，作息有序。相信家人關懷備至，不論起居細節抑或飲食調養，皆能安然度過。</p>
+<p><b>一九四九年己丑牛年出生</b>：此年沖太歲，家宅運略見波動，惟長者福澤深厚，動中亦有平安。則多與晚輩交流，可增和氣。相信只要心境開朗，不論天氣冷暖或瑣事變化，都能從容面對，健康自得。</p>
+<p><b>一九三七年丁丑牛年出生</b>：沖太歲之年，身體狀況易受氣候影響，惟靜養為上。則減少遠行，多留家中。相信子孫孝順，不論日常起居或醫療照顧，皆有妥善安排，安然無憂。</p>
 <h4>每月運程</h4>
 <p><b>農曆一月（壬寅月）</b></p>
 <p>本月為思想學習投資月。</p>
@@ -376,14 +392,15 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p>寒命人今年為延續好運之年，相信運程會更為暢順。二〇二二至二〇二七木火之年尾聲，火土燥熱之氣正合你所需，不論事業拓展或財富累積，皆可把握時機進取，惟下半年漸入金水氣場，宜預早部署。熱命人今年為平穩守成之年，火炎土燥非你所喜，高調擴張易招反效果，相信以靜制動、鞏固既有基礎更為實際，重大決策不妨留待二〇二八年起再行推進。平命人今年為中規中矩之年，無大起亦無大落，金水之氣稍利於你，西北方發展或白色系衣飾可增運勢，整體以穩步前行為宜。</p>
 <hr class="divider">
 <hr class="divider">
-<p><b>二〇二二年壬寅虎年出生</b>：歲次丁未，暗合之力隱於無形，學業啟蒙之際，惟專注方見進益，相信按部就班自有根基。</p>
-<p><b>二〇一〇年庚寅虎年出生</b>：暗合流年，人緣漸開，學業上則宜戒驕戒躁，相信沉潛蓄力，他日必有所成。</p>
-<p><b>一九九八年戊寅虎年出生</b>：初入職場，暗合主貴人暗藏，惟主動出擊方能顯現，財運平平則不宜妄動，相信韜光養晦是為上策。</p>
-<p><b>一九八六年丙寅虎年出生</b>：事業正值攻堅，暗合之年利暗中佈局，拓展則忌張揚，相信以退為進，反能穩握實權。</p>
-<p><b>一九七四年甲寅虎年出生</b>：財運暗生波瀾，投資惟穩守為要，家庭關係則需多費心神，相信家和自能化解外險。</p>
-<p><b>一九六二年壬寅虎年出生</b>：健康為今年要務，暗合主舊患潛伏，作息則宜規律，相信順天應時，可保安泰。</p>
-<p><b>一九五〇年庚寅虎年出生</b>：晚景求安，暗合之年子女緣厚，惟勿過問晚輩私事，相信放手亦是福澤。</p>
-<p><b>一九三八年戊寅虎年出生</b>：年事已高，靜養為先，暗合之力護持身心，則宜減少應酬，相信平淡日子即是長壽之道。</p>
+<hr class="divider">
+<p><b>二〇二二年壬寅虎年出生</b>：流年暗合，主幼年得長輩暗中扶持，學習進度雖不算突出，惟根基漸穩。相信你只要保持日常規律，不論環境如何轉變，都可安然成長。</p>
+<p><b>二〇一〇年庚寅虎年出生</b>：今年暗合，學業上易有隱藏助力，惟須主動求問才見效果。初入職場或進修者，則利於私下鑽研，累積實力，相信默默耕耘必有所得。</p>
+<p><b>一九九八年戊寅虎年出生</b>：暗合之歲，事業易得暗貴人成全，惟機會不會明示，需細心觀察。不論是謀求轉職或繼續進修，都宜低調行事，靜待時機成熟，則自然水到渠成。</p>
+<p><b>一九八六年丙寅虎年出生</b>：今年暗合，財運事業皆以穩定為上，暗中合作或兼職項目可望帶來收益，惟不宜張揚。相信憑你經驗，只要把細節處理妥當，則全年根基穩固，進帳無憂。</p>
+<p><b>一九七四年甲寅虎年出生</b>：暗合流年，事業上人脈與資源皆有隱性助力，惟合作易生暗湧，須白紙黑字寫明權責。財運則以保守為宜，相信你已懂進退之道，不論順逆都能從容應對。</p>
+<p><b>一九六二年壬寅虎年出生</b>：晚年遇暗合，家庭關係和諧，健康上則宜暗中調理，小病不減，惟無大礙。相信你明白養生貴在恆常，不論閒忙，都要預留休息時間，則身心俱安。</p>
+<p><b>一九五〇年庚寅虎年出生</b>：暗合之歲，家中晚輩暗中照顧周到，健康方面須留意血壓與關節舊患，惟整體尚算平穩。相信你心態豁達，不論天氣冷暖，只要能定時活動，都能安享日常。</p>
+<p><b>一九三八年戊寅虎年出生</b>：今年暗合，福氣藏在細微處，家庭聚會雖少，親情卻更見深厚。健康宜防跌碰與腸胃不適，惟你向來節制，相信只要保持心境平和，則不論晝夜，皆得安寧。</p>
 <h4>每月運程</h4>
 <p><b>農曆一月（壬寅月）</b></p>
 <p>本月為思想學習投資月。</p>
@@ -485,19 +502,15 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <div class="section-title"><span class="zodiac-icon">兔</span><span>屬兔的你 <span class="zodiac-en">· Rabbit</span></span><span class="badge badge he">三合</span></div>
 <h3>屬兔的你</h3>
 <p>肖兔的你今年為<b>三合貴人之年</b>。流年地支未土與卯兔半合，構成亥卯未三合木局之勢，雖非全合，惟貴人助力已經顯現，尤以長輩、上司緣分為佳，遇事易得提攜指點。今年並非沖犯太歲之年，整體走勢平穩向上，不論事業或人際，皆可借三合之勢順勢而為，則收成可期。</p>
-<p>今年吉星有<b>「三台」「將星」「天解」</b>。三台主步步高升，利職位遷調；將星掌權威，管理階層或自主營商者皆能服眾；天解則化解災厄，遇困難終能迎刃而解。凶星有<b>「五鬼」「官符」「飛符」「浮沉」</b>。五鬼主小人暗害，防背後中傷；官符、飛符主官非文書，簽約須細閱條款；浮沉則情緒起伏，感情易有反覆。</p>
-<p>寒命人今年為<b>火炎土燥之年</b>，相信運程會更為暢順。流年丁火透干，未中藏丁火，木火相生，寒命人喜用神得助，事業財運皆有進展，可積極進取。熱命人則火土過旺，宜守不宜攻，投資須審慎，避免高風險投機，以穩健為上。平命人運勢中等，無大起跌，金水行業或方位較為有利，宜按部就班，靜待時機。</p>
-<hr class="divider">
-<h4>出生年份</h4>
-<p><b>二〇二三年癸卯兔年出生</b>：三合流年利於啟蒙，學習新事物吸收特快，惟專注力或時有散渙，則宜父母從旁引導，相信定可打下穩固根基。</p>
-<p><b>二〇一一年辛卯兔年出生</b>：文思漸開，考試運亦因三合而順遂，惟青春期心緒易有波動，則宜多與師長溝通，相信學業自能更上一層。</p>
-<p><b>一九九九年己卯兔年出生</b>：初入職場逢三合，貴人暗助機遇頗多，惟經驗尚淺或有力不從心之處，則宜謙卑學習、穩紮穩打，相信三年內可見雛形。</p>
-<p><b>一九八七年丁卯兔年出生</b>：事業正值攀升之期，三合帶動合作運與財運，惟丁未與丁卯天干比和，競爭亦隨之而來，則宜廣結善緣、避免獨斷，相信收成將優於預期。</p>
-<p><b>一九七五年乙卯兔年出生</b>：職場根基穩固，今年三合利拓展與變動，惟乙木生丁火耗力不少，則宜量入為出、不宜過度擴張，相信守成之中仍有進帳。</p>
-<p><b>一九六三年癸卯兔年出生</b>：臨近退而未退之年，三合助家庭和睦、子女緣厚，惟水火相激須防心血管與血壓舊患，則宜定期檢查、作息定時，相信身安即是家安。</p>
-<p><b>一九五一年辛卯兔年出生</b>：晚景逢三合，兒孫繞膝之樂頗足，惟金木交戰之年筋骨易有酸軟，則宜減少獨居外出、注意防滑，相信心平氣和自可頤養天年。</p>
-<p><b>一九三九年己卯兔年出生</b>：年事已高而精神尚稱矍鑠，三合令晚輩探視頻仍，惟土氣過重須防消化滯緩，則宜飲食清淡、少量多餐，相信順其自然便是福。</p>
-<p><b>一九二七年丁卯兔年出生</b>：期頤之齡難得逢三合，子孫賢孝家宅安穩，惟丁火重逢須防眼疾與心緒浮動，則宜靜養為主、減少憂慮，相信百年閱歷已足圓滿。</p>
+<p>你若生於<b>二〇二三年癸卯兔年出生</b>：此年三合，為成長帶來平穩助力，家宅和順。惟幼齡之際，飲食起居仍需細心照料，相信健康自然穩步發展。</p>
+<p><b>二〇一一年辛卯兔年出生</b>：正值求學階段，三合之年貴人運佳，師長同學都樂意相助。惟學業成績講求循序漸進，不論測驗考試，都以平常心應對則事半功倍。</p>
+<p><b>一九九九年己卯兔年出生</b>：初入職場或進修之年，三合氣場助你融入新環境，易得前輩提攜。惟轉職與否，宜按自己興趣抉擇，相信努力耕耘，年內自有回報。</p>
+<p><b>一九八七年丁卯兔年出生</b>：事業運勢穩中向上，三合之年合作機會眾多，人際網絡更見暢通。惟財運宜守不宜急進，不論投資或開支，量入為出則可從容應對。</p>
+<p><b>一九七五年乙卯兔年出生</b>：此年事業貴人明顯，尤其利於拓展業務或爭取升遷。惟家庭與工作兩邊兼顧，難免耗神，相信安排得宜，自能財丁兩旺。</p>
+<p><b>一九六三年癸卯兔年出生</b>：三合之年，健康運勢大致平穩，舊患反覆惟不礙大局。家庭關係和睦，兒孫輩多帶喜訊，不論日常起居或社交應酬，都以適度為佳。</p>
+<p><b>一九五一年辛卯兔年出生</b>：晚年運勢安泰，三合之助令家庭聚會頻繁，氣氛融洽。惟血壓及關節事宜仍須定時檢查，相信保持心境開朗，福澤自然綿長。</p>
+<p><b>一九三九年己卯兔年出生</b>：高壽之齡，三合年氣場溫和，家人關懷備至。惟行動宜緩不宜急，不論室內外走動，都應留意路面情況，平安便是福。</p>
+<p><b>一九二七年丁卯兔年出生</b>：歲數已高，此年以靜養為上，三合之勢令精神狀態尚佳。惟食慾或稍遜，宜少食多餐，相信家人悉心照顧，自能安享晚年。</p>
 <h4>每月運程</h4>
 <p><b>農曆一月（壬寅月）</b></p>
 <p>本月為思想學習投資月。</p>
@@ -616,14 +629,14 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p><b>熱命人</b>今年為<b>平穩過渡</b>之年。火土流年與自身氣場略嫌重疊，火上加火則易生燥動，宜以守為攻，不宜貿然開創新局。財運方面見好即收，投資以短線為宜，則可避免不必要的波動。</p>
 <p><b>平命人</b>今年為<b>中規中矩</b>之年。金水之氣稍弱，整體助力不多，但亦無重大阻滯。宜按部就班，做好本份，待2028年轉入金水大運，相信時機更為有利。</p>
 <hr class="divider">
-<p><b>二〇二四年甲辰龍年出生</b>：尚在襁褓，流年平常則無甚衝擊，健康平穩已屬難得。惟父母宜平常心教養，不必過度催谷，相信順其自然最為相宜。</p>
-<p><b>二〇一二年壬辰龍年出生</b>：學業運平淡無奇，課業壓力則須逐步適應。惟此年不宜強求名列前茅，相信穩紮穩打、打好根基，日後自有發力之時。</p>
-<p><b>二〇〇〇年庚辰龍年出生</b>：初入職場或進修進退維谷，機遇不多亦無大礙。惟切忌眼高手低，腳踏實地則能累積實力，相信韜光養晦終見出路。</p>
-<p><b>一九八八年戊辰龍年出生</b>：事業財運皆屬平常，升遷加薪恐非其時。惟守住本業、開源節流則可保無虞，相信來年蓄勢，後運當有轉機。</p>
-<p><b>一九七六年丙辰龍年出生</b>：職場競爭稍緩，財來財去則難有積聚。惟身體尚算硬朗，家庭和睦為重，相信減少應酬、多陪家人，反是流年收穫。</p>
-<p><b>一九六四年甲辰龍年出生</b>：健康小有反覆，舊患則須留意調養。惟兒孫之事不必過度操心，相信放手讓後輩自行歷練，各安其位方為上策。</p>
-<p><b>一九五二年壬辰龍年出生</b>：體力漸衰，流年平常則無大病之憂。惟飲食作息宜守舊規，相信維持既有習慣、少作新嘗試，平安即是福。</p>
-<p><b>一九四〇年庚辰龍年出生</b>：年事已高，運勢平淡反見安穩。惟出入謹慎則免意外之險，相信含飴弄孫、心寬體胖，自能樂享天年。</p>
+<p><b>二〇二四年甲辰龍年出生</b>：不論在家或遊戲中，都宜順其自然；惟飲食作息定時，則平安成長。相信父母毋須過慮，平常流年最是福。</p>
+<p><b>二〇一二年壬辰龍年出生</b>：學業以穩為主，不求突飛猛進；惟課堂專注，則成績自然保持。相信今年壓力不大，不論校內活動或溫習，都可從容應對。</p>
+<p><b>二〇〇〇年庚辰龍年出生</b>：事業初上軌道，平常流年利於累積經驗；惟進修計劃宜按部就班，則根基更穩。相信不論轉職或留任，都要以長線眼光看待。</p>
+<p><b>一九八八年戊辰龍年出生</b>：事業財運平穩，不宜投機冒進；惟守好本業，則財源穩定。相信今年以鞏固為主，不論合作或獨立處事，都宜多留餘地。</p>
+<p><b>一九七六年丙辰龍年出生</b>：事業進入收成期，財運以守成為上；惟健康尤須注意，定期檢查則可安心。相信家人支持，不論工作或家庭，都能平衡有序。</p>
+<p><b>一九六四年甲辰龍年出生</b>：退休或半退休生活，健康家庭為重；惟起居飲食有常，則精力穩健。相信今年無大風浪，不論晨運或聚會，都宜量力而為。</p>
+<p><b>一九五二年壬辰龍年出生</b>：健康平穩，慢性病要按時覆診；惟保持心境開朗，則自然精神。相信兒孫孝順，不論日常起居或節日團聚，都以和氣為貴。</p>
+<p><b>一九四〇年庚辰龍年出生</b>：長者之年，健康家庭最要緊；惟行動宜慢，家中防滑防跌，則平安度日。相信子女照顧周到，不論天氣冷暖，都應添減衣物，安心頤養。</p>
 <h4>每月運程</h4>
 <p><b>農曆一月（壬寅月）</b></p>
 <p>本月為<b>思想學習投資月</b>。</p>
@@ -730,16 +743,16 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p>寒命人今年為<b>延續暢順之年</b>，2022至2027年木火之運尚未完結，火土流年與你命格相合，相信運程會更為暢順，事業財運皆可穩步上揚，宜把握餘下時機拓展根基。熱命人今年則為<b>平穩守成之年</b>，火土之氣漸盛，雖未至大運轉折之時，但已見壓力暗生，凡事不宜強求突破，靜待2028年金水運來方為上策。平命人今年為<b>中規中矩之年</b>，無特別吉凶傾向，惟金水方位與顏色較為有利，可藉此平衡流年火燥之氣。</p>
 <hr class="divider">
 <hr class="divider">
-<p><b>二〇二五年乙巳蛇年出生</b>：尚在襁褓，流年平常則無甚衝克，父母惟需留意春夏之交小恙，相信安穩度歲便是福。</p>
-<p><b>二〇一三年癸巳蛇年出生</b>：學業運平，讀書未見突進，惟專注課業不怠，則成績穩守，相信循序漸進自有寸進。</p>
-<p><b>二〇〇一年辛巳蛇年出生</b>：初入職場或進修進退，機遇不多，則宜韜光養晦，惟腳踏實地，相信根基紮穩後運自來。</p>
-<p><b>一九八九年己巳蛇年出生</b>：事業財運皆屬平淡，升遷機會暫缺，惟守成有餘，則不宜強求變動，相信靜待時機為上。</p>
-<p><b>一九七七年丁巳蛇年出生</b>：本命與流年天比地沖稍減，財運平穩無大破耗，惟投資則勿冒進，相信量入為出可保歲安。</p>
-<p><b>一九六五年乙巳蛇年出生</b>：健康為要，舊患時有反覆，惟調養得宜則無大礙，相信家人相伴便是晚年之福。</p>
-<p><b>一九五三年癸巳蛇年出生</b>：體氣漸弱，流年平常不見大險，惟秋冬謹防心血管舊疾，相信心平氣和自能延壽。</p>
-<p><b>一九四一年辛巳蛇年出生</b>：年事已高，運勢平淡即是吉，惟飲食起居順應天時，相信兒孫繞膝之樂，勝卻人間無數。</p>
+<p><b>二〇二五年乙巳蛇年出生</b>：此年为平常流年，惟婴孩体质稳健，成长步伐循序渐进。相信不论喂养或作息，都见顺遂，家长可安心。</p>
+<p><b>二〇一三年癸巳蛇年出生</b>：此年为平常流年，学业运势平稳，惟须按部就班，不宜急于求成。相信不论测验或课外活动，都以平实为要，则成绩自然稳定。</p>
+<p><b>二〇〇一年辛巳蛇年出生</b>：此年为平常流年，或投身职场，或继续进修，惟运势平稳，并无急剧变化。相信不论选择何路，都宜稳中求进，则基础渐渐扎实。</p>
+<p><b>一九八九年己巳蛇年出生</b>：此年为平常流年，事业财运以守为本，惟无大破，亦无大立。相信不论正财或偏财，都以平常心看待，则积蓄渐丰。</p>
+<p><b>一九七七年丁巳蛇年出生</b>：此年为平常流年，事业上宜稳守岗位，财运则不过不失。惟家庭关系融洽，可作精神支柱。相信不论工作或投资，都以谨慎为要，则免受风浪。</p>
+<p><b>一九六五年乙巳蛇年出生</b>：此年为平常流年，健康运势平稳，惟须注意日常保养，家庭则和谐安乐。相信不论运动或饮食，都宜持之以恒，则身心康泰。</p>
+<p><b>一九五三年癸巳蛇年出生</b>：此年为平常流年，健康并无大碍，惟起居饮食宜有规律，家庭和睦则为福气。相信不论闲时活动或与晚辈相处，都以轻松为要，则岁月安稳。</p>
+<p><b>一九四一年辛巳蛇年出生</b>：此年为平常流年，健康平稳，惟宜多休息，少操劳。家庭关系融洽，晚辈孝顺。相信不论晴天或雨天，都宜保持心境开朗，则福寿绵长。</p>
 <h4>每月運程</h4>
-<p><b>農曆一月（壬寅）</b></p>
+<p><b>農曆一月（壬寅月）</b></p>
 <p>本月為蛇的<b>思想學習投資月</b>。一白貪狼桃花星入中，人緣運勢頗佳。</p>
 <ul>
 <li><b>財運</b>：正財平穩，偏財未見。本月適宜規劃全年財政大計，不宜貿然投資新項目，惟學習進修之開支則值得花費。</li>
@@ -748,7 +761,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <li><b>身體</b>：春寒未退，注意呼吸道不適。飲食清淡為宜，火土之年忌過早進補燥熱之物。</li>
 <li><b>是非</b>：人緣雖佳，惟言多必失。本月不宜捲入他人是非，保持中立則可安然度過。</li>
 </ul>
-<p><b>農曆二月（癸卯）</b></p>
+<p><b>農曆二月（癸卯月）</b></p>
 <p>本月為蛇的<b>驛動月</b>。二黑病符星入中，健康需多加留意。</p>
 <ul>
 <li><b>財運</b>：動中求財之象，出差或外出工作或有額外收入。正財尚可，偏財則不宜強求。</li>
@@ -757,7 +770,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <li><b>身體</b>：病符星臨，腸胃易有不適。外出飲食需謹慎，注意水土不服，長者更要防舊患復發。</li>
 <li><b>是非</b>：驛動之月是非較少，惟外出需防小人暗中使絆，重要文件隨身保管。</li>
 </ul>
-<p><b>農曆三月（甲辰）</b></p>
+<p><b>農曆三月（甲辰月）</b></p>
 <p>本月為蛇的<b>太歲三刑月</b>。三碧是非星入中，口舌紛爭難免。</p>
 <ul>
 <li><b>財運</b>：財來財去，難有積聚。本月不宜借貸或為人作擔保，合夥之事更需三思。</li>
@@ -766,7 +779,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <li><b>身體</b>：肝氣不舒，易有頭痛失眠。宜早睡早起，飲茶清熱，避免熬夜傷神。</li>
 <li><b>是非</b>：三刑疊是非星，本月為全年是非高峯。不論職場或生活，少說話多做事，遇爭執退一步為佳。</li>
 </ul>
-<p><b>農曆四月（乙巳）</b></p>
+<p><b>農曆四月（乙巳月）</b></p>
 <p>本月為蛇的<b>相害月</b>。四綠文昌星入中，利學習考試。</p>
 <ul>
 <li><b>財運</b>：正財平穩，額外收入欠奉。本月不宜投機，文昌星利以專業知識賺取報酬，如進修後加薪之類。</li>
@@ -775,7 +788,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <li><b>身體</b>：火氣漸盛，皮膚或眼睛易有不適。多食蔬果，避免辛辣煎炸，注意用眼衛生。</li>
 <li><b>是非</b>：相害之月是非暗藏，表面和氣底下或有暗湧。本月不宜評論他人，靜處為佳。</li>
 </ul>
-<p><b>農曆五月（丙午）</b></p>
+<p><b>農曆五月（丙午月）</b></p>
 <p>本月為蛇的<b>六合月／桃花月</b>。五黃廉貞煞星入中，諸事小心。</p>
 <ul>
 <li><b>財運</b>：六合主有暗貴人帶來財機，惟五黃煞臨，大額投資需極度謹慎。正財尚可，見好即收為上。</li>
@@ -784,7 +797,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <li><b>身體</b>：五黃主災病，本月為全年健康高危期。避免高危活動，駕駛格外留神，長者宜減少外出。</li>
 <li><b>是非</b>：六合化解部分是非，人緣尚算不錯。惟五黃當令，不宜擔當中間人或調停角色，易招怨懟。</li>
 </ul>
-<p><b>農曆六月（丁未）</b></p>
+<p><b>農曆六月（丁未月）</b></p>
 <p>本月為蛇的<b>相沖月</b>。六白武曲星入中，利財運。</p>
 <ul>
 <li><b>財運</b>：武曲星臨，正偏財皆有機會。惟相沖之月財來財去，收入雖增開支亦大，需嚴守預算。</li>
@@ -793,7 +806,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <li><b>身體</b>：相沖之月易有碰撞損傷，駕駛運動需謹慎。腸胃亦較弱，飲食定時為要。</li>
 <li><b>是非</b>：相沖帶動是非，本月易與人起正面衝突。忍一時之氣，退一步海闊天空，不宜意氣用事。</li>
 </ul>
-<p><b>農曆七月（戊申）</b></p>
+<p><b>農曆七月（戊申月）</b></p>
 <p>本月為蛇的<b>平穩月</b>。七赤破軍星入中，防破財。</p>
 <ul>
 <li><b>財運</b>：七赤主破財，本月需防盜竊或遺失。正財尚穩，不宜借貸或擔保，投機活動一概避免。</li>
@@ -802,7 +815,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <li><b>身體</b>：金氣漸盛，呼吸系統需注意。夏秋交替易有感冒，早晚添衣，避免著涼。</li>
 <li><b>是非</b>：平穩之月是非不多，惟七赤星下易因財失義。金錢往來明算帳，親兄弟亦要分明。</li>
 </ul>
-<p><b>農曆八月（己酉）</b></p>
+<p><b>農曆八月（己酉月）</b></p>
 <p>本月為蛇的<b>平穩月</b>。八白左輔星入中，大利財運。</p>
 <ul>
 <li><b>財運</b>：八白當令，為全年財運最佳月份。正財偏財皆有斬獲，惟暴敗星仍在，不宜孤注一擲。</li>
@@ -811,7 +824,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <li><b>身體</b>：土金相生，身體尚算不錯。惟財運太旺易耗神，注意作息平衡，避免應酬過度。</li>
 <li><b>是非</b>：財旺之月易招人妒忌，低調理財為上。不宜張揚收入或投資成果，免惹無謂是非。</li>
 </ul>
-<p><b>農曆九月（庚戌）</b></p>
+<p><b>農曆九月（庚戌月）</b></p>
 <p>本月為蛇的<b>三刑月／提防是非</b>。九紫右弼星入中，喜慶桃花。</p>
 <ul>
 <li><b>財運</b>：九紫喜慶星臨，或有喜慶應酬之開支。正財平穩，為人情花費難免，預算需預留彈性。</li>
@@ -820,7 +833,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <li><b>身體</b>：火土燥熱再現，皮膚及消化系統需注意。多食潤燥之品，避免熬夜傷陰。</li>
 <li><b>是非</b>：三刑疊是非，本月為下半年是非高峯。不論人前人後，慎言為上，文件合約細閱條款。</li>
 </ul>
-<p><b>農曆十月（辛亥）</b></p>
+<p><b>農曆十月（辛亥月）</b></p>
 <p>本月為蛇的<b>三合月</b>。一白貪狼星入中，人緣桃花。</p>
 <ul>
 <li><b>財運</b>：三合主貴人帶財，合作生財機會浮現。本月宜與屬雞、屬牛者合作，事半功倍。</li>
@@ -829,7 +842,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <li><b>身體</b>：水氣漸盛，寒命人尤為受惠。熱命人則需注意腎臟膀胱，避免過度進補。</li>
 <li><b>是非</b>：三合化解是非，人緣運勢良好。本月多參與社交活動，廣結人脈對來年有幫助。</li>
 </ul>
-<p><b>農曆十一月（壬子）</b></p>
+<p><b>農曆十一月（壬子月）</b></p>
 <p>本月為蛇的<b>害太歲月</b>。二黑病符星入中，注意健康。</p>
 <ul>
 <li><b>財運</b>：害太歲之月財運平平，不宜有大動作。正財尚可，偏財欠奉，投資計劃宜延至來年。</li>
@@ -838,7 +851,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <li><b>身體</b>：二黑病符再臨，為全年另一健康高危期。注意飲食衛生，舊患易復發，長者需格外留神。</li>
 <li><b>是非</b>：害太歲疊病符，本月少說話多做事。不宜擔任中間人，亦勿輕信他人傳話，免招無妄之災。</li>
 </ul>
-<p><b>農曆十二月（癸丑）</b></p>
+<p><b>農曆十二月（癸丑月）</b></p>
 <p>本月為蛇的<b>相沖月（歲破月）</b>。三碧是非星入中，防口舌是非。</p>
 <ul>
 <li><b>財運</b>：歲破之月財運反覆，年終花紅或不及預期。本月緊守財庫，年關開支需量入為出。</li>
@@ -858,14 +871,14 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p>寒命人今年為火炎土燥之年，相信運程會更為暢順。2022至2027年木火之氣持續，本年丁火未土，火生土旺，寒命人得火氣調候，事業財運皆有進展空間，可積極進取。熱命人今年火土當令，則較為辛苦，宜守不宜攻，重大決定可留待2028年後金水當旺之時再作打算，本年以穩守現狀、充實自己為上。平命人今年運勢平穩，無大起亦無大落，金水方位較為有利，可多往西北方走動，顏色以白金銀黑灰藍為佳。</p>
 <hr class="divider">
 <hr class="divider">
-<p><b>二〇二六年丙午馬年出生</b>：此歲孩提，初逢六合流年，體質平穩，惟夜啼偶作，則父母宜調寢食，相信安和自來。</p>
-<p><b>二〇一四年甲午馬年出生</b>：學齡之童，六合引動聰敏，課業漸有頭緒，惟玩心未泯，則師長稍加約束，相信專注可成。</p>
-<p><b>二〇〇二年壬午馬年出生</b>：弱冠前後，或升學或初涉職場，六合助緣，際遇不惡，惟擇業猶豫，則從長計議，相信時機成熟自有定奪。</p>
-<p><b>一九九〇年庚午馬年出生</b>：而立之年，事業正當奮進，六合來合，貴人暗助，惟財來財去，則積穀防饑，相信厚積薄發方為上策。</p>
-<p><b>一九七八年戊午馬年出生</b>：不惑過半，職場根基已穩，六合流年，升遷或轉機隱現，惟勞心過甚，則作息調適，相信順勢而為可得。</p>
-<p><b>一九六六年丙午馬年出生</b>：年近花甲，事業餘暉猶溫，六合主和，退而不休者亦有進益，惟血壓舊患，則定期檢視，相信節制自安。</p>
-<p><b>一九五四年甲午馬年出生</b>：古稀之年，兒孫繞膝為樂，六合利於家和，惟關節漸弱，則緩行保暖，相信心境平和即養生。</p>
-<p><b>一九四二年壬午馬年出生</b>：耄耋高壽，流年六合，子孫探問頻仍，惟記憶時有模糊，則家人多予寬慰，相信天倫之樂足以忘憂。</p>
+<p><b>二〇二六年丙午馬年出生</b>：流年六合，根基得護，成長步伐平穩。惟嬰孩體質易受季節影響，飲食作息定時便無大礙。相信在家長關顧下，不論寒暖都安穩過渡。</p>
+<p><b>二〇一四年甲午馬年出生</b>：今年六合，讀書運順，師長同學都樂意相助。惟青春期情緒偶有起伏，宜多與家人傾談。相信憑著貴人提點，不論測驗考試都能發揮水準。</p>
+<p><b>二〇〇二年壬午馬年出生</b>：正值建立事業基礎之年，六合帶動人緣，求職轉職都有助力。惟初入職場需守本分，進修增值更佳。相信按部就班，不論起步快慢都自有出路。</p>
+<p><b>一九九〇年庚午馬年出生</b>：今年六合，事業有合作之機，財運則見穩步上揚。惟誘惑不少，投資置業宜量力而為。相信多聽可靠意見，不論正財偏財都懂得取捨。</p>
+<p><b>一九七八年戊午馬年出生</b>：流年六合，事業上易得上司或客戶支持，關卡自能化解。惟工作繁忙之際，慎防過勞影響健康。相信在壓力中仍能找出節奏，不論順逆都穩住大局。</p>
+<p><b>一九六六年丙午馬年出生</b>：六合之歲，人事和順，家庭關係亦見融洽。惟身體機能漸需保養，定期檢查不可省。相信以平常心面對變化，不論工作或退休生活都得其所哉。</p>
+<p><b>一九五四年甲午馬年出生</b>：今年六合，貴人多在身邊，家宅運尤其安穩。惟年長者宜注意筋骨血壓，晨運不宜過急。相信含飴弄孫自有樂趣，不論晴雨都心懷舒泰。</p>
+<p><b>一九四二年壬午馬年出生</b>：高年得六合，福氣綿長，子女後輩多來問候。惟行動宜慢，出入要避開濕滑之地。相信心寬便是養生，不論節日平日都恬淡自足。</p>
 <h4>每月運程</h4>
 <p><b>農曆一月（壬寅月）</b></p>
 <p>本月為思想學習投資月。</p>
@@ -968,7 +981,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p><b>一九六七年丁未羊年出生</b>：花甲前後再逢丁未，值太歲重逢一甲子，健康為要，血壓心脈宜定期察驗，則作息有節、家庭和睦，可化波瀾為坦途。</p>
 <p><b>一九五五年乙未羊年出生</b>：古稀之年值太歲，關節舊患易發，相信調養得宜則無大礙，兒孫之事寬心看待，勿過勞神，自享清福。</p>
 <p><b>一九四三年癸未羊年出生</b>：耄耋逢本命，值太歲之氣稍耗精神，飲食溫補為先，則起居有人照料、兒女時來問安，相信順其自然，歲月自靜好。</p>
-<p><b>農曆一月（壬寅）</b></p>
+<p><b>農曆一月（壬寅月）</b></p>
 <p>本月為羊的思想學習投資月。</p>
 <p><b>財運：</b> 一白貪狼桃花星入中，人緣帶財，洽商合作較為順利，新計劃可開始籌備。惟本命年之初，大額投資仍宜觀望，不宜急於落實。</p>
 <p><b>事業：</b> 文昌星氣延續，利進修考試、考取專業資格，在職進修者進度理想。職場人際和諧，上司對你印象不俗。</p>
@@ -976,7 +989,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p><b>身體：</b> 初春濕氣未散，注意關節及呼吸道小疾，飲食宜清淡。本命年之始，作息規律尤為重要。</p>
 <p><b>是非：</b> 人緣雖佳，惟言談間忌評論他人私事，以免無心之言傳入當事人耳中。</p>
 <hr class="divider">
-<p><b>農曆二月（癸卯）</b></p>
+<p><b>農曆二月（癸卯月）</b></p>
 <p>本月為羊的驛動月。</p>
 <p><b>財運：</b> 驛動帶財，外出洽商或異地客戶可望帶來進帳，從事貿易、物流者尤佳。惟開支同步增加，交通住宿需預留預算。</p>
 <p><b>事業：</b> 工作調動或外派機會浮現，變動雖非你所願，惟長遠而言利拓展視野。本月不宜拒絕新嘗試。</p>
@@ -984,7 +997,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p><b>身體：</b> 二黑病符星入中，舟車勞頓易致疲倦，抵抗力稍弱。注意飲食衛生，避免生冷食物。</p>
 <p><b>是非：</b> 外出公幹易遇小人挑剔，保持專業態度即可化解，不必動氣爭辯。</p>
 <hr class="divider">
-<p><b>農曆三月（甲辰）</b></p>
+<p><b>農曆三月（甲辰月）</b></p>
 <p>本月為羊的太歲三刑月。</p>
 <p><b>財運：</b> 三碧是非星入中，財來財去，合約細節務必再三確認，避免因文書疏忽而損失。不宜為他人作擔保。</p>
 <p><b>事業：</b> 太歲三刑，職場暗湧起伏，與同事易生誤會，重要決定不宜本月落實。低調行事，遠離口舌之爭。</p>
@@ -992,7 +1005,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p><b>身體：</b> 脾胃較弱，壓力易致消化不良，宜少食多餐。注意皮膚敏感及舊患復發。</p>
 <p><b>是非：</b> 本月為全年是非高峯，不論親疏都宜謹言慎行，辦公室政治尤需迴避，以免無辜捲入。</p>
 <hr class="divider">
-<p><b>農曆四月（乙巳）</b></p>
+<p><b>農曆四月（乙巳月）</b></p>
 <p>本月為羊的相害月。</p>
 <p><b>財運：</b> 四綠文昌星入中，以知識技能換財之月，專業服務、顧問諮詢類收入穩定。正財尚可，偏財不宜強求。</p>
 <p><b>事業：</b> 相害之月，合作關係易生嫌隙，合夥生意者賬目需分明。獨立作業者運程較佳，可減少依賴他人。</p>
@@ -1000,7 +1013,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p><b>身體：</b> 火氣漸盛，注意眼睛及心血管負荷，熬夜尤傷。宜多飲水，以清淡飲食平衡燥氣。</p>
 <p><b>是非：</b> 暗害之月，防人之心不可無，尤其網絡通訊易生誤解，重要事宜宜面對面確認。</p>
 <hr class="divider">
-<p><b>農曆五月（丙午）</b></p>
+<p><b>農曆五月（丙午月）</b></p>
 <p>本月為羊的六合月/桃花月。</p>
 <p><b>財運：</b> 五黃廉貞煞星入中，諸事小心，財運雖有六合貴人引路，惟煞星當令，不宜開拓新投資。保守理財為上。</p>
 <p><b>事業：</b> 六合帶來合作機緣，新項目洽談順利，惟五黃影響，簽約宜待下月。職場有貴人暗中提點，宜多聽取意見。</p>
@@ -1008,7 +1021,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p><b>身體：</b> 五黃主災病，本年最需注意健康之月，避免高危活動及探病問喪。駕駛人士格外留神。</p>
 <p><b>是非：</b> 桃花過盛反招嫉妒，與異性交往保持適當距離，以免傳聞損害名譽。</p>
 <hr class="divider">
-<p><b>農曆六月（丁未）</b></p>
+<p><b>農曆六月（丁未月）</b></p>
 <p>本月為羊的相沖月。</p>
 <p><b>財運：</b> 六白武曲星入中，本利財運，惟相沖之月變數大，正財尚可，偏財勿沾。有意外支出之可能，預留儲備。</p>
 <p><b>事業：</b> 相沖主變動，工作崗位或職責範圍可能有突發調整，初期或不適應，惟長遠未必為壞事。保持彈性應對。</p>
@@ -1016,7 +1029,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p><b>身體：</b> 本命月加上相沖，身體較為虛弱，注意腸胃及皮膚問題。避免過勞，宜安排身體檢查。</p>
 <p><b>是非：</b> 相沖之月，人際摩擦難免，與長輩、上司溝通尤需注意語氣，退一步海闊天空。</p>
 <hr class="divider">
-<p><b>農曆七月（戊申）</b></p>
+<p><b>農曆七月（戊申月）</b></p>
 <p>本月為羊的平穩月。</p>
 <p><b>財運：</b> 七赤破軍星入中，防破財，投資市場波動較大，不宜高追殺跌。日常開支需節制，避免衝動消費。</p>
 <p><b>事業：</b> 運勢回穩，上月之變動漸見適應，工作效率提升。獨立項目進展順利，團隊合作則仍需磨合。</p>
@@ -1024,7 +1037,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p><b>身體：</b> 金氣漸盛，注意肺部及呼吸道保養，過敏體質者留意空氣質素。運動適量，避免過度劇烈。</p>
 <p><b>是非：</b> 平穩之月，是非明顯減少，惟七赤主盜賊，外出注意財物安全，家居防盜措施檢查。</p>
 <hr class="divider">
-<p><b>農曆八月（己酉）</b></p>
+<p><b>農曆八月（己酉月）</b></p>
 <p>本月為羊的平穩月。</p>
 <p><b>財運：</b> 八白左輔星入中，大利財運，為本年財運最佳月份之一。正財偏財皆有進帳，早前投資可望獲利回籠。</p>
 <p><b>事業：</b> 事業運隨財運同步上升，表現獲上司認同，有升遷或加薪之機會。重要簡報、談判宜安排本月進行。</p>
@@ -1032,7 +1045,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p><b>身體：</b> 土金相生，身體狀態較佳，惟工作忙碌易忽略休息，注意勞逸平衡。飲食宜潤燥養肺。</p>
 <p><b>是非：</b> 運勢順遂之時，忌鋒芒太露，分享成果時顧及他人感受，可免招無謂妒忌。</p>
 <hr class="divider">
-<p><b>農曆九月（庚戌）</b></p>
+<p><b>農曆九月（庚戌月）</b></p>
 <p>本月為羊的三刑月/提防是非。</p>
 <p><b>財運：</b> 九紫右弼星入中，喜慶帶財，嫁娶添丁等喜事可能增加開支，惟長遠為吉利之應。正財穩定，不宜投機。</p>
 <p><b>事業：</b> 三刑再臨，職場人際再現暗湧，與平級同事易生競爭摩擦。專注本職，不捲入派系之爭為上策。</p>
@@ -1040,7 +1053,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p><b>身體：</b> 火土燥熱，注意皮膚及內分泌失調，情緒易煩躁。宜靜心調息，太極、瑜伽等柔緩運動為佳。</p>
 <p><b>是非：</b> 三刑之月，舊事可能被重提，或有人從中挑撥。清者自清，不必急於辯解，時間自會證明。</p>
 <hr class="divider">
-<p><b>農曆十月（辛亥）</b></p>
+<p><b>農曆十月（辛亥月）</b></p>
 <p>本月為羊的三合月。</p>
 <p><b>財運：</b> 一白貪狼星入中，人緣桃花帶財，客戶關係維護得宜，回頭客及轉介紹增加收入。合作生財之月。</p>
 <p><b>事業：</b> 三合貴人助力，團隊合作順暢，跨部門項目進展理想。有意轉職者可透過人脈獲得機會。</p>
@@ -1048,7 +1061,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p><b>身體：</b> 水氣漸盛，寒命人尤覺舒適，熱命人則需注意腎臟及泌尿系統保養。保暖措施宜早作準備。</p>
 <p><b>是非：</b> 三合之月，貴人多於小人，惟桃花過盛易惹緋聞，與異性同事交往保持透明公開。</p>
 <hr class="divider">
-<p><b>農曆十一月（壬子）</b></p>
+<p><b>農曆十一月（壬子月）</b></p>
 <p>本月為羊的害太歲月。</p>
 <p><b>財運：</b> 二黑病符星入中，因健康或家宅事宜可能增加開支，財運平平。不宜借貸他人，亦不宜為人作保。</p>
 <p><b>事業：</b> 害太歲之月，工作進展較為緩慢，計劃易生阻滯。宜韜光養晦，檢討今年得失，為來年部署。</p>
@@ -1056,7 +1069,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p><b>身體：</b> 二黑病符當令，為本年健康最需注意之月，舊患易復發，長者及孕婦尤需小心。避免探病問喪。</p>
 <p><b>是非：</b> 害太歲主暗中破壞，防人之心不可無，重要文件備份，口頭承諾盡量書面確認。</p>
 <hr class="divider">
-<p><b>農曆十二月（癸丑）</b></p>
+<p><b>農曆十二月（癸丑月）</b></p>
 <p>本月為羊的相沖月（歲破月）。</p>
 <p><b>財運：</b> 三碧是非星入中，歲破之月財運反覆，年終獎金或分紅可能有變數。開支需嚴控，為來年預留周轉資金。</p>
 <p><b>事業：</b> 歲破主變動，年尾可能有人事調整或架構重組消息，不必過慮，變動或為來年轉機。完成手尾，不宜開新局。</p>
@@ -1071,81 +1084,82 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p>寒命人今年為延續向好之年，相信運程會更為暢順。二〇二二至二〇二七這段木火流年對你仍屬有利，丁未火土燥熱，與你命格相輔，不論事業進修都可積極行事，惟下半年開始要留意大運轉折，不宜過度擴張。熱命人今年為平穩守成之年，火炎土燥之氣與你命格相悖，相信運程難有突破，宜以靜制動，專注本職，重大決定可留待二〇二八年後金水當旺時再作打算。平命人今年為中規中矩之年，無大風浪亦無大驚喜，金水方位與顏色對你較有幫助，可按部就班，順勢而為。</p>
 <hr class="divider">
 <hr class="divider">
-<p><b>二〇一六年丙申猴年出生</b>：今年學業平穩，惟專注力稍散，則宜定時溫習，相信循序漸進自有進益。</p>
-<p><b>二〇〇四年甲申猴年出生</b>：初入職場或進修路上，今年機遇不多，惟踏實累積則根基漸穩，相信來年更有發揮。</p>
-<p><b>一九九二年壬申猴年出生</b>：事業財運皆屬平常，惟勿強求突破，則守成為上，相信靜待時機比貿進明智。</p>
-<p><b>一九八〇年庚申猴年出生</b>：中年運勢平穩，財來財去，惟開源節流則無憂，相信家庭和睦即為最大收穫。</p>
-<p><b>一九六八年戊申猴年出生</b>：健康為今年要務，惟作息定時則精神尚佳，相信兒孫之事順其自然，少操心為妙。</p>
-<p><b>一九五六年丙申猴年出生</b>：身體小有毛病，惟按時檢查則無大礙，相信與老伴相扶持，日子平淡亦安穩。</p>
-<p><b>一九四四年甲申猴年出生</b>：年事已高，宜靜養為主，惟飲食清淡則氣血調和，相信兒孫環繞，福氣自在日常。</p>
+<hr class="divider">
+<p><b>二〇一六年丙申猴年出生</b>：今年虛齡十二，正處求學階段，學業方面無大波折，惟專注力時有不穩，須留意課業根基。不論在校內課外活動，今年宜穩中求進，不宜強求突出表現，相信踏實用功自有回報。</p>
+<p><b>二〇零四年甲申猴年出生</b>：今年虛齡二十四，初涉職場或進修深造之年，流年平穩，惟事業起步階段仍需沉着應對。不論從事何種行業，今年貴人助力不算明顯，凡事親力親為方為上策，相信穩步發展勝於急功近利。</p>
+<p><b>一九九二年壬申猴年出生</b>：今年虛齡三十六，正值壯年，事業財運均屬平穩，惟進取之心不可鬆懈。今年財運方面收支大致平衡，則不宜大額投機或冒險投資，相信持續累積實力，日後自有更佳機遇。</p>
+<p><b>一九八〇年庚申猴年出生</b>：今年虛齡四十八，事業已至中段，惟今年工作上或有微小變動，不必過慮。財運方面守成為主，不論正財偏財均無大起落，今年宜鞏固現有基礎，相信沉着應變，下半年或有轉機。</p>
+<p><b>一九六八年戊申猴年出生</b>：今年虛齡六十，漸近退休之齡，身體方面須多加留意，惟整體健康無大礙。今年家庭關係和順，不論與伴侶或子女相處，宜以和為貴，相信心態平和自然安康順遂。</p>
+<p><b>一九五六年丙申猴年出生</b>：今年虛齡七十二，健康為重之年，惟偶有小恙，定時檢查為上。今年不論家居或外出，皆宜謹慎行動，慎防跌倒碰傷，相信作息規律、心境開朗，便是安享晚年之福。</p>
+<p><b>一九四四年甲申猴年出生</b>：今年虛齡八十四，高齡長者以養生為先，惟精神狀態大致穩定，不必過憂。今年家庭和睦，兒孫孝順，不論居住何處，宜保持室內整潔舒適，相信心寬體健，自能安度流年。</p>
 <h4>每月運程</h4>
-<p><b>農曆一月（壬寅）本月為思想學習投資月</b></p>
+<p><b>農曆一月（壬寅月）本月為思想學習投資月</b></p>
 <p>財運：本月財運平平，正財穩定而偏財不宜強求。一白貪狼入中，人緣帶來少許商機，惟投資決定需審慎，不宜聽信他人一面之詞。</p>
 <p>事業：事業為思想學習之月，工作節奏未算急促，適合籌劃全年大計。上司對你印象尚可，主動表現則有加分。</p>
 <p>感情：桃花星動，單身者人緣較佳，社交場合易有邂逅，惟對方誠意需時間觀察。有伴侶者相處和諧，小事不必計較。</p>
 <p>身體：健康無大礙，惟初春濕氣未散，飲食宜清淡，腸胃較弱之人需注意。</p>
 <p>是非：人緣雖佳，惟言多必失，辦公室閒聊不宜涉及他人私事，則可免無謂口舌。</p>
-<p><b>農曆二月（癸卯）本月為驛動月</b></p>
+<p><b>農曆二月（癸卯月）本月為驛動月</b></p>
 <p>財運：驛動月財運多勞多得，外出公幹或異地客戶帶來額外收入。惟開支隨行程增加，需預算周詳。</p>
 <p>事業：本月走動頻繁，出差、會議、外訪機會增多，雖然勞碌，卻有利拓展視野。靜守原地則進展有限。</p>
 <p>感情：聚少離多之月，單身者異地情緣較有機會，長遠發展則需考量。有伴侶者宜多作溝通，避免誤會。</p>
 <p>身體：二黑病符入中，本月健康需加倍留意，尤其舟車勞頓後宜充分休息，舊患易有反覆。</p>
 <p>是非：走動多是非少，惟外地言行需謹慎，入鄉隨俗則可免衝突。</p>
-<p><b>農曆三月（甲辰）本月為太歲三刑月</b></p>
+<p><b>農曆三月（甲辰月）本月為太歲三刑月</b></p>
 <p>財運：三刑月財運波動，正財尚穩，投資投機則不宜。本月易因人情有額外開支，借貸擔保務必婉拒。</p>
 <p>事業：太歲三刑，職場壓力增加，同事關係緊張，文件合約需反覆核對。低調行事，不捲入派系則可自保。</p>
 <p>感情：情緒易受外界影響，與伴侶相處忌意氣用事。單身者桃花帶刑，新相識對象背景宜多加了解。</p>
 <p>身體：三碧是非星入中，情緒起伏較大，影響睡眠質素。宜靜心調息，避免熬夜。</p>
 <p>是非：本月為全年是非高峯，口舌糾紛難免，不論聽到什麼都宜一笑置之，不宜即時反駁。</p>
-<p><b>農曆四月（乙巳）本月為相害月</b></p>
+<p><b>農曆四月（乙巳月）本月為相害月</b></p>
 <p>財運：財運平平，易有暗中損耗，核對賬目需仔細。本月不宜與人合資，獨自決策反而穩妥。</p>
 <p>事業：相害月人際暗湧，表面和諧而背後或有閒言。工作交付宜留書面記錄，以免日後爭拗。</p>
 <p>感情：感情易有誤會，小事化大，與伴侶溝通宜直接坦誠，猜度只會加深隔膜。單身者不宜急於表白。</p>
 <p>身體：四綠文昌入中，精神集中力尚可，惟相害月易有莫名疲憊，適量運動有助紓緩。</p>
 <p>是非：暗害之月，防人之心不可無，尤其網絡言論更需謹慎，則可減少無妄之災。</p>
-<p><b>農曆五月（丙午）本月為六合月/桃花月</b></p>
+<p><b>農曆五月（丙午月）本月為六合月/桃花月</b></p>
 <p>財運：六合月財運漸順，正財有進賬，偏財仍屬一般。本月利於與人合作，惟條款細節需白纸黑字。</p>
 <p>事業：午未六合，職場貴人顯現，長期鋪墊之事本月或有突破。主動爭取表現，相信上司會有所留意。</p>
 <p>感情：桃花月感情運最佳，單身者易遇心儀對象，發展速度可按自己意願調節。有伴侶者甜蜜和諧，宜共度時光。</p>
 <p>身體：五黃煞星入中，本月諸事小心，身體亦然。避免高危活動，出入留意腳下，則可安然度過。</p>
 <p>是非：人緣佳則是非遠離，社交應酬雖多，惟飲酒宜適量，免因失言惹禍。</p>
-<p><b>農曆六月（丁未）本月為相沖月</b></p>
+<p><b>農曆六月（丁未月）本月為相沖月</b></p>
 <p>財運：相沖月財來財去，正財不穩，突發開支易現。本月宜緊守現金，預留應急儲備，不宜作重大財務決定。</p>
 <p>事業：未申相沖，職場變動之象，崗位調整或公司改組或會出現。順勢應變，不宜硬抗，相信轉機在後。</p>
 <p>感情：相沖月情緒波動，與伴侶易有爭執，退一步海闊天空。單身者感情不宜強求，順其自然為上。</p>
 <p>身體：六白武曲入中，本利財運，惟相沖月身體較弱，尤其呼吸系統需留意，出入冷氣地方宜備外套。</p>
 <p>是非：變動之月是非難免，不論遭遇什麼都宜冷靜處理，衝動回應只令事情複雜。</p>
-<p><b>農曆七月（戊申）本月為平穩月</b></p>
+<p><b>農曆七月（戊申月）本月為平穩月</b></p>
 <p>財運：本月財運回穩，正財漸入正軌，上月之波動已過。七赤破軍入中，仍防破財，貴重物品需妥善保管。</p>
 <p>事業：平穩月工作節奏正常，無大壓力亦無大突破。適合整理上半年得失，調整下半年步伐。</p>
 <p>感情：感情平淡如水，單身者桃花不顯，宜享受獨處。有伴侶者相處如常，小驚喜可增情趣。</p>
 <p>身體：申月與本命同氣，體力尚可，惟七赤主意外，運動或駕駛需集中精神，不可大意。</p>
 <p>是非：平穩月是非自然消退，不主動招惹則無事，繼續低調行事即可。</p>
-<p><b>農曆八月（己酉）本月為平穩月</b></p>
+<p><b>農曆八月（己酉月）本月為平穩月</b></p>
 <p>財運：八白左輔入中，本月為全年財運較佳之月。正財偏財皆有進賬，積蓄已久的計劃可適時實行。</p>
 <p>事業：事業運隨財運提升，工作表現獲認同，升遷加薪或有機會。惟不宜因此驕矜，謙遜則路更長。</p>
 <p>感情：財運順遂帶動心情，與伴侶相處融洽。單身者易於社交場合吸引目光，主動與否可隨心。</p>
 <p>身體：健康平穩，精神飽滿，惟飲食慶祝機會增多，需注意體重及腸胃負擔。</p>
 <p>是非：運順之時更忌張揚，低調處理好事，則可免招人妒忌。</p>
-<p><b>農曆九月（庚戌）本月為三刑月/提防是非</b></p>
+<p><b>農曆九月（庚戌月）本月為三刑月/提防是非</b></p>
 <p>財運：三刑月財運反覆，上月的順境未能延續。投資需見好即收，貪念則易招損失。</p>
 <p>事業：職場暗湧再現，同事競爭或明或暗，工作成果宜及時向上司匯報，以免被人搶佔功勞。</p>
 <p>感情：情緒受是非影響，與伴侶相處易有摩擦。單身者新相識對象或涉複雜關係，深入了解後再投入。</p>
 <p>身體：九紫喜慶入中，精神尚可，惟三刑月易有舊患復發，尤其關節舊傷需留意。</p>
 <p>是非：本月為全年第二個是非高峯，與農曆三月呼應。不論職場或生活，少說話多做事為上策。</p>
-<p><b>農曆十月（辛亥）本月為三合月</b></p>
+<p><b>農曆十月（辛亥月）本月為三合月</b></p>
 <p>財運：申子辰三合，本月財運順遂，尤其利於團隊合作或集體投資。人脈帶來商機，善加利用則有收穫。</p>
 <p>事業：三合月貴人運強，與同事下屬關係和諧，項目推進順利。若有轉工計劃，本月可積極物色。</p>
 <p>感情：人緣佳帶動感情運，單身者經友人介紹易有合適對象。有伴侶者宜參與雙方社交圈，增進了解。</p>
 <p>身體：一白桃花入中，心情開朗，健康無礙。惟社交應酬多，作息需有節制。</p>
 <p>是非：三合月人和氣順，是非自然遠離。惟仍需防範小人，親疏有別則可保無虞。</p>
-<p><b>農曆十一月（壬子）本月為害太歲月</b></p>
+<p><b>農曆十一月（壬子月）本月為害太歲月</b></p>
 <p>財運：害太歲月財運暗湧，表面平靜而實有隱憂。賬目需仔細核對，合約條款不可輕信口頭承諾。</p>
 <p>事業：職場易有暗中阻滯，計劃推行較預期緩慢。保持耐性，相信阻滯只是暫時，年尾自有轉機。</p>
 <p>感情：相害月感情易有誤會，與伴侶溝通宜加倍耐心。單身者不宜急於發展，觀察為上。</p>
 <p>身體：二黑病符再入中，本月健康需特別留意，尤其長期病患者需按時覆診，不可疏忽。</p>
 <p>是非：害太歲之月，是非暗生而不易察覺。言行謹慎，不議論他人，則可減少無妄之災。</p>
-<p><b>農曆十二月（癸丑）本月為相沖月（歲破月）</b></p>
+<p><b>農曆十二月（癸丑月）本月為相沖月（歲破月）</b></p>
 <p>財運：歲破月財運動盪，為全年最需審慎之時。年尾開支本多，更需量入為出，借貸絕對不宜。</p>
 <p>事業：丑未相沖為歲破，職場或有突發變動，年尾總結或人事調整皆有可能。處變不驚，順勢而為。</p>
 <p>感情：相沖月情緒最不穩定，與伴侶易因小事爭執，忍讓為上。單身者不宜在歲破月開始新感情。</p>
@@ -1166,7 +1180,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p><b>一九六九年己酉雞年出生</b>：財運平平，投資理財以保守為宜，惟注意肝膽與呼吸道之養護，相信家人和睦勝於外求。</p>
 <p><b>一九五七年丁酉雞年出生</b>：年屆古稀，健康為要，流年平常則無大疾相侵，則宜規律作息、怡養天年，相信兒孫之樂足慰平生。</p>
 <p><b>一九四五年乙酉雞年出生</b>：耄耋之年，運程平淡亦是福澤，惟防跌撲之意外、留意脾胃消化，相信心寬體自泰，兒孫繞膝即好年。</p>
-<p><b>農曆一月（壬寅）</b></p>
+<p><b>農曆一月（壬寅月）</b></p>
 <p>本月為思想學習投資月。</p>
 <p>財運：正財平穩，偏財未見起色。本月一白貪狼桃花星入中，人緣佳而財運普通，投資計劃宜多觀察，不宜急於落實。花費在進修或應酬較多，屬必要開支。</p>
 <p>事業：新計劃醞釀階段，上司對你想法感興趣，惟落實需時。本月利學習新技能，為日後鋪路，不論進修或考證都適宜起步。</p>
@@ -1174,7 +1188,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p>身體：精神充沛，惟思慮較多或影響睡眠。注意作息定時，睡前減少使用電子產品。</p>
 <p>是非：人緣運佳，是非不多。惟言多必失，新相識者未宜盡訴心中情。</p>
 <hr class="divider">
-<p><b>農曆二月（癸卯）</b></p>
+<p><b>農曆二月（癸卯月）</b></p>
 <p>本月為驛動月。</p>
 <p>財運：動中求財之象，出差或外出有意外收穫。本月二黑病符星入中，注意健康同時亦防因身體不適而破財，醫療開支預留為宜。</p>
 <p>事業：工作變動機會浮現，外派或跨部門合作可能性增加。主動爭取可拓闊視野，惟變動與否需衡量自身狀況。</p>
@@ -1182,7 +1196,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p>身體：二黑病符當令，腸胃及呼吸系統較弱。飲食清淡，避免生冷，出入公共場所注意衛生。</p>
 <p>是非：驛動之月是非不多，惟在外地或陌生環境言行謹慎，不捲入他人糾紛。</p>
 <hr class="divider">
-<p><b>農曆三月（甲辰）</b></p>
+<p><b>農曆三月（甲辰月）</b></p>
 <p>本月為太歲三刑月。</p>
 <p>財運：財運反覆，易因合約或文件細節損失。簽署重要文件宜再三核實，本月三碧是非星入中，易惹口舌，財務往來留憑據。</p>
 <p>事業：職場暗湧湧現，同事間競爭白熱化。做好本分即可，不站隊、不評論他人，相信可安然度過。</p>
@@ -1190,7 +1204,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p>身體：壓力引致頭痛或失眠，適量運動有助紓緩。注意肝氣鬱結，飲食少酸多甘。</p>
 <p>是非：三刑加三碧，本月為全年是非高峯。少說話、多做事，遇挑釁退一步，不論對錯都避免爭執。</p>
 <hr class="divider">
-<p><b>農曆四月（乙巳）</b></p>
+<p><b>農曆四月（乙巳月）</b></p>
 <p>本月為相害月。</p>
 <p>財運：正財尚可，偏財勿念。本月四綠文昌星入中，利學習考試，投資知識比投資金錢更有回報。</p>
 <p>事業：文昌星照，考試面試表現理想。職場有暗中小人，文件備份、郵件留底，相信可減少無謂損失。</p>
@@ -1198,7 +1212,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p>身體：整體無大礙，注意眼睛疲勞及坐姿不良引致頸肩問題。文職工作者定時起身活動。</p>
 <p>是非：相害之月是非隱蔽，防人之心不可無。辦公室政治保持距離，不輕信傳言。</p>
 <hr class="divider">
-<p><b>農曆五月（丙午）</b></p>
+<p><b>農曆五月（丙午月）</b></p>
 <p>本月為六合月／桃花月。</p>
 <p>財運：財運漸入佳境，正財有進步空間。本月五黃廉貞煞星入中，諸事小心，大額投資或借貸暫緩。</p>
 <p>事業：六合貴人助，合作項目進展順利。上司認同你的表現，惟五黃當令，重大決定宜待下月。</p>
@@ -1206,7 +1220,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p>身體：五黃主災病，避免高危活動。注意心血管及血壓問題，長者尤其留意。</p>
 <p>是非：人緣運佳，是非較少。惟桃花過旺易惹曖昧傳聞，言行檢點免招誤會。</p>
 <hr class="divider">
-<p><b>農曆六月（丁未）</b></p>
+<p><b>農曆六月（丁未月）</b></p>
 <p>本月為相沖月。</p>
 <p>財運：財運波動，易有意外支出。本月六白武曲星入中，利財運，惟相沖之月財來財去，儲蓄為上。</p>
 <p>事業：變動之月，公司架構調整或人事變動影響心情。保持彈性，不論環境如何變化，專業態度為立身之本。</p>
@@ -1214,7 +1228,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p>身體：沖則動，注意交通安全及手腳扭傷。駕駛者集中精神，避免趕時間。</p>
 <p>是非：相沖之月是非較多，低調行事。重要會議或談判預備後備方案，防臨時變卦。</p>
 <hr class="divider">
-<p><b>農曆七月（戊申）</b></p>
+<p><b>農曆七月（戊申月）</b></p>
 <p>本月為平穩月。</p>
 <p>財運：財運回穩，上月波動漸平息。本月七赤破軍星入中，防破財，貴重物品妥善保管，避免露財。</p>
 <p>事業：工作節奏恢復正常，效率提升。平穩之月適合整理上半年進度，調整下半年計劃。</p>
@@ -1222,7 +1236,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p>身體：七赤主肺及呼吸系統，秋季漸臨注意保暖。空氣質素差時減少戶外運動。</p>
 <p>是非：平穩之月是非不多，七赤主盜賊及官非，法律文件小心處理，不貪不義之財。</p>
 <hr class="divider">
-<p><b>農曆八月（己酉）</b></p>
+<p><b>農曆八月（己酉月）</b></p>
 <p>本月為平穩月。</p>
 <p>財運：本月八白左輔星入中，大利財運，為全年財運較佳月份。正財偏財皆有進帳機會，惟仍須量入為出。</p>
 <p>事業：事業運隨財運提升，表現獲上級肯定。若有升遷或調職機會，本月積極爭取較有勝算。</p>
@@ -1230,7 +1244,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p>身體：整體健康良好，八白土旺注意脾胃消化。飲食定時，暴飲暴食易致不適。</p>
 <p>是非：運程順遂之月是非較少，惟財運佳時易招人妒忌，謙虛低調免樹敵。</p>
 <hr class="divider">
-<p><b>農曆九月（庚戌）</b></p>
+<p><b>農曆九月（庚戌月）</b></p>
 <p>本月為三刑月／提防是非。</p>
 <p>財運：財運回落，投資見好即收。本月九紫右弼星入中，喜慶桃花，花費在宴會或送禮較多。</p>
 <p>事業：三刑之月職場壓力重，與上司或客戶溝通易生齟齬。忍一時風平浪靜，不逞一時之快。</p>
@@ -1238,7 +1252,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p>身體：火土燥熱，皮膚及喉嚨易不適。多飲水，少食煎炸，注意作息規律。</p>
 <p>是非：三刑加九紫，喜慶中藏是非。參與他人喜事勿強出風頭，言語謹慎免招誤會。</p>
 <hr class="divider">
-<p><b>農曆十月（辛亥）</b></p>
+<p><b>農曆十月（辛亥月）</b></p>
 <p>本月為三合月。</p>
 <p>財運：三合貴人助，財運漸有起色。本月一白貪狼星入中，人緣桃花，商務應酬帶來商機。</p>
 <p>事業：貴人運佳，舊客戶或前同事帶來合作機會。把握人脈資源，不論新舊關係都宜維繫。</p>
@@ -1246,7 +1260,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p>身體：水氣漸盛，寒命人倍感舒適。熱命人注意手腳冰冷，適量進補溫熱食材。</p>
 <p>是非：三合之月人緣和諧，是非較少。惟應酬增多，酒後言行需自律。</p>
 <hr class="divider">
-<p><b>農曆十一月（壬子）</b></p>
+<p><b>農曆十一月（壬子月）</b></p>
 <p>本月為害太歲月。</p>
 <p>財運：財運平平，易因人情往來破財。本月二黑病符星入中，注意健康同時，醫療或保健開支增加。</p>
 <p>事業：害太歲之月，職場小人暗現。工作成果被攬功或誤解，保留工作紀錄，適時向上級反映。</p>
@@ -1254,7 +1268,7 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p>身體：二黑病符當令，腸胃及婦科問題易發。飲食衛生格外注意，生冷食物避免。</p>
 <p>是非：害太歲之月是非暗藏，防人之心不可無。不輕信承諾，重要協議白紙黑字。</p>
 <hr class="divider">
-<p><b>農曆十二月（癸丑）</b></p>
+<p><b>農曆十二月（癸丑月）</b></p>
 <p>本月為相沖月（歲破月）。</p>
 <p>財運：歲破之月財運反覆，年終花紅或獎金可能延誤。本月三碧是非星入中，防口舌是非，財務糾紛尤甚。</p>
 <p>事業：年關工作收尾壓力大，歲破之月變數多。重要項目早作安排，預留緩衝時間應對突發。</p>
@@ -1271,13 +1285,13 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p><b>熱命人</b>今年火土過旺，運程難免反覆。木火之年已近尾聲，氣運將轉，今年宜收不宜放，重大決定留待秋冬再議。則熱命人本年以靜制動為上，減少無謂應酬，專注本業即可。</p>
 <p><b>平命人</b>今年運程平穩，無大起亦無大落。刑太歲影響較輕，惟人際是非難免，待人處事以和為貴，不爭一時意氣，相信全年可安然度過。</p>
 <hr class="divider">
-<p><b>二〇一八年戊戌狗年出生</b>：今年九歲，初入學堂之期，刑太歲主思緒紛擾，惟專注課業則成績平穩，相信師長提點可助定心向學。</p>
-<p><b>二〇〇六年丙戌狗年出生</b>：今年廿一歲，或升學或初涉職場，刑太歲帶來人際摩擦，惟謙遜待人則貴人暗助，相信韜光養晦自有轉機。</p>
-<p><b>一九九四年甲戌狗年出生</b>：今年卅三歲，事業正值爬坡，刑太歲恐有職場是非纏身，惟腳踏實地則財運不虧，相信守成勝於冒進。</p>
-<p><b>一九八二年壬戌狗年出生</b>：今年四十五歲，中年重鎮之齡，刑太歲影響財庫波動，惟審慎理財則家宅無憂，相信量入為出可保安穩。</p>
-<p><b>一九七〇年庚戌狗年出生</b>：今年五十七歲，臨近退隱之時，刑太歲主舊患易發，惟作息有常則精神尚健，相信兒孫繞膝亦為福氣。</p>
-<p><b>一九五八年戊戌狗年出生</b>：今年六十九歲，古稀在望，刑太歲須防心血管之疾，惟心平氣和則氣血調順，相信兒女關懷勝於獨自憂心。</p>
-<p><b>一九四六年丙戌狗年出生</b>：今年八十一歲，耄耋之年，刑太歲主情緒反覆，惟寬心度日則晚景安和，相信積善之家自有餘慶。</p>
+<p><b>二〇一八年戊戌狗年出生</b>：年紀尚輕，流年刑太歲，學業上易有無形壓力，惟只要按部就班，成績仍能保持平穩。相信多與同學交流，則可化解孤軍作戰之感。</p>
+<p><b>二〇〇六年丙戌狗年出生</b>：正值升學或初入職場之年，刑太歲帶來環境變動，惟變動之中亦有新機會。不論選擇繼續進修抑或開展工作，今年都宜先求穩，再謀發展。</p>
+<p><b>一九九四年甲戌狗年出生</b>：事業正處起步至奮鬥期，刑太歲之年易有人事紛爭，惟亦能從中看清形勢。相信主動調整心態，則可將是非化為歷練，財運宜守不宜急。</p>
+<p><b>一九八二年壬戌狗年出生</b>：今年刑太歲，事業運勢多變，轉工換崗要三思而後行，惟動中帶機，機遇往往在變動中出現。財運方面，正財較穩，投資則不宜冒進，凡事留有餘地。</p>
+<p><b>一九七〇年庚戌狗年出生</b>：刑太歲影響家庭與事業兩端，易有計劃之外的牽動，惟處理得宜，反能促進家庭關係。不論順逆，今年都以穩健為要，健康方面須留意小病纏身，作息定時。</p>
+<p><b>一九五八年戊戌狗年出生</b>：年過花甲，刑太歲之年健康易有反覆，惟現代醫學昌明，依時檢查則無大礙。家庭方面宜多與晚輩溝通，相信家和自然運順。</p>
+<p><b>一九四六年丙戌狗年出生</b>：長者之齡，流年刑太歲，最緊要保重身體，尤其注意關節與血壓。惟家人關懷足夠，則可平安過渡，不論日常起居或出外走動，都宜放慢節奏。</p>
 <h4>每月運程</h4>
 <p><b>農曆一月（壬寅月）</b></p>
 <p>本月為狗的思想學習投資月。一白貪狼桃花星入中，人緣頗佳。</p>
@@ -1383,13 +1397,13 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p>寒命人今年為火炎土燥之年，相信運程會更為暢順。木火之氣未散，秋冬出生者得火土相生，事業財運皆有暖意，可稍為進取，惟仍須留意下半年火氣漸退之轉折。熱命人本年火土疊加，燥熱過甚，相信運程較為反覆。夏月出生者宜收歛鋒芒，重大決定不妨留待2028年金水當令時再作打算，平日多近水邊或西北方，有助平衡。平命人今年火土當道，金水受剋，整體偏向平淡，無大起跌則為福，安守本分、積穀防饑即可，不必強求突破。</p>
 <hr class="divider">
 <hr class="divider">
-<p><b>二〇一九年己亥豬年出生</b>：丁未流年與你天干相生、地支三合，學業運頗為順遂，惟專注力或時有散渙，則宜在課餘多作靜心練習，相信根基穩固後自見進步。</p>
-<p><b>二〇〇七年丁亥豬年出生</b>：流年雙合，初入職場或升學轉折皆見助力，惟人際間易有口舌是非，則謹言慎行可避無謂風波，相信踏實做事終獲賞識。</p>
-<p><b>一九九五年乙亥豬年出生</b>：三合之年事業財運俱有起色，惟投資決策不宜過於急進，則守穩正財為上策，相信量入為出自有積蓄增長。</p>
-<p><b>一九八三年癸亥豬年出生</b>：流年天干相剋而地支相合，職場變動中暗藏機遇，惟身體勞損不可輕忽，則調作息、減應酬為要，相信家庭和睦能助化解壓力。</p>
-<p><b>一九七一年辛亥豬年出生</b>：三合助力事業更上一層，惟權責加重難免心力交瘁，則宜適時下放事務予後輩，相信財運平穩中仍有暗財可圖。</p>
-<p><b>一九五九年己亥豬年出生</b>：流年與本命天干相同、地支暗合，健康為今年首要，惟舊患或時有反覆，則定期檢查、勿諱疾忌醫，相信兒孫繞膝自能寬心養神。</p>
-<p><b>一九四七年丁亥豬年出生</b>：雙合之年家宅安穩，惟長者氣血運行較弱，則晨運適可而止、防跌倒為要，相信子孫孝順、含飴弄孫已是晚年福澤。</p>
+<p><b>二〇一九年己亥豬年出生</b>：幼年運勢平穩，三合之年貴人緣早現，師長疼愛，學習吸收力強。惟專注力稍散，宜培養恆心；相信不論課外活動還是學業，都能從容應對。</p>
+<p><b>二〇〇七年丁亥豬年出生</b>：正值求學階段，流年三合，人緣與讀書運俱佳，小組學習或課外活動皆有助力。惟偶有懶散之念，則需自我督促；相信循序漸進，成績自然穩步上揚。</p>
+<p><b>一九九五年乙亥豬年出生</b>：初入職場或進修進修之年，三合帶動合作機遇，上司或同儕都願意相助。惟事業方向略有猶疑，則宜多聽意見；相信把握年中出現的機會，職涯將打開新局。</p>
+<p><b>一九八三年癸亥豬年出生</b>：事業運勢暢旺，三合之年貴人扶助，合作項目成效顯著，財運亦隨之提升。惟工作繁忙易忽略家庭，則需分配時間；不論正財偏財，今年都宜積極把握。</p>
+<p><b>一九七一年辛亥豬年出生</b>：三合之年運勢順遂，事業有突破之機，尤其人事關係融洽，有利擴展版圖。惟投資決策不宜冒進，則可穩中求勝；相信憑藉多年經驗，今年是收成與佈局並重的年份。</p>
+<p><b>一九五九年己亥豬年出生</b>：晚年運勢安穩，三合之年家庭和睦，與伴侶及兒孫相處融洽，生活愜意。惟健康方面須注意血壓與腸胃，則宜定期檢查；相信多作輕量運動，能保持身心舒泰。</p>
+<p><b>一九四七年丁亥豬年出生</b>：長者運程平順，三合年貴人運強，子孫孝順，家中喜事頻來。惟體力漸遜，則需量力而為；不論生活大小事，都宜放寬心境，安享福澤。</p>
 <h4>每月運程</h4>
 <p><b>農曆一月（壬寅月）</b></p>
 <p>本月為思想學習投資月。</p>
@@ -1490,40 +1504,80 @@ h1{font-size:32px;margin-bottom:10px;line-height:1.3}
 <p>肖豬的你，丁未年三合助力，整體較丙午年為順。惟本年火土燥熱，不論寒熱平命，情緒管理皆為共通課題。吉星雖有逢凶化吉之力，凶星亦潛藏暗湧，穩守本分、量入為出，則來年金水當令時，自有更上一層樓之機。</p>
 </div>
 <div class="footer">
-<p>曆法數據（2027 丁未 · 節氣月干支 · 九宮飛星 · 太歲沖合刑害）由開源曆法庫計算 · 內容由 AI 按蘇民峰文風生成，僅供娛樂參考</p>
+<p>曆法數據（天干地支 · 節氣月干支 · 九宮飛星 · 太歲沖合刑害）由開源曆法庫計算 · 內容由 AI 按蘇民峰文風生成，僅供娛樂參考</p>
+<p>每年運程不同，過往內容只供參考，不應直接抄用</p>
 <p>© 2027 生肖運程生成器 · 非官方產品，與作者無關</p>
 </div>
 </div>
-
 <script>
-const MING={"1930": {"立春": "1930-02-04", "驚蟄": "1930-03-06", "立夏": "1930-05-06", "立秋": "1930-08-08"}, "1931": {"立春": "1931-02-05", "驚蟄": "1931-03-06", "立夏": "1931-05-06", "立秋": "1931-08-08"}, "1932": {"立春": "1932-02-05", "驚蟄": "1932-03-06", "立夏": "1932-05-06", "立秋": "1932-08-08"}, "1933": {"立春": "1933-02-04", "驚蟄": "1933-03-06", "立夏": "1933-05-06", "立秋": "1933-08-08"}, "1934": {"立春": "1934-02-04", "驚蟄": "1934-03-06", "立夏": "1934-05-06", "立秋": "1934-08-08"}, "1935": {"立春": "1935-02-05", "驚蟄": "1935-03-06", "立夏": "1935-05-06", "立秋": "1935-08-08"}, "1936": {"立春": "1936-02-05", "驚蟄": "1936-03-06", "立夏": "1936-05-06", "立秋": "1936-08-08"}, "1937": {"立春": "1937-02-04", "驚蟄": "1937-03-06", "立夏": "1937-05-06", "立秋": "1937-08-08"}, "1938": {"立春": "1938-02-04", "驚蟄": "1938-03-06", "立夏": "1938-05-06", "立秋": "1938-08-08"}, "1939": {"立春": "1939-02-05", "驚蟄": "1939-03-06", "立夏": "1939-05-06", "立秋": "1939-08-08"}, "1940": {"立春": "1940-02-05", "驚蟄": "1940-03-06", "立夏": "1940-05-06", "立秋": "1940-08-08"}, "1941": {"立春": "1941-02-04", "驚蟄": "1941-03-06", "立夏": "1941-05-06", "立秋": "1941-08-08"}, "1942": {"立春": "1942-02-04", "驚蟄": "1942-03-06", "立夏": "1942-05-06", "立秋": "1942-08-08"}, "1943": {"立春": "1943-02-05", "驚蟄": "1943-03-06", "立夏": "1943-05-06", "立秋": "1943-08-08"}, "1944": {"立春": "1944-02-05", "驚蟄": "1944-03-06", "立夏": "1944-05-05", "立秋": "1944-08-08"}, "1945": {"立春": "1945-02-04", "驚蟄": "1945-03-06", "立夏": "1945-05-06", "立秋": "1945-08-08"}, "1946": {"立春": "1946-02-04", "驚蟄": "1946-03-06", "立夏": "1946-05-06", "立秋": "1946-08-08"}, "1947": {"立春": "1947-02-04", "驚蟄": "1947-03-06", "立夏": "1947-05-06", "立秋": "1947-08-08"}, "1948": {"立春": "1948-02-05", "驚蟄": "1948-03-05", "立夏": "1948-05-05", "立秋": "1948-08-07"}, "1949": {"立春": "1949-02-04", "驚蟄": "1949-03-06", "立夏": "1949-05-06", "立秋": "1949-08-08"}, "1950": {"立春": "1950-02-04", "驚蟄": "1950-03-06", "立夏": "1950-05-06", "立秋": "1950-08-08"}, "1951": {"立春": "1951-02-04", "驚蟄": "1951-03-06", "立夏": "1951-05-06", "立秋": "1951-08-08"}, "1952": {"立春": "1952-02-05", "驚蟄": "1952-03-05", "立夏": "1952-05-05", "立秋": "1952-08-07"}, "1953": {"立春": "1953-02-04", "驚蟄": "1953-03-06", "立夏": "1953-05-06", "立秋": "1953-08-08"}, "1954": {"立春": "1954-02-04", "驚蟄": "1954-03-06", "立夏": "1954-05-06", "立秋": "1954-08-08"}, "1955": {"立春": "1955-02-04", "驚蟄": "1955-03-06", "立夏": "1955-05-06", "立秋": "1955-08-08"}, "1956": {"立春": "1956-02-05", "驚蟄": "1956-03-05", "立夏": "1956-05-05", "立秋": "1956-08-07"}, "1957": {"立春": "1957-02-04", "驚蟄": "1957-03-06", "立夏": "1957-05-06", "立秋": "1957-08-08"}, "1958": {"立春": "1958-02-04", "驚蟄": "1958-03-06", "立夏": "1958-05-06", "立秋": "1958-08-08"}, "1959": {"立春": "1959-02-04", "驚蟄": "1959-03-06", "立夏": "1959-05-06", "立秋": "1959-08-08"}, "1960": {"立春": "1960-02-05", "驚蟄": "1960-03-05", "立夏": "1960-05-05", "立秋": "1960-08-07"}, "1961": {"立春": "1961-02-04", "驚蟄": "1961-03-06", "立夏": "1961-05-06", "立秋": "1961-08-08"}, "1962": {"立春": "1962-02-04", "驚蟄": "1962-03-06", "立夏": "1962-05-06", "立秋": "1962-08-08"}, "1963": {"立春": "1963-02-04", "驚蟄": "1963-03-06", "立夏": "1963-05-06", "立秋": "1963-08-08"}, "1964": {"立春": "1964-02-05", "驚蟄": "1964-03-05", "立夏": "1964-05-05", "立秋": "1964-08-07"}, "1965": {"立春": "1965-02-04", "驚蟄": "1965-03-06", "立夏": "1965-05-06", "立秋": "1965-08-08"}, "1966": {"立春": "1966-02-04", "驚蟄": "1966-03-06", "立夏": "1966-05-06", "立秋": "1966-08-08"}, "1967": {"立春": "1967-02-04", "驚蟄": "1967-03-06", "立夏": "1967-05-06", "立秋": "1967-08-08"}, "1968": {"立春": "1968-02-05", "驚蟄": "1968-03-05", "立夏": "1968-05-05", "立秋": "1968-08-07"}, "1969": {"立春": "1969-02-04", "驚蟄": "1969-03-06", "立夏": "1969-05-06", "立秋": "1969-08-08"}, "1970": {"立春": "1970-02-04", "驚蟄": "1970-03-06", "立夏": "1970-05-06", "立秋": "1970-08-08"}, "1971": {"立春": "1971-02-04", "驚蟄": "1971-03-06", "立夏": "1971-05-06", "立秋": "1971-08-08"}, "1972": {"立春": "1972-02-05", "驚蟄": "1972-03-05", "立夏": "1972-05-05", "立秋": "1972-08-07"}, "1973": {"立春": "1973-02-04", "驚蟄": "1973-03-06", "立夏": "1973-05-05", "立秋": "1973-08-08"}, "1974": {"立春": "1974-02-04", "驚蟄": "1974-03-06", "立夏": "1974-05-06", "立秋": "1974-08-08"}, "1975": {"立春": "1975-02-04", "驚蟄": "1975-03-06", "立夏": "1975-05-06", "立秋": "1975-08-08"}, "1976": {"立春": "1976-02-05", "驚蟄": "1976-03-05", "立夏": "1976-05-05", "立秋": "1976-08-07"}, "1977": {"立春": "1977-02-04", "驚蟄": "1977-03-06", "立夏": "1977-05-05", "立秋": "1977-08-07"}, "1978": {"立春": "1978-02-04", "驚蟄": "1978-03-06", "立夏": "1978-05-06", "立秋": "1978-08-08"}, "1979": {"立春": "1979-02-04", "驚蟄": "1979-03-06", "立夏": "1979-05-06", "立秋": "1979-08-08"}, "1980": {"立春": "1980-02-05", "驚蟄": "1980-03-05", "立夏": "1980-05-05", "立秋": "1980-08-07"}, "1981": {"立春": "1981-02-04", "驚蟄": "1981-03-06", "立夏": "1981-05-05", "立秋": "1981-08-07"}, "1982": {"立春": "1982-02-04", "驚蟄": "1982-03-06", "立夏": "1982-05-06", "立秋": "1982-08-08"}, "1983": {"立春": "1983-02-04", "驚蟄": "1983-03-06", "立夏": "1983-05-06", "立秋": "1983-08-08"}, "1984": {"立春": "1984-02-04", "驚蟄": "1984-03-05", "立夏": "1984-05-05", "立秋": "1984-08-07"}, "1985": {"立春": "1985-02-04", "驚蟄": "1985-03-05", "立夏": "1985-05-05", "立秋": "1985-08-07"}, "1986": {"立春": "1986-02-04", "驚蟄": "1986-03-06", "立夏": "1986-05-06", "立秋": "1986-08-08"}, "1987": {"立春": "1987-02-04", "驚蟄": "1987-03-06", "立夏": "1987-05-06", "立秋": "1987-08-08"}, "1988": {"立春": "1988-02-04", "驚蟄": "1988-03-05", "立夏": "1988-05-05", "立秋": "1988-08-07"}, "1989": {"立春": "1989-02-04", "驚蟄": "1989-03-05", "立夏": "1989-05-05", "立秋": "1989-08-07"}, "1990": {"立春": "1990-02-04", "驚蟄": "1990-03-06", "立夏": "1990-05-06", "立秋": "1990-08-08"}, "1991": {"立春": "1991-02-04", "驚蟄": "1991-03-06", "立夏": "1991-05-06", "立秋": "1991-08-08"}, "1992": {"立春": "1992-02-04", "驚蟄": "1992-03-05", "立夏": "1992-05-05", "立秋": "1992-08-07"}, "1993": {"立春": "1993-02-04", "驚蟄": "1993-03-05", "立夏": "1993-05-05", "立秋": "1993-08-07"}, "1994": {"立春": "1994-02-04", "驚蟄": "1994-03-06", "立夏": "1994-05-06", "立秋": "1994-08-08"}, "1995": {"立春": "1995-02-04", "驚蟄": "1995-03-06", "立夏": "1995-05-06", "立秋": "1995-08-08"}, "1996": {"立春": "1996-02-04", "驚蟄": "1996-03-05", "立夏": "1996-05-05", "立秋": "1996-08-07"}, "1997": {"立春": "1997-02-04", "驚蟄": "1997-03-05", "立夏": "1997-05-05", "立秋": "1997-08-07"}, "1998": {"立春": "1998-02-04", "驚蟄": "1998-03-06", "立夏": "1998-05-06", "立秋": "1998-08-08"}, "1999": {"立春": "1999-02-04", "驚蟄": "1999-03-06", "立夏": "1999-05-06", "立秋": "1999-08-08"}, "2000": {"立春": "2000-02-04", "驚蟄": "2000-03-05", "立夏": "2000-05-05", "立秋": "2000-08-07"}, "2001": {"立春": "2001-02-04", "驚蟄": "2001-03-05", "立夏": "2001-05-05", "立秋": "2001-08-07"}, "2002": {"立春": "2002-02-04", "驚蟄": "2002-03-06", "立夏": "2002-05-06", "立秋": "2002-08-08"}, "2003": {"立春": "2003-02-04", "驚蟄": "2003-03-06", "立夏": "2003-05-06", "立秋": "2003-08-08"}, "2004": {"立春": "2004-02-04", "驚蟄": "2004-03-05", "立夏": "2004-05-05", "立秋": "2004-08-07"}, "2005": {"立春": "2005-02-04", "驚蟄": "2005-03-05", "立夏": "2005-05-05", "立秋": "2005-08-07"}, "2006": {"立春": "2006-02-04", "驚蟄": "2006-03-06", "立夏": "2006-05-05", "立秋": "2006-08-07"}, "2007": {"立春": "2007-02-04", "驚蟄": "2007-03-06", "立夏": "2007-05-06", "立秋": "2007-08-08"}, "2008": {"立春": "2008-02-04", "驚蟄": "2008-03-05", "立夏": "2008-05-05", "立秋": "2008-08-07"}, "2009": {"立春": "2009-02-04", "驚蟄": "2009-03-05", "立夏": "2009-05-05", "立秋": "2009-08-07"}, "2010": {"立春": "2010-02-04", "驚蟄": "2010-03-06", "立夏": "2010-05-05", "立秋": "2010-08-07"}, "2011": {"立春": "2011-02-04", "驚蟄": "2011-03-06", "立夏": "2011-05-06", "立秋": "2011-08-08"}, "2012": {"立春": "2012-02-04", "驚蟄": "2012-03-05", "立夏": "2012-05-05", "立秋": "2012-08-07"}, "2013": {"立春": "2013-02-04", "驚蟄": "2013-03-05", "立夏": "2013-05-05", "立秋": "2013-08-07"}, "2014": {"立春": "2014-02-04", "驚蟄": "2014-03-06", "立夏": "2014-05-05", "立秋": "2014-08-07"}, "2015": {"立春": "2015-02-04", "驚蟄": "2015-03-06", "立夏": "2015-05-06", "立秋": "2015-08-08"}, "2016": {"立春": "2016-02-04", "驚蟄": "2016-03-05", "立夏": "2016-05-05", "立秋": "2016-08-07"}, "2017": {"立春": "2017-02-03", "驚蟄": "2017-03-05", "立夏": "2017-05-05", "立秋": "2017-08-07"}, "2018": {"立春": "2018-02-04", "驚蟄": "2018-03-05", "立夏": "2018-05-05", "立秋": "2018-08-07"}, "2019": {"立春": "2019-02-04", "驚蟄": "2019-03-06", "立夏": "2019-05-06", "立秋": "2019-08-08"}, "2020": {"立春": "2020-02-04", "驚蟄": "2020-03-05", "立夏": "2020-05-05", "立秋": "2020-08-07"}, "2021": {"立春": "2021-02-03", "驚蟄": "2021-03-05", "立夏": "2021-05-05", "立秋": "2021-08-07"}, "2022": {"立春": "2022-02-04", "驚蟄": "2022-03-05", "立夏": "2022-05-05", "立秋": "2022-08-07"}, "2023": {"立春": "2023-02-04", "驚蟄": "2023-03-06", "立夏": "2023-05-06", "立秋": "2023-08-08"}, "2024": {"立春": "2024-02-04", "驚蟄": "2024-03-05", "立夏": "2024-05-05", "立秋": "2024-08-07"}, "2025": {"立春": "2025-02-03", "驚蟄": "2025-03-05", "立夏": "2025-05-05", "立秋": "2025-08-07"}, "2026": {"立春": "2026-02-04", "驚蟄": "2026-03-05", "立夏": "2026-05-05", "立秋": "2026-08-07"}, "2027": {"立春": "2027-02-04", "驚蟄": "2027-03-06", "立夏": "2027-05-06", "立秋": "2027-08-08"}, "2028": {"立春": "2028-02-04", "驚蟄": "2028-03-05", "立夏": "2028-05-05", "立秋": "2028-08-07"}, "2029": {"立春": "2029-02-03", "驚蟄": "2029-03-05", "立夏": "2029-05-05", "立秋": "2029-08-07"}, "2030": {"立春": "2030-02-04", "驚蟄": "2030-03-05", "立夏": "2030-05-05", "立秋": "2030-08-07"}, "2031": {"立春": "2031-02-04", "驚蟄": "2031-03-06", "立夏": "2031-05-06", "立秋": "2031-08-08"}, "2032": {"立春": "2032-02-04", "驚蟄": "2032-03-05", "立夏": "2032-05-05", "立秋": "2032-08-07"}, "2033": {"立春": "2033-02-03", "驚蟄": "2033-03-05", "立夏": "2033-05-05", "立秋": "2033-08-07"}, "2034": {"立春": "2034-02-04", "驚蟄": "2034-03-05", "立夏": "2034-05-05", "立秋": "2034-08-07"}, "2035": {"立春": "2035-02-04", "驚蟄": "2035-03-06", "立夏": "2035-05-05", "立秋": "2035-08-07"}};
-function calcMing(){
-  const v=document.getElementById('ming-date').value;
-  if(!v){return;}
-  const [y,m,d]=v.split('-').map(Number);
-  const t=MING[y]||MING[String(y)];
-  if(!t){document.getElementById('ming-result').innerHTML='<p style="color:var(--red)">年份超出範圍（1930-2035）</p>';document.getElementById('ming-result').style.display='block';return;}
-  const date=v;
-  let ming_='',seas='';
-  if(date>=t['立秋']){ming_='寒命人';seas='立秋後（8/8）至翌年驚蟄前（3/6）出生';}
-  else if(date>=t['立夏']){ming_='熱命人';seas='立夏後（5/6）至立秋前（8/8）出生';}
-  else if(date>=t['驚蟄']){ming_='平命人';seas='驚蟄後（3/6）至立夏前（5/6）出生';}
-  else{ming_='寒命人';seas='上年立秋後（8/8）至今年驚蟄前（3/6）出生';}
-  const detail={
-    '寒命人':['喜用：木火','利方位：東、南方','利顏色：青、綠、紅、橙、紫','2027 丁未大火年 —— 對你特別有利，可以放膽嘗試，尤其 2025-2027 連續三年為大火年，屬寒命人最當旺嘅時期。'],
-    '熱命人':['喜用：金水','利方位：西、北方','利顏色：白、金、銀、黑、灰、藍','2027 火土之年偏燥 —— 對你唔算有利，宜守靜，待 2028 秋後才可進攻。'],
-    '平命人':['喜用：木火土金水皆可為用，然金水較佳','利方位：視五行配合','利顏色：白、金、銀、黑、灰、藍較佳','2027 中規中矩 —— 無大起亦無大落，穩中求進即可。']
-  }[ming_];
-  const season=[
-    ['寒命人','var(--teal)'],['熱命人','var(--orange)'],['平命人','var(--accent)']
-  ].find(x=>x[0]===ming_);
-  document.getElementById('ming-result').innerHTML=
-    '<div class="info-item" style="margin-bottom:10px"><div class="k">你係</div><div class="v" style="font-size:22px;font-weight:700;color:'+season[1]+'">'+ming_+'</div><div class="k" style="margin-top:6px">'+seas+'</div></div>'+
-    '<div class="info-grid">'+detail.map(x=>'<div class="info-item"><div class="v">'+x+'</div></div>').join('')+'</div>';
-  document.getElementById('ming-result').style.display='block';
+const STAR_DATA={
+  1:{name:'一白貪狼',el:'水',type:'auspicious',remedy:'宜放水種植物或風車，催旺桃花人緣'},
+  2:{name:'二黑廉貞',el:'土',type:'danger',remedy:'宜放銅葫蘆或六帝銅錢，化病消災'},
+  3:{name:'三碧祿存',el:'木',type:'inauspicious',remedy:'宜放紅色物品（如紫水晶），化解是非'},
+  4:{name:'四綠文曲',el:'木',type:'auspicious',remedy:'宜放文昌塔或四枝富貴竹，催旺學業'},
+  5:{name:'五黃廉貞',el:'土',type:'danger',remedy:'宜放銅風鈴或六帝銅錢，化五黃煞'},
+  6:{name:'六白武曲',el:'金',type:'auspicious',remedy:'宜放招財物品如貔貅，催旺偏財'},
+  7:{name:'七赤破軍',el:'金',type:'inauspicious',remedy:'宜放水種植物或藍色物品，化洩盜賊'},
+  8:{name:'八白左輔',el:'土',type:'auspicious',remedy:'宜放發光物品或紅色擺設，催旺正財'},
+  9:{name:'九紫右弼',el:'火',type:'auspicious',remedy:'宜放紅色或紫色物品，催旺喜慶'}
+};
+const LUOSHU=[[4,9,2],[3,5,7],[8,1,6]];
+const COMPASS=[['SE (巽)','S (離)','SW (坤)'],['E (震)','中宮','W (兌)'],['NE (艮)','N (坎)','NW (乾)']];
+function centerStar(y){let c=3-((y-2024)%9);if(c<=0)c+=9;return c}
+function getGrid(c){return LUOSHU.map(r=>r.map(v=>((v-5+c-1)%9)+1))}
+function renderFly(){
+  const y=+document.getElementById('fly-year').value;
+  const c=centerStar(y),g=getGrid(c);
+  const el=document.getElementById('fly-grid');el.innerHTML='';
+  g.forEach((row,ri)=>row.forEach((s,ci)=>{
+    const d=STAR_DATA[s];
+    const cell=document.createElement('div');
+    cell.className='fly-cell '+d.type+(ri===1&&ci===1?' center':'');
+    cell.innerHTML='<div class="star-num">'+s+'</div><div class="star-info">'+d.name+' ('+d.el+')</div><div class="star-remedy">'+d.remedy+'</div>';
+    el.appendChild(cell);
+  }));
+  document.getElementById('fly-label').textContent=y+'年九宮飛星（'+STAR_DATA[c].name+'入中）';
+  document.getElementById('fly-year-title').textContent=y;
 }
-calcMing();
-</script>
 
+const ANIMALS=['鼠','牛','虎','兔','龍','蛇','馬','羊','猴','雞','狗','豬'];
+const BRANCHES=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+const A2B={};ANIMALS.forEach((a,i)=>{A2B[a]=BRANCHES[i]});
+const TAISUI={
+  2024:{b:'辰',z:'龍',clash:'狗',punish:'龍（自刑）',harm:'兔',dest:'牛'},
+  2025:{b:'巳',z:'蛇',clash:'豬',punish:'猴',harm:'虎',dest:'猴'},
+  2026:{b:'午',z:'馬',clash:'鼠',punish:'馬（自刑）',harm:'牛',dest:'兔'},
+  2027:{b:'未',z:'羊',clash:'牛',punish:'狗',harm:'鼠',dest:'狗'},
+  2028:{b:'申',z:'猴',clash:'虎',punish:'蛇',harm:'豬',dest:'蛇'},
+  2029:{b:'酉',z:'雞',clash:'兔',punish:'雞（自刑）',harm:'狗',dest:'鼠'},
+  2030:{b:'戌',z:'狗',clash:'龍',punish:'牛',harm:'雞',dest:'羊'}
+};
+const TS_REMEDIES={
+  '值':'拜太歲、穿紅內衣或紅繩、佩戴化太歲飾物、避免探病問喪',
+  '沖':'拜太歲、不宜動土遷居、出行注意安全、隨身攜帶平安符',
+  '刑':'拜太歲、避免訴訟官非、注意言辭、慎防口舌是非',
+  '害':'拜太歲、防小人暗害、注意飲食健康、慎交友',
+  '破':'拜太歲、慎防破財、不宜冒險投資、保守理財'
+};
+function renderTS(){
+  const y=+document.getElementById('ts-year').value;
+  const z=document.getElementById('ts-zodiac').value;
+  const ts=TAISUI[y];if(!ts)return;
+  const r=document.getElementById('ts-result');r.style.display='block';
+  let type,label,detail;
+  if(z===ts.z){type='值太歲';label='值';detail=y+'年歲次'+ts.b+'，屬'+z+'為值太歲（本命年），運程起伏較大。'}
+  else if(z===ts.clash){type='沖太歲';label='沖';detail='屬'+z+'與太歲'+ts.z+'相沖（'+A2B[z]+'沖'+ts.b+'），主動求變則吉，被動應變則滯。'}
+  else if(z===ts.punish.replace(/（自刑）/,'')){type='刑太歲';label='刑';detail='屬'+z+'遭遇刑太歲，易惹官非口舌，宜守不宜攻。'}
+  else if(z===ts.harm){type='害太歲';label='害';detail='屬'+z+'與太歲'+ts.z+'相害，防小人暗害，注意健康。'}
+  else if(z===ts.dest){type='破太歲';label='破';detail='屬'+z+'與太歲'+ts.z+'相破，慎防破財，保守理財。'}
+  else{type='無犯太歲';label='-';detail='屬'+z+'今年無犯太歲，運程相對平穩，宜把握機遇。'}
+  const cls=label==='-'?'normal':'tai';
+  r.innerHTML='<div class="ts-rel"><span class="badge '+cls+'">'+type+'</span> '+detail+'</div>'
+    +'<div class="ts-remedy"><b>化解建議：</b>'+(TS_REMEDIES[label]||'保持心態平和，多行善事，佩戴平安飾物。')+'</div>';
+}
+
+renderFly();
+renderTS();
+</script>
 </body>
 </html>
