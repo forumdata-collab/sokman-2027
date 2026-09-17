@@ -3,6 +3,16 @@
 All notable changes will be documented in this file.
 Format based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [1.2.0] - 2026-09-18
+### Added
+- **兔年 OCR 備份**：`rabbit-2023-ocr-backup.tar.gz`（蘇民峰《癸卯兔年運程》362頁掃描 OCR 文字 + 關鍵原圖，SHA256 `996b07884ed16d031b3cf51a0c735a903a058e8f692f65b5bf24a348e7f43e78`）。
+- **蘇氏知識庫**：`knowledge_base.json`（九宮化解／犯太歲飾物／熱平寒 標準答案，由書 OCR + 官方網站提取）。
+- **認證系統**：`verify_su_rules.py`（以書內容自動驗證網站資料之推理引擎）。
+
+### Changed
+- **熱平寒定義修正**（重要）：依蘇民峰官方定義（masterso.com）——寒命＝立秋後至驚蟄前（跨年），熱命＝立夏後至立秋前，平命＝驚蟄後至立夏前（清明前較平／清明後較熱之平命）。喜用：寒命喜火（木生火）、熱命喜水（金生水）、平命喜水不忌火。修正計算器邏輯及 content/鼠.md 括號標籤。
+- 每月運程飛星序列修正（2027月紫白：正月五黃逆布）。
+
 ## [1.1.0] - 2026-09-17
 ### Added
 - 九宮飛星互動圖：年份選單（2024–2030），即時顯示當年飛星分佈、星曜屬性及化解方法（吉星催旺／凶星化解）。
