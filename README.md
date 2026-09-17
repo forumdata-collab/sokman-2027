@@ -10,7 +10,7 @@
 
 ```
    📖 原書（癸卯兔年運程等曆書）
-        │  OCR + 精讀
+        │  研讀與整理
         ▼
    🧠 knowledge_base.json（蘇氏推理規則庫）
         │  五行生剋推演引擎
@@ -118,8 +118,6 @@ python3 audit_logic_su.py
 ├── audit_logic_su.py             # 【認證】推理書證引擎（A-D）
 ├── verify_su_rules.py            # 【認證】網站資料與知識庫一致性
 ├── chapter_index.json            # 跨年章節索引（曆法客觀數據）
-├── rabbit-2023-ocr-backup.tar.gz # 原書 OCR 備份（文字＋關鍵原圖，SHA256 見 CHANGELOG）
-├── sokman-2027-ocr-backup.tar.gz # 歷年書 OCR 備份
 ├── CHANGELOG.md                  # 版本歷程
 ├── SECURITY.md                   # 安全政策
 └── LICENSE                       # MIT

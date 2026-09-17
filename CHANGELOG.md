@@ -15,8 +15,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [1.2.0] - 2026-09-18
 ### Added
-- **兔年 OCR 備份**：`rabbit-2023-ocr-backup.tar.gz`（蘇民峰《癸卯兔年運程》362頁掃描 OCR 文字 + 關鍵原圖，SHA256 `996b07884ed16d031b3cf51a0c735a903a058e8f692f65b5bf24a348e7f43e78`）。
-- **蘇氏知識庫**：`knowledge_base.json`（九宮化解／犯太歲飾物／熱平寒 標準答案，由書 OCR + 官方網站提取）。
+- **蘇氏知識庫**：`knowledge_base.json`（九宮化解／犯太歲飾物／熱平寒 標準答案，由曆書內容整理）。
 - **認證系統**：`verify_su_rules.py`（以書內容自動驗證網站資料之推理引擎）。
 
 ### Changed
@@ -27,7 +26,6 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 ### Added
 - 九宮飛星互動圖：年份選單（2024–2030），即時顯示當年飛星分佈、星曜屬性及化解方法（吉星催旺／凶星化解）。
 - 犯太歲速查專欄：年份 + 生肖雙選單，即時顯示值／沖／刑／害／破太歲關係及化解建議。
-- OCR 原文備份：`sokman-2027-ocr-backup.tar.gz`（蘇民峰曆書 2022/2024/2025/2026 掃描 OCR 文字，SHA256 `68d7c3163e4ee7ca324b96d5b1bdc721ad562157ed7e09cc2aebc56b23e93b46`）。
 
 ### Changed
 - 免責聲明強化：明確指出每年運程不同，過往內容只供參考，不應直接抄用。

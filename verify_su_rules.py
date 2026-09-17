@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""蘇氏答案認證系統：以書內容（OCR）驗證網站展示的九宮化解/犯太歲飾物/熱平寒。
+"""蘇氏答案認證系統：以曆書內容驗證網站展示的九宮化解/犯太歲飾物/熱平寒。
 
 推理流程：
-1. 從 OCR 文字檔提取書中關鍵片段（證據）
+1. 從曆書文字紀錄提取關鍵片段（證據）
 2. 以 knowledge_base.json（蘇氏規則引擎）為標準答案
 3. 對照 build_site.py / index.html 的展示資料
 4. 輸出 ✅/⚠️/❌ 認證報告
@@ -12,22 +12,22 @@ import pathlib
 import re
 
 ROOT = pathlib.Path("/home/ubuntu/sokman-2027")
-OCR_DIR = ROOT / "ocr" / "rabbit_2023"
+LITERATURE_DIR = ROOT / "literature" / "rabbit_2023"
 KB_PATH = ROOT / "knowledge_base.json"
 CONTENT_DIR = ROOT / "content"
 
 STAR_NAMES = ["一白", "二黑", "三碧", "四綠", "五黃", "六白", "七赤", "八白", "九紫"]
 
 def ocr_text():
-    """全部 OCR 文字檔合併。"""
+    """全部曆書文字檔合併。"""
     parts = []
-    if OCR_DIR.exists():
-        for f in sorted(OCR_DIR.glob("*.txt")):
+    if LITERATURE_DIR.exists():
+        for f in sorted(LITERATURE_DIR.glob("*.txt")):
             parts.append(f.read_text(encoding="utf-8", errors="ignore"))
     return "\n".join(parts)
 
 def evidence(text, keywords, window=60):
-    """在 OCR 文字中尋找同時含多個關鍵字的片段。"""
+    """在曆書文字中尋找同時含多個關鍵字的片段。"""
     hits = []
     for kw in keywords:
         for m in re.finditer(re.escape(kw), text):
@@ -141,7 +141,7 @@ def verify_大門地氈(kb, y=2027):
 def main():
     kb = json.loads(KB_PATH.read_text(encoding="utf-8"))
     text = ocr_text()
-    print(f"OCR 文字總長: {len(text)} 字元, 來自 {len(list(OCR_DIR.glob('*.txt')))} 個檔案")
+    print(f"曆書文字總長: {len(text)} 字元, 來自 {len(list(LITERATURE_DIR.glob('*.txt')))} 個檔案")
 
     # 從網站 build_site.py 提取 live STAR_DATA remedies
     live_remedies = {}
