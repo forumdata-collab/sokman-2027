@@ -14,6 +14,26 @@ ZODIAC_EN = {
     "鼠":"Rat","牛":"Ox","虎":"Tiger","兔":"Rabbit","龍":"Dragon","蛇":"Snake",
     "馬":"Horse","羊":"Goat","猴":"Monkey","雞":"Rooster","狗":"Dog","豬":"Pig",
 }
+YEARS = [2024, 2025, 2026, 2027, 2028, 2029, 2030]
+YEAR_CN = {2024:"甲辰", 2025:"乙巳", 2026:"丙午", 2027:"丁未", 2028:"戊申", 2029:"己酉", 2030:"庚戌"}
+
+def year_options(selected=2027):
+    return "\n".join(
+        f'<option value="{y}"{" selected" if y == selected else ""}>{y} {YEAR_CN[y]}年</option>'
+        for y in YEARS
+    )
+
+TOOL_SECTIONS = [("飛星","✦ 九宮飛星"),("犯太歲","⚡ 犯太歲速查"),("mingcalc","🔥 寒熱平命"),("大門地氈","🧭 大門地氈")]
+
+def quick_index():
+    lines = ['<div class="quick-index">', '<span class="qi-label">快速索引</span>']
+    for anchor, label in TOOL_SECTIONS:
+        lines.append(f'<a href="#{anchor}">{label}</a>')
+    lines.append('<span class="qi-label" style="margin-left:6px">生肖</span>')
+    for z in ZODIAC_ORDER:
+        lines.append(f'<a href="#{z}">{z}</a>')
+    lines.append('</div>')
+    return "\n".join(lines)
 
 
 def md_to_html(md):
@@ -73,6 +93,8 @@ def build():
 <div class="year-card"><div class="y">西南</div><div class="g">太歲方位</div><div class="s">歲破在東北</div></div>
 <div class="year-card"><div class="y">2022-27</div><div class="g">木火流年</div><div class="s">利寒命人</div></div>
 </div>
+
+""" + quick_index() + """
 """
 
     fly_section = """
@@ -83,13 +105,7 @@ def build():
 <div class="fly-controls">
 <label>選擇年份：</label>
 <select id="fly-year" onchange="renderFly()">
-<option value="2024">2024 甲辰年</option>
-<option value="2025">2025 乙巳年</option>
-<option value="2026">2026 丙午年</option>
-<option value="2027" selected>2027 丁未年</option>
-<option value="2028">2028 戊申年</option>
-<option value="2029">2029 己酉年</option>
-<option value="2030">2030 庚戌年</option>
+""" + year_options(2027) + """
 </select>
 </div>
 <div class="fly-year-label" id="fly-label"></div>
@@ -106,13 +122,7 @@ def build():
 <div class="ts-controls">
 <label>年份：</label>
 <select id="ts-year" onchange="renderTS()">
-<option value="2024">2024 甲辰年</option>
-<option value="2025">2025 乙巳年</option>
-<option value="2026">2026 丙午年</option>
-<option value="2027" selected>2027 丁未年</option>
-<option value="2028">2028 戊申年</option>
-<option value="2029">2029 己酉年</option>
-<option value="2030">2030 庚戌年</option>
+""" + year_options(2027) + """
 </select>
 <label>生肖：</label>
 <select id="ts-zodiac" onchange="renderTS()">
@@ -148,13 +158,7 @@ def build():
 <div class="ts-controls">
 <label>年份：</label>
 <select id="door-year" onchange="renderDoor()">
-<option value="2024">2024 甲辰年</option>
-<option value="2025">2025 乙巳年</option>
-<option value="2026">2026 丙午年</option>
-<option value="2027" selected>2027 丁未年</option>
-<option value="2028">2028 戊申年</option>
-<option value="2029">2029 己酉年</option>
-<option value="2030">2030 庚戌年</option>
+""" + year_options(2027) + """
 </select>
 <label>大門開向：</label>
 <select id="door-dir" onchange="renderDoor()">
@@ -169,10 +173,6 @@ def build():
 </div>
 """
 
-    toc_lines = []
-    for z in ZODIAC_ORDER:
-        toc_lines.append(f'<a href="#{z}">{z} · {ZODIAC_EN[z]}</a>')
-    toc = '<div class="toc">\n' + "\n".join(toc_lines) + "\n</div>\n"
     toggle = '<div class="toggle-all"><button onclick="toggleAll(true)">全部展開</button><button onclick="toggleAll(false)">全部收縮</button></div>\n'
 
     badges = {
@@ -196,6 +196,7 @@ def build():
 <p>每年運程不同，過往內容只供參考，不應直接抄用</p>
 <p>© 2027 生肖運程生成器 · 非官方產品，與作者無關</p>
 </div>
+<button id="toTop" aria-label="返回頂部">↑</button>
 </div>
 <script>""" + js + """
 renderFly();
@@ -206,7 +207,7 @@ renderDoor();
 </body>
 </html>"""
 
-    OUT.write_text(hero + fly_section + ts_section + ming_section + door_section + toc + toggle + "\n".join(body) + footer, encoding="utf-8")
+    OUT.write_text(hero + fly_section + ts_section + ming_section + door_section + toggle + "\n".join(body) + footer, encoding="utf-8")
     print(f"OK index.html: {OUT.stat().st_size/1024:.0f} KB, {len(body)} 生肖")
 
 

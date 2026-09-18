@@ -13,19 +13,25 @@ const STAR_DATA={
 };
 const LUOSHU=[[4,9,2],[3,5,7],[8,1,6]];
 const COMPASS=[['東南 (SE)','南 (S)','西南 (SW)'],['東 (E)','中宮','西 (W)'],['東北 (NE)','北 (N)','西北 (NW)']];
+const DIRS_CN=['東南','南','西南','東','中宮','西','東北','北','西北'];
 function centerStar(y){let c=3-((y-2024)%9);if(c<=0)c+=9;return c}
 function getGrid(c){return LUOSHU.map(r=>r.map(v=>(((v+c-6)%9+9)%9)+1))}
-function renderFly(){
-  const y=+document.getElementById('fly-year').value;
-  const c=centerStar(y),g=getGrid(c);
-  const el=document.getElementById('fly-grid');el.innerHTML='';
+/* 九宮格渲染共用（renderFly / renderDoor 用同一套 cell 結構） */
+function fillGrid(gridEl,g,labels,centerRC,withRemedy){
+  gridEl.innerHTML='';
   g.forEach((row,ri)=>row.forEach((s,ci)=>{
     const d=STAR_DATA[s];
     const cell=document.createElement('div');
-    cell.className='fly-cell '+d.type+(ri===1&&ci===1?' center':'');
-    cell.innerHTML='<div class="fly-compass">'+COMPASS[ri][ci]+'</div><div class="star-num">'+s+'</div><div class="star-info">'+d.name+' ('+d.el+') · '+d.label+'</div><div class="star-remedy">'+d.remedy+'</div>';
-    el.appendChild(cell);
+    const isCenter=centerRC&&centerRC[0]===ri&&centerRC[1]===ci;
+    cell.className='fly-cell '+d.type+(isCenter?' center':'');
+    cell.innerHTML='<div class="fly-compass">'+labels[ri*3+ci]+'</div><div class="star-num">'+s+'</div><div class="star-info">'+d.name+' ('+d.el+') · '+d.label+'</div>'+(withRemedy?'<div class="star-remedy">'+d.remedy+'</div>':'');
+    gridEl.appendChild(cell);
   }));
+}
+function renderFly(){
+  const y=+document.getElementById('fly-year').value;
+  const c=centerStar(y),g=getGrid(c);
+  fillGrid(document.getElementById('fly-grid'),g,COMPASS.flat(),null,true);
   document.getElementById('fly-label').textContent=y+'年九宮飛星（'+STAR_DATA[c].name+'入中）';
   document.getElementById('fly-dir').textContent='上南（離）下北（坎）· 左東右西 · 洛書戴九履一';
 }
@@ -85,15 +91,14 @@ function calcMing(){
   const v=document.getElementById('ming-date').value;
   if(!v){return;}
   const [y,m,d]=v.split('-').map(Number);
-  const t=MING[y]||MING[String(y)];
+  const t=MING[y];
   if(!t){document.getElementById('ming-result').innerHTML='<p style="color:var(--red)">年份超出範圍（1930-2035）</p>';document.getElementById('ming-result').style.display='block';return;}
-  const date=v;
   let ming_='',seas='';
   // 蘇民峰官方定義（masterso.com 原文）：
   // 寒命 = 立秋(8/8)後 ~ 驚蟄(3/6)前（跨年）；熱命 = 立夏(5/6)後 ~ 立秋前；平命 = 驚蟄後 ~ 立夏前（清明前較平，清明後較熱之平命）
-  if(date>=t['立秋']||date<t['驚蟄']){ming_='寒命人';seas='立秋後（8/8）至翌年驚蟄前（3/6）出生——全年最長時段（秋、冬、早春）';}
-  else if(date>=t['立夏']&&date<t['立秋']){ming_='熱命人';seas='立夏後（5/6）至立秋前（8/8）出生（夏天）';}
-  else if(date>=t['清明']){ming_='平命人';seas='清明後（4/5）至立夏前（5/6）出生——較熱之平命';}
+  if(v>=t['立秋']||v<t['驚蟄']){ming_='寒命人';seas='立秋後（8/8）至翌年驚蟄前（3/6）出生——全年最長時段（秋、冬、早春）';}
+  else if(v>=t['立夏']&&v<t['立秋']){ming_='熱命人';seas='立夏後（5/6）至立秋前（8/8）出生（夏天）';}
+  else if(v>=t['清明']){ming_='平命人';seas='清明後（4/5）至立夏前（5/6）出生——較熱之平命';}
   else{ming_='平命人';seas='驚蟄後（3/6）至清明前（4/5）出生——較平命';}
   // 定理：寒命喜火（木生火）、熱命喜水（金生水）、平命喜水不忌火，以水運較佳（土為平：帶水濕土、帶火乾土）
   const detail={
@@ -110,16 +115,17 @@ function calcMing(){
 }
 
 /* ── 大門地氈（蘇民峰旺宅化病法：每年飛星方位→地氈色/化解物，通用推理體系）── */
-const DOOR_REQUIRE = { /* 星 → 大門開向該星方位時的地氈處理 */
-  1:{star:'一白貪狼',lab:'桃花位',treat:'催桃花：門外放粉紅色地氈；已婚防桃花劫：門內放灰色或藍色地氈洩之'},
-  2:{star:'二黑巨門',lab:'細病位',treat:'門內放灰色地氈，地氈底放金屬物件（金泄土），化病星'},
-  3:{star:'三碧祿存',lab:'爭鬥位',treat:'門內外放粉紅色地氈（火泄木），化解是非'},
-  4:{star:'四綠文曲',lab:'文昌位',treat:'門內放灰色地氈，並在門內外放綠色布或一杯水，催旺文昌'},
-  5:{star:'五黃廉貞',lab:'大病位',treat:'門內灰色地氈＋屋內金屬物件＋掛風鈴＋門旁音樂盒（金泄土），化五黃煞'},
-  6:{star:'六白武曲',lab:'武曲位',treat:'門外放黃或啡色地氈（土生金）＋門內灰色地氈，利武職財運升遷'},
-  7:{star:'七赤破軍',lab:'破軍位',treat:'門內放灰色地氈引財（金生水），或門旁放一杯水洩金煞'},
-  8:{star:'八白左輔',lab:'財位',treat:'門外放紅色地氈（火生土），催旺財星'},
-  9:{star:'九紫右弼',lab:'喜慶位',treat:'室外放綠色地氈（木生火），催旺喜慶桃花'}
+/* 星名/屬性/稱呼由 STAR_DATA 提供，這裡只保留地氈處理（避免重複資料） */
+const DOOR_REQUIRE = {
+  1:{treat:'催桃花：門外放粉紅色地氈；已婚防桃花劫：門內放灰色或藍色地氈洩之'},
+  2:{treat:'門內放灰色地氈，地氈底放金屬物件（金泄土），化病星'},
+  3:{treat:'門內外放粉紅色地氈（火泄木），化解是非'},
+  4:{treat:'門內放灰色地氈，並在門內外放綠色布或一杯水，催旺文昌'},
+  5:{treat:'門內灰色地氈＋屋內金屬物件＋掛風鈴＋門旁音樂盒（金泄土），化五黃煞'},
+  6:{treat:'門外放黃或啡色地氈（土生金）＋門內灰色地氈，利武職財運升遷'},
+  7:{treat:'門內放灰色地氈引財（金生水），或門旁放一杯水洩金煞'},
+  8:{treat:'門外放紅色地氈（火生土），催旺財星'},
+  9:{treat:'室外放綠色地氈（木生火），催旺喜慶桃花'}
 };
 function renderDoor(){
   const y=+document.getElementById('door-year').value;
@@ -128,22 +134,31 @@ function renderDoor(){
   const pos={東南:[0,0],南:[0,1],西南:[0,2],東:[1,0],中宮:[1,1],西:[1,2],東北:[2,0],北:[2,1],西北:[2,2]}[d];
   if(!pos)return;
   const star=g[pos[0]][pos[1]];
+  const info=STAR_DATA[star];
   const r=DOOR_REQUIRE[star];
   const el=document.getElementById('door-result');
   el.style.display='block';
   const ausp=star===8||star===9||star===4||star===6||star===1;
-  el.innerHTML='<div class="ts-rel"><span class="badge '+(ausp?'he':'tai')+'">'+y+'年'+d+'：'+r.star+'（'+r.lab+'）</span></div>'
-    +'<div class="ts-remedy" style="color:var(--text);font-size:14px;line-height:1.8">大門開在'+d+'，今年該方位飛入'+r.star+'（'+r.lab+'）。<br><b style="color:var(--orange)">蘇民峰化解法：</b>'+r.treat+'</div>'
+  el.innerHTML='<div class="ts-rel"><span class="badge '+(ausp?'he':'tai')+'">'+y+'年'+d+'：'+info.name+'（'+info.label+'）</span></div>'
+    +'<div class="ts-remedy" style="color:var(--text);font-size:14px;line-height:1.8">大門開在'+d+'，今年該方位飛入'+info.name+'（'+info.label+'）。<br><b style="color:var(--orange)">蘇民峰化解法：</b>'+r.treat+'</div>'
     +'<div class="ts-remedy" style="font-size:12px;color:var(--dim)">※ 依蘇民峰「大門地氈顏色旺宅化病方法」（通用推理體系，已按所選年份飛星方位即時推算）。</div>';
-  const gridEl=document.getElementById('door-grid');gridEl.innerHTML='';
-  g.forEach((row,ri)=>row.forEach((s,ci)=>{
-    const cell=document.createElement('div');
-    cell.className='fly-cell '+(ri===pos[0]&&ci===pos[1]?'center':'');
-    cell.innerHTML='<div class="fly-compass">'+['東南','南','西南','東','中宮','西','東北','北','西北'][ri*3+ci]+'</div><div class="star-num">'+s+'</div><div class="star-info">'+DOOR_REQUIRE[s].star+'</div>';
-    gridEl.appendChild(cell);
-  }));
+  fillGrid(document.getElementById('door-grid'),g,DIRS_CN,pos,false);
   document.getElementById('door-label').textContent=y+'年大門地氈法（'+STAR_DATA[c].name+'入中）';
 }
 
 /* ── 生肖收折 ── */
 function toggleAll(open){document.querySelectorAll('details.zodiac-sec').forEach(d=>{open?d.setAttribute('open',''):d.removeAttribute('open')})}
+
+/* ── 返回頂部 ── */
+(function(){
+  var btn=document.getElementById('toTop');
+  if(!btn)return;
+  var onScroll=function(){
+    btn.classList.toggle('show',(window.pageYOffset||document.documentElement.scrollTop)>400);
+  };
+  window.addEventListener('scroll',onScroll,{passive:true});
+  btn.addEventListener('click',function(){
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+  onScroll();
+})();
