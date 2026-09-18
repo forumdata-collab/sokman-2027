@@ -164,7 +164,7 @@ function toggleAll(open){document.querySelectorAll('details.zodiac-sec').forEach
 })();
 
 /* ── AR 方位模式（鏡頭 + 指南針：指向方位即見該方位之星／流年／化解）── */
-var AR={on:false,stream:null,heading:0,raf:0,hasSensor:false,raw:null,lastMove:0,mode:'manual',gps:null,gpsHeading:null};
+var AR={on:false,stream:null,heading:0,raf:0,hasSensor:false,raw:null,lastMove:0,mode:'manual',gps:null,gpsHeading:null,samples:[]};
 var AR_DIRS=['北','東北','東','東南','南','西南','西','西北'];
 var AR_POS={東南:[0,0],南:[0,1],西南:[0,2],東:[1,0],中宮:[1,1],西:[1,2],東北:[2,0],北:[2,1],西北:[2,2]};
 var AR_OFF={北:0,東北:45,東:90,東南:135,南:180,西南:225,西:270,西北:315};
@@ -190,6 +190,11 @@ function arSensorCb(e){
   if('ondeviceorientationabsolute' in window&&e.type==='deviceorientation')return;
   var h=arHeadingFromEvent(e);
   if(AR.hasManual){arUpdateDebug();return;}   // 手動 override 中，唔好畀 sensor 覆蓋
+  // median filter：閃爍（南北跳180°）會被當 noise 剔除
+  AR.samples.push(h);
+  if(AR.samples.length>5)AR.samples.shift();
+  var sorted=AR.samples.slice().sort(function(a,b){return a-b});
+  h=sorted[Math.floor(sorted.length/2)];
   if(Math.abs(h-AR.heading)>=2)AR.lastMove=Date.now();   // 有實際轉動先更新 lastMove
   AR.heading=h;AR.hasSensor=true;AR.mode='sensor';
   arUpdateSensor();arUpdateDebug();
@@ -204,7 +209,8 @@ function arUpdateSensor(){
   }else if(AR.hasSensor){
     el.textContent='✓ 感應器連接中';el.className='ar-sensor on';
   }else{
-    el.textContent='⚠ 感應器未連接，請用手動滑桿';el.className='ar-sensor';
+    el.textContent='⚠ 無感應器訊號（Brave/私隱模式需允許 Motion & Orientation 權限）';
+    el.className='ar-sensor';
   }
 }
 function arToggleDebug(){
@@ -314,11 +320,9 @@ function startAR(){
   // 指南針權限（iOS 13+）／感應器
   var perm=window.DeviceOrientationEvent&&window.DeviceOrientationEvent.requestPermission;
   var after=function(){
-    // AR.js 策略：優先 deviceorientationabsolute（iOS 13+/Chrome Android），無則 fallback deviceorientation
+    // AR.js 策略：只聽一個事件（deviceorientationabsolute 優先），避免雙源互相覆蓋
     var evtName=('ondeviceorientationabsolute' in window)?'deviceorientationabsolute':'deviceorientation';
     window.addEventListener(evtName,arSensorCb);
-    // backup: 若 absolute 冇出，聽普通版本（某舊機）
-    window.addEventListener('deviceorientation',arSensorCb);
     AR.raf=requestAnimationFrame(arDraw);
   };
   if(perm){
