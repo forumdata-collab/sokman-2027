@@ -169,11 +169,28 @@ var AR_DIRS=['北','東北','東','東南','南','西南','西','西北'];
 var AR_POS={東南:[0,0],南:[0,1],西南:[0,2],東:[1,0],中宮:[1,1],西:[1,2],東北:[2,0],北:[2,1],西北:[2,2]};
 var AR_OFF={北:0,東北:45,東:90,東南:135,南:180,西南:225,西:270,西北:315};
 function arHeadingFromEvent(e){
-  if(typeof e.webkitCompassHeading==='number')return e.webkitCompassHeading;   // iOS
-  if(typeof e.alpha==='number')return ((360-e.alpha)%360+360)%360;           // Android（平放近似）
-  return AR.heading;
+  // iOS：webkitCompassHeading 直接俾指南針方位，最準
+  if(typeof e.webkitCompassHeading==='number')return e.webkitCompassHeading;
+  if(typeof e.alpha!=='number')return AR.heading;
+  var D=Math.PI/180;
+  var alpha=e.alpha,beta=e.beta||0,gamma=e.gamma||0;
+  // 平放（|beta|<30°）：alpha 即方位（Android 反轉）
+  if(Math.abs(beta)<30)return((360-alpha)%360+360)%360;
+  // 直立/傾斜：AR.js gps-camera _computeCompassHeading（Chrome 官方 compass demo 公式）
+  var a=alpha*D,b=beta*D,g=gamma*D;
+  var cA=Math.cos(a),sA=Math.sin(a),sB=Math.sin(b),cG=Math.cos(g),sG=Math.sin(g);
+  var rA=-cA*sG-sA*sB*cG;
+  var rB=-sA*sG+cA*sB*cG;
+  var h=Math.atan2(rA,rB)/D;   // 弧度→度：÷D = ×(180/π)
+  return h<0?h+360:h;
 }
-function arSensorCb(e){AR.heading=arHeadingFromEvent(e);AR.hasSensor=true;}
+function arSensorCb(e){AR.heading=arHeadingFromEvent(e);AR.hasSensor=true;arUpdateSensor();}
+function arUpdateSensor(){
+  var el=document.getElementById('ar-sensor');
+  if(!el)return;
+  if(AR.hasSensor){el.textContent='✓ 感應器連接中';el.className='ar-sensor on';}
+  else{el.textContent='⚠ 感應器未連接，請用手動滑桿';el.className='ar-sensor';}
+}
 function arSector(h){return Math.round((((h%360)+360)%360)/45)%8;}
 function arDraw(){
   if(!AR.on)return;
