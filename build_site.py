@@ -100,7 +100,7 @@ def build():
     fly_section = """
 <div class="section" id="飛星">
 <div class="section-title"><span class="zodiac-icon">✦</span><span>九宮飛星互動圖</span></div>
-<p style="font-size:13.5px;color:var(--dim);margin-bottom:10px">選擇年份查看當年九宮飛星分佈及化解方法。吉星宜催旺，凶星宜化解。<br>化解物品依照蘇民峰體系（見蘇民峰《生肖運程》曆書九宮飛星篇）：凶星以音樂盒（金屬發聲泄土）化二黑五黃，粉紅色物件泄三碧木；吉星以一杯水催六白八白、四枝富貴竹催四綠文昌、四盆植物九枝紅花催九紫喜慶。此法每年按飛星方位重新適用。</p>
+<p style="font-size:13.5px;color:var(--dim);margin-bottom:10px">選擇年份查看當年九宮飛星分佈及化解方法。吉星宜催旺，凶星宜化解。<br>化解物品依照蘇民峰體系（見蘇民峰《生肖運程》曆書九宮飛星篇），<b style="color:var(--text)">按各星五行對症，並非一律放音樂盒</b>：<b>土星</b>二黑五黃以音樂盒（金泄土）化病消災、<b>木星</b>三碧以粉紅色物件（火泄木）化是非、<b>金星</b>七赤以一杯水（水泄金）化破財防利器，<b>忌再加金屬／音樂盒助金</b>；吉星以一杯水催六白八白、四枝富貴竹催四綠文昌、四盆植物九枝紅花催九紫喜慶。此法每年按飛星方位重新適用。</p>
 <div class="fly-wrap">
 <div class="fly-controls">
 <label>選擇年份：</label>

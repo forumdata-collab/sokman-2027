@@ -7,7 +7,7 @@ const STAR_DATA={
   4:{name:'四綠文曲',el:'木',type:'auspicious',label:'文昌位',remedy:'宜放四枝富貴竹或一杯水，催旺文昌',fortune:'文昌當旺，利進修考試、文書簽約，思路清晰易有成。'},
   5:{name:'五黃廉貞',el:'土',type:'danger',label:'大病位',remedy:'宜放音樂盒及一杯水，化五黃煞',fortune:'災病潛伏，此方大忌動土裝修，化煞為先、低調為上。'},
   6:{name:'六白武曲',el:'金',type:'auspicious',label:'武曲位',remedy:'宜放一杯水催財或八粒白石利升遷',fortune:'偏財與權貴之助，利升遷求職、地位提升，把握良機。'},
-  7:{name:'七赤破軍',el:'金',type:'inauspicious',label:'破軍位',remedy:'宜放一杯水，洩化破軍之氣',fortune:'破財之星，防被騙失竊，理財宜保守，不宜投機。'},
+  7:{name:'七赤破軍',el:'金',type:'inauspicious',label:'破軍位',remedy:'宜放一杯水，洩化破軍之氣（七赤屬金，以水泄金；忌放音樂盒／金屬助金）',fortune:'破財之星，防被騙失竊，理財宜保守，不宜投機。'},
   8:{name:'八白左輔',el:'土',type:'auspicious',label:'財位',remedy:'宜放一杯水，催旺財星',fortune:'當時得令之財星，大利置業儲蓄投資，財運全年最旺。'},
   9:{name:'九紫右弼',el:'火',type:'auspicious',label:'喜慶位',remedy:'宜放四盆植物及九枝紅花，催旺喜慶',fortune:'喜慶桃花之星，利婚嫁添丁、喜事臨門，人緣旺盛。'}
 };
