@@ -1831,9 +1831,12 @@ function arHeadingFromEvent(e){
 }
 function arSensorCb(e){
   AR.raw={alpha:e.alpha,beta:e.beta,gamma:e.gamma,webkit:e.webkitCompassHeading,type:e.type||''};
+  // iOS 13+：absolute 嘅先優先，普通 deviceorientation 嘅 placeholder（webkit=0）唔好覆蓋
+  if('ondeviceorientationabsolute' in window&&e.type==='deviceorientation')return;
   var h=arHeadingFromEvent(e);
+  if(AR.hasManual){arUpdateDebug();return;}   // 手動 override 中，唔好畀 sensor 覆蓋
   if(Math.abs(h-AR.heading)>=2)AR.lastMove=Date.now();   // 有實際轉動先更新 lastMove
-  AR.heading=h;AR.hasSensor=true;
+  AR.heading=h;AR.hasSensor=true;AR.mode='sensor';
   arUpdateSensor();arUpdateDebug();
 }
 function arUpdateSensor(){
@@ -1941,16 +1944,26 @@ function startAR(){
   AR.on=true;
   if(!AR.sliderBound){
     AR.sliderBound=true;
-    document.getElementById('ar-slider').addEventListener('input',function(){
+    var sl=document.getElementById('ar-slider');
+    sl.addEventListener('input',function(){
       document.getElementById('ar-slider-val').textContent=this.value+'°';
-      if(!AR.hasSensor)AR.heading=+this.value;
+      AR.heading=+this.value;      // 手動拖 slider 強制用呢個方位
+      AR.mode='manual';
+      AR.hasManual=true;
+      arUpdateDebug();
+    });
+    sl.addEventListener('change',function(){   // 鬆手後感應器有返訊號就自動跳返 sensor
+      AR.hasManual=false;
     });
   }
   // 指南針權限（iOS 13+）／感應器
   var perm=window.DeviceOrientationEvent&&window.DeviceOrientationEvent.requestPermission;
   var after=function(){
+    // AR.js 策略：優先 deviceorientationabsolute（iOS 13+/Chrome Android），無則 fallback deviceorientation
+    var evtName=('ondeviceorientationabsolute' in window)?'deviceorientationabsolute':'deviceorientation';
+    window.addEventListener(evtName,arSensorCb);
+    // backup: 若 absolute 冇出，聽普通版本（某舊機）
     window.addEventListener('deviceorientation',arSensorCb);
-    window.addEventListener('deviceorientationabsolute',arSensorCb);
     AR.raf=requestAnimationFrame(arDraw);
   };
   if(perm){
@@ -1990,6 +2003,7 @@ function stopAR(){
   arStopCam();
   window.removeEventListener('deviceorientation',arSensorCb);
   window.removeEventListener('deviceorientationabsolute',arSensorCb);
+  AR.hasManual=false;AR.raw=null;AR.gps=null;AR.gpsHeading=null;
   document.getElementById('ar-overlay').classList.remove('on');
 }
 
