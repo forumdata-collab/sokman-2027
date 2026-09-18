@@ -1,15 +1,15 @@
 
 /* ── 九宮飛星（蘇民峰原作化解物品）── */
 const STAR_DATA={
-  1:{name:'一白貪狼',el:'水',type:'auspicious',label:'桃花位',remedy:'宜放音樂盒及一杯水，催旺桃花人緣'},
-  2:{name:'二黑巨門',el:'土',type:'danger',label:'細病位',remedy:'宜放音樂盒，化病消災'},
-  3:{name:'三碧祿存',el:'木',type:'inauspicious',label:'爭鬥位',remedy:'宜放粉紅色物件，化解是非'},
-  4:{name:'四綠文曲',el:'木',type:'auspicious',label:'文昌位',remedy:'宜放四枝富貴竹或一杯水，催旺文昌'},
-  5:{name:'五黃廉貞',el:'土',type:'danger',label:'大病位',remedy:'宜放音樂盒及一杯水，化五黃煞'},
-  6:{name:'六白武曲',el:'金',type:'auspicious',label:'武曲位',remedy:'宜放一杯水催財或八粒白石利升遷'},
-  7:{name:'七赤破軍',el:'金',type:'inauspicious',label:'破軍位',remedy:'宜放一杯水，洩化破軍之氣'},
-  8:{name:'八白左輔',el:'土',type:'auspicious',label:'財位',remedy:'宜放一杯水，催旺財星'},
-  9:{name:'九紫右弼',el:'火',type:'auspicious',label:'喜慶位',remedy:'宜放四盆植物及九枝紅花，催旺喜慶'}
+  1:{name:'一白貪狼',el:'水',type:'auspicious',label:'桃花位',remedy:'宜放音樂盒及一杯水，催旺桃花人緣',fortune:'桃花人緣暢旺之年，感情、人際皆宜把握，單身者機會明顯。'},
+  2:{name:'二黑巨門',el:'土',type:'danger',label:'細病位',remedy:'宜放音樂盒，化病消災',fortune:'病符當令，留意腸胃及婦女健康，此方宜靜不宜動。'},
+  3:{name:'三碧祿存',el:'木',type:'inauspicious',label:'爭鬥位',remedy:'宜放粉紅色物件，化解是非',fortune:'是非口舌之年，忌衝動爭拗，以靜制動、慎言為上。'},
+  4:{name:'四綠文曲',el:'木',type:'auspicious',label:'文昌位',remedy:'宜放四枝富貴竹或一杯水，催旺文昌',fortune:'文昌當旺，利進修考試、文書簽約，思路清晰易有成。'},
+  5:{name:'五黃廉貞',el:'土',type:'danger',label:'大病位',remedy:'宜放音樂盒及一杯水，化五黃煞',fortune:'災病潛伏，此方大忌動土裝修，化煞為先、低調為上。'},
+  6:{name:'六白武曲',el:'金',type:'auspicious',label:'武曲位',remedy:'宜放一杯水催財或八粒白石利升遷',fortune:'偏財與權貴之助，利升遷求職、地位提升，把握良機。'},
+  7:{name:'七赤破軍',el:'金',type:'inauspicious',label:'破軍位',remedy:'宜放一杯水，洩化破軍之氣',fortune:'破財之星，防被騙失竊，理財宜保守，不宜投機。'},
+  8:{name:'八白左輔',el:'土',type:'auspicious',label:'財位',remedy:'宜放一杯水，催旺財星',fortune:'當時得令之財星，大利置業儲蓄投資，財運全年最旺。'},
+  9:{name:'九紫右弼',el:'火',type:'auspicious',label:'喜慶位',remedy:'宜放四盆植物及九枝紅花，催旺喜慶',fortune:'喜慶桃花之星，利婚嫁添丁、喜事臨門，人緣旺盛。'}
 };
 const LUOSHU=[[4,9,2],[3,5,7],[8,1,6]];
 const COMPASS=[['東南 (SE)','南 (S)','西南 (SW)'],['東 (E)','中宮','西 (W)'],['東北 (NE)','北 (N)','西北 (NW)']];
@@ -162,3 +162,120 @@ function toggleAll(open){document.querySelectorAll('details.zodiac-sec').forEach
   });
   onScroll();
 })();
+
+/* ── AR 方位模式（鏡頭 + 指南針：指向方位即見該方位之星／流年／化解）── */
+var AR={on:false,stream:null,heading:0,raf:0,hasSensor:false};
+var AR_DIRS=['北','東北','東','東南','南','西南','西','西北'];
+var AR_POS={東南:[0,0],南:[0,1],西南:[0,2],東:[1,0],中宮:[1,1],西:[1,2],東北:[2,0],北:[2,1],西北:[2,2]};
+var AR_OFF={北:0,東北:45,東:90,東南:135,南:180,西南:225,西:270,西北:315};
+function arHeadingFromEvent(e){
+  if(typeof e.webkitCompassHeading==='number')return e.webkitCompassHeading;   // iOS
+  if(typeof e.alpha==='number')return ((360-e.alpha)%360+360)%360;           // Android（平放近似）
+  return AR.heading;
+}
+function arSensorCb(e){AR.heading=arHeadingFromEvent(e);AR.hasSensor=true;}
+function arSector(h){return Math.round((((h%360)+360)%360)/45)%8;}
+function arDraw(){
+  if(!AR.on)return;
+  var y=+document.getElementById('fly-year').value;
+  var g=getGrid(centerStar(y));
+  var cv=document.getElementById('ar-canvas');
+  var ctx=cv.getContext('2d');
+  var W=cv.width=window.innerWidth,H=cv.height=window.innerHeight;
+  var cx=W/2,cy=H/2,R=Math.min(W,H)*0.38;
+  var d=AR_DIRS[arSector(AR.heading)];
+  var star=g[AR_POS[d][0]][AR_POS[d][1]];
+  var info=STAR_DATA[star];
+  ctx.clearRect(0,0,W,H);
+  // 八方位扇區
+  for(var i=0;i<8;i++){
+    var a0=(-90+i*45)*Math.PI/180,a1=(-90+(i+1)*45)*Math.PI/180;
+    var s2=g[AR_POS[AR_DIRS[i]][0]][AR_POS[AR_DIRS[i]][1]];
+    var col=STAR_DATA[s2].type==='danger'?'rgba(248,113,113,0.38)':STAR_DATA[s2].type==='inauspicious'?'rgba(251,146,60,0.35)':'rgba(74,222,128,0.30)';
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,R,a0,a1);ctx.closePath();
+    ctx.fillStyle=col;ctx.fill();
+    ctx.strokeStyle='rgba(255,255,255,0.55)';ctx.lineWidth=1;ctx.stroke();
+    var am=(a0+a1)/2;
+    ctx.fillStyle='rgba(255,255,255,0.92)';ctx.font='bold 15px sans-serif';ctx.textAlign='center';
+    ctx.fillText(AR_DIRS[i],cx+Math.cos(am)*(R*0.72),cy+Math.sin(am)*(R*0.72)+5);
+    ctx.fillStyle='rgba(255,255,255,0.75)';ctx.font='12px sans-serif';
+    ctx.fillText(STAR_DATA[s2].name,cx+Math.cos(am)*(R*0.42),cy+Math.sin(am)*(R*0.42)+4);
+  }
+  // 中宮
+  ctx.beginPath();ctx.arc(cx,cy,R*0.22,0,Math.PI*2);
+  ctx.fillStyle='rgba(108,140,255,0.30)';ctx.fill();
+  ctx.strokeStyle='rgba(108,140,255,0.8)';ctx.stroke();
+  ctx.fillStyle='#fff';ctx.font='bold 13px sans-serif';ctx.textAlign='center';
+  ctx.fillText('中宮',cx,cy-2);ctx.font='12px sans-serif';
+  ctx.fillText(STAR_DATA[g[1][1]].name,cx,cy+14);
+  // 指向針（heading）
+  var na=(-90+AR.heading)*Math.PI/180;
+  ctx.beginPath();ctx.moveTo(cx,cy);
+  ctx.lineTo(cx+Math.cos(na)*(R-8),cy+Math.sin(na)*(R-8));
+  ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.stroke();
+  ctx.beginPath();ctx.arc(cx,cy,5,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();
+  // 資訊卡
+  var card=document.getElementById('ar-info');
+  card.innerHTML='<div class="ar-dir">面向 '+d+'（'+AR_OFF[d]+'°）</div>'
+    +'<div class="ar-star">'+info.name+' <span class="ar-lab">'+info.label+'</span></div>'
+    +'<div class="ar-fortune">'+info.fortune+'</div>'
+    +'<div class="ar-remedy">'+info.remedy+'</div>'
+    +'<div class="ar-note">'+y+'年九宮 · '+STAR_DATA[centerStar(y)].name+'入中</div>';
+  AR.raf=requestAnimationFrame(arDraw);
+}
+function startAR(){
+  var ov=document.getElementById('ar-overlay');
+  ov.classList.add('on');
+  AR.on=true;
+  if(!AR.sliderBound){
+    AR.sliderBound=true;
+    document.getElementById('ar-slider').addEventListener('input',function(){
+      document.getElementById('ar-slider-val').textContent=this.value+'°';
+      if(!AR.hasSensor)AR.heading=+this.value;
+    });
+  }
+  // 指南針權限（iOS 13+）／感應器
+  var perm=window.DeviceOrientationEvent&&window.DeviceOrientationEvent.requestPermission;
+  var after=function(){
+    window.addEventListener('deviceorientation',arSensorCb);
+    window.addEventListener('deviceorientationabsolute',arSensorCb);
+    AR.raf=requestAnimationFrame(arDraw);
+  };
+  if(perm){
+    window.DeviceOrientationEvent.requestPermission().then(function(st){
+      if(st==='granted')after();else{AR.hasSensor=false;after();}
+    }).catch(function(){after();});
+  }else after();
+  arStartCam();
+}
+function arStartCam(){
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){arSetCamLabel(false);return;}
+  navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}}}).then(function(s){
+    AR.stream=s;
+    var v=document.getElementById('ar-video');
+    v.srcObject=s;v.play().catch(function(){});
+    arSetCamLabel(true);
+  }).catch(function(){arSetCamLabel(false);});
+}
+function arStopCam(){
+  if(AR.stream){AR.stream.getTracks().forEach(function(t){t.stop()});AR.stream=null;}
+  document.getElementById('ar-video').srcObject=null;
+  arSetCamLabel(false);
+}
+function arToggleCam(){
+  if(AR.stream){arStopCam();}else{arStartCam();}
+}
+function arSetCamLabel(on){
+  var b=document.getElementById('ar-cam-toggle');
+  if(!b)return;
+  b.textContent=on?'📷 實景開':'📷 實景關';
+  b.classList.toggle('off',!on);
+}
+function stopAR(){
+  AR.on=false;
+  cancelAnimationFrame(AR.raf);
+  arStopCam();
+  window.removeEventListener('deviceorientation',arSensorCb);
+  window.removeEventListener('deviceorientationabsolute',arSensorCb);
+  document.getElementById('ar-overlay').classList.remove('on');
+}

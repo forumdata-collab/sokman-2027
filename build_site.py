@@ -107,11 +107,22 @@ def build():
 <select id="fly-year" onchange="renderFly()">
 """ + year_options(2027) + """
 </select>
+<button onclick="startAR()" style="background:var(--accent);color:#fff;border:none;border-radius:8px;padding:7px 14px;font-size:13.5px;cursor:pointer;font-weight:600">📷 AR 方位模式</button>
 </div>
 <div class="fly-year-label" id="fly-label"></div>
 <div class="fly-dir" id="fly-dir" style="font-size:11.5px;color:var(--orange);margin-bottom:8px;text-align:center"></div>
 <div class="fly-grid" id="fly-grid"></div>
 </div>
+</div>
+
+<div id="ar-overlay">
+<video id="ar-video" playsinline muted></video>
+<canvas id="ar-canvas"></canvas>
+<div class="ar-note-top">移動手機，鏡頭指向方位即可看到該方位的飛星／流年／化解</div>
+<div id="ar-info"></div>
+<button id="ar-close" onclick="stopAR()">✕ 關閉</button>
+<button id="ar-cam-toggle" onclick="arToggleCam()">📷 實景開</button>
+<div id="ar-slider-wrap"><span>手動調較方位</span><input type="range" id="ar-slider" min="0" max="359" value="0"><span id="ar-slider-val">0°</span></div>
 </div>
 """
 
