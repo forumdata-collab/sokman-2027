@@ -164,7 +164,7 @@ function toggleAll(open){document.querySelectorAll('details.zodiac-sec').forEach
 })();
 
 /* ── AR 方位模式（鏡頭 + 指南針：指向方位即見該方位之星／流年／化解）── */
-var AR={on:false,stream:null,heading:0,raf:0,hasSensor:false};
+var AR={on:false,stream:null,heading:0,raf:0,hasSensor:false,raw:null,lastMove:0,mode:'manual',gps:null,gpsHeading:null};
 var AR_DIRS=['北','東北','東','東南','南','西南','西','西北'];
 var AR_POS={東南:[0,0],南:[0,1],西南:[0,2],東:[1,0],中宮:[1,1],西:[1,2],東北:[2,0],北:[2,1],西北:[2,2]};
 var AR_OFF={北:0,東北:45,東:90,東南:135,南:180,西南:225,西:270,西北:315};
@@ -184,22 +184,66 @@ function arHeadingFromEvent(e){
   var h=Math.atan2(rA,rB)/D;   // 弧度→度：÷D = ×(180/π)
   return h<0?h+360:h;
 }
-function arSensorCb(e){AR.heading=arHeadingFromEvent(e);AR.hasSensor=true;arUpdateSensor();}
+function arSensorCb(e){
+  AR.raw={alpha:e.alpha,beta:e.beta,gamma:e.gamma,webkit:e.webkitCompassHeading,type:e.type||''};
+  var h=arHeadingFromEvent(e);
+  if(Math.abs(h-AR.heading)>=2)AR.lastMove=Date.now();   // 有實際轉動先更新 lastMove
+  AR.heading=h;AR.hasSensor=true;
+  arUpdateSensor();arUpdateDebug();
+}
 function arUpdateSensor(){
   var el=document.getElementById('ar-sensor');
   if(!el)return;
-  if(AR.hasSensor){el.textContent='✓ 感應器連接中';el.className='ar-sensor on';}
-  else{el.textContent='⚠ 感應器未連接，請用手動滑桿';el.className='ar-sensor';}
+  var stuck=AR.hasSensor&&(Date.now()-AR.lastMove>3000);
+  if(stuck){
+    el.textContent='⚠ 方位無變化：水平搖手機畫 8 字校準';
+    el.className='ar-sensor';
+  }else if(AR.hasSensor){
+    el.textContent='✓ 感應器連接中';el.className='ar-sensor on';
+  }else{
+    el.textContent='⚠ 感應器未連接，請用手動滑桿';el.className='ar-sensor';
+  }
+}
+function arToggleDebug(){
+  var el=document.getElementById('ar-debug');
+  if(el)el.style.display=el.style.display==='block'?'none':'block';
+}
+function arUpdateDebug(){
+  var el=document.getElementById('ar-debug');
+  if(!el||el.style.display!=='block')return;
+  var r=AR.raw||{};
+  var gps=AR.gps||{};
+  el.innerHTML='alpha='+(r.alpha==null?'—':r.alpha.toFixed(1))
+    +' beta='+(r.beta==null?'—':r.beta.toFixed(1))
+    +' gamma='+(r.gamma==null?'—':r.gamma.toFixed(1))
+    +(r.webkit!=null?' webkit='+r.webkit.toFixed(1):'')
+    +'<br>heading='+AR.heading.toFixed(1)+' 模式='+AR.mode
+    +(gps.lat!=null?'<br>GPS:'+gps.lat.toFixed(5)+','+gps.lon.toFixed(5)+' 航向='+(gps.heading!=null?gps.heading.toFixed(0)+'°':'—'):'');
+}
+function arStartGPS(){
+  if(!navigator.geolocation)return;
+  navigator.geolocation.watchPosition(function(p){
+    var c=p.coords;
+    AR.gps={lat:c.latitude,lon:c.longitude,heading:(c.speed&&c.speed>1.5&&typeof c.heading==='number')?c.heading:null};
+    AR.gpsHeading=AR.gps.heading;
+    arUpdateDebug();
+  },function(){},{enableHighAccuracy:true,maximumAge:5000});
 }
 function arSector(h){return Math.round((((h%360)+360)%360)/45)%8;}
 function arDraw(){
   if(!AR.on)return;
+  try{
   var y=+document.getElementById('fly-year').value;
   var g=getGrid(centerStar(y));
   var cv=document.getElementById('ar-canvas');
   var ctx=cv.getContext('2d');
   var W=cv.width=window.innerWidth,H=cv.height=window.innerHeight;
   var cx=W/2,cy=H/2,R=Math.min(W,H)*0.38;
+  // GPS 航向備援：感應器卡死時自動切換
+  var modeLabel='';
+  if(AR.hasSensor&&(Date.now()-AR.lastMove>4000)&&AR.gpsHeading!=null){
+    AR.mode='gps';AR.heading=AR.gpsHeading;modeLabel='<span style="color:var(--orange)">GPS航向</span>';
+  }else if(AR.hasSensor){AR.mode='sensor';}
   var d=AR_DIRS[arSector(AR.heading)];
   var star=g[AR_POS[d][0]][AR_POS[d][1]];
   var info=STAR_DATA[star];
@@ -231,14 +275,20 @@ function arDraw(){
   ctx.lineTo(cx+Math.cos(na)*(R-8),cy+Math.sin(na)*(R-8));
   ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.stroke();
   ctx.beginPath();ctx.arc(cx,cy,5,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();
-  // 資訊卡
+  // 資訊卡（含 GPS 座標）
+  var gpsLine=AR.gps?(AR.gps.lat.toFixed(5)+'°,'+AR.gps.lon.toFixed(5)+'°'):'';
   var card=document.getElementById('ar-info');
-  card.innerHTML='<div class="ar-dir">面向 '+d+'（'+AR_OFF[d]+'°）</div>'
+  card.innerHTML='<div class="ar-dir">面向 '+d+'（'+AR_OFF[d]+'°）'+modeLabel+'</div>'
     +'<div class="ar-star">'+info.name+' <span class="ar-lab">'+info.label+'</span></div>'
     +'<div class="ar-fortune">'+info.fortune+'</div>'
     +'<div class="ar-remedy">'+info.remedy+'</div>'
+    +(gpsLine?'<div class="ar-gps">📍 '+gpsLine+'</div>':'')
     +'<div class="ar-note">'+y+'年九宮 · '+STAR_DATA[centerStar(y)].name+'入中</div>';
   AR.raf=requestAnimationFrame(arDraw);
+  }catch(err){
+    console.error('arDraw error:',err);
+    AR.raf=requestAnimationFrame(arDraw); // 繼續 loop，唔因個別 error 中斷
+  }
 }
 function startAR(){
   var ov=document.getElementById('ar-overlay');
@@ -263,6 +313,7 @@ function startAR(){
       if(st==='granted')after();else{AR.hasSensor=false;after();}
     }).catch(function(){after();});
   }else after();
+  arStartGPS();
   arStartCam();
 }
 function arStartCam(){

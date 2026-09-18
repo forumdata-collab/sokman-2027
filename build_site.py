@@ -119,7 +119,8 @@ def build():
 <video id="ar-video" playsinline muted></video>
 <canvas id="ar-canvas"></canvas>
 <div class="ar-note-top">移動手機，鏡頭指向方位即可看到該方位的飛星／流年／化解</div>
-<div class="ar-sensor" id="ar-sensor">初始化中…</div>
+<div class="ar-sensor" id="ar-sensor" onclick="arToggleDebug()">初始化中…</div>
+<div id="ar-debug" style="display:none"></div>
 <div id="ar-info"></div>
 <button id="ar-close" onclick="stopAR()">✕ 關閉</button>
 <button id="ar-cam-toggle" onclick="arToggleCam()">📷 實景開</button>
