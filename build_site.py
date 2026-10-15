@@ -71,8 +71,8 @@ def build():
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="2027 丁未羊年十二生肖運程 — 以開源曆法庫計算干支/飛星，九宮化解物品及犯太歲規則對照蘇民峰原作。僅供娛樂參考。">
-<title>2027 丁未羊年 · 十二生肖運程（AI 風格生成）</title>
+<meta name="description" content="2027 丁未羊年十二生肖運程 — 十二生肖運程按丁未羊年運程原著逐肖校正（概括改寫），干支/飛星/犯太歲關係由開源曆法庫計算。僅供參考。">
+<title>2027 丁未羊年 · 十二生肖運程（已按原著校正）</title>
 <style>""" + css + """</style>
 </head>
 <body>
@@ -81,9 +81,9 @@ def build():
 <div class="hero">
 <div class="hero-badge">2027 · 丁未 · 九紫入中</div>
 <h1>🐏 2027 丁未羊年 十二生肖運程</h1>
-<p>以開源曆法庫計算真實干支／飛星／太歲關係 · 九宮化解物品、飾物規則及熱平寒命對照蘇民峰原作</p>
+<p>干支／飛星／太歲關係由開源曆法庫計算 · 十二生肖運程按丁未羊年運程原著逐肖校正</p>
 <div class="disclaimer">
-⚠️ <b>免責聲明</b>：本頁內容為 <b>AI 風格模仿生成</b>，並非蘇民峰親筆著作，僅供娛樂參考。曆法／干支／飛星／犯太歲關係由開源庫計算（客觀可驗），<b>九宮化解物品、犯太歲飾物建議及熱平寒命分類均經對照蘇民峰原作</b>（蘇民峰曆書九宮飛星化解篇、犯太歲飾物篇；此法為蘇氏通用推理，每年按飛星方位重新適用）。如有疑問，請諮詢專業風水師。
+⚠️ <b>免責聲明</b>：本頁十二生肖運程按 <b>丁未羊年運程原著逐肖校正（概括改寫，非原著文字）</b>；曆法／干支／飛星／犯太歲關係由開源庫計算（客觀可驗）；<b>九宮化解物品、大門地氈、熱平寒命分類為體系通用推理</b>，每年按飛星方位重新適用。僅供參考，並非專業命理建議；如有疑問，請諮詢專業風水師。
 </div>
 </div>
 
@@ -112,6 +112,9 @@ def build():
 <div class="fly-year-label" id="fly-label"></div>
 <div class="fly-dir" id="fly-dir" style="font-size:11.5px;color:var(--orange);margin-bottom:8px;text-align:center"></div>
 <div class="fly-grid" id="fly-grid"></div>
+<div style="margin-top:10px;font-size:12px;color:var(--dim);line-height:1.9">
+<b style="color:var(--text)">五行化解物品對照</b>（原著九宮飛星篇）：<b>金</b>＝任何金屬發聲物件（音樂盒、銅鈴、舊鑰匙、銅錢）；<b>土</b>＝任何石製物件或天然石；<b>水</b>＝自來水一杯、水種植物或魚缸；<b>木</b>＝任何植物（仙人掌除外）；<b>火</b>＝任何紅色物件（利是封、揮春等）。
+</div>
 </div>
 </div>
 
@@ -131,7 +134,7 @@ def build():
     ts_section = """
 <div class="section" id="犯太歲">
 <div class="section-title"><span class="zodiac-icon">⚡</span><span>犯太歲速查</span></div>
-<p style="font-size:13.5px;color:var(--dim);margin-bottom:6px">選擇年份及生肖，查看犯太歲類型及化解建議。<br>飾物建議依照蘇民峰體系（見蘇民峰曆書犯太歲篇）：佩戴當年太歲生肖的三合／六合飾物（合太歲）；若該三合／六合生肖自身亦犯太歲，則不可佩戴。</p>
+<p style="font-size:13.5px;color:var(--dim);margin-bottom:6px">選擇年份及生肖，查看犯太歲類型及化解建議。<br>飾物建議依照體系通用做法：佩戴當年太歲生肖的三合／六合飾物（合太歲）；若該三合／六合生肖自身亦犯太歲，則不可佩戴。<br><span style="color:var(--orange)">※ 丁未羊年原著對犯太歲的建議以捐血、洗牙、外遊及家居風水佈局為主，並無提及佩戴飾物；飾物配對屬體系歷年通用延伸，僅供參考。</span></p>
 <div class="ts-controls">
 <label>年份：</label>
 <select id="ts-year" onchange="renderTS()">

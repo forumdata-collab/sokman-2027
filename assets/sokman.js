@@ -2,14 +2,14 @@
 /* ── 九宮飛星（蘇民峰原作化解物品）── */
 const STAR_DATA={
   1:{name:'一白貪狼',el:'水',type:'auspicious',label:'桃花位',remedy:'宜放音樂盒及一杯水，催旺桃花人緣',fortune:'桃花人緣暢旺之年，感情、人際皆宜把握，單身者機會明顯。'},
-  2:{name:'二黑巨門',el:'土',type:'danger',label:'細病位',remedy:'宜放音樂盒，化病消災',fortune:'病符當令，留意腸胃及婦女健康，此方宜靜不宜動。'},
-  3:{name:'三碧祿存',el:'木',type:'inauspicious',label:'爭鬥位',remedy:'宜放粉紅色物件，化解是非',fortune:'是非口舌之年，忌衝動爭拗，以靜制動、慎言為上。'},
+  2:{name:'二黑巨門',el:'土',type:'danger',label:'細病位',remedy:'宜放音樂盒或風鈴等金屬物件，化病消災；腹瀉、腹痛者另可放紅色物件或紅地氈，兩者可交替使用',fortune:'病符當令，留意腸胃及婦女健康，此方宜靜不宜動。'},
+  3:{name:'三碧祿存',el:'木',type:'inauspicious',label:'爭鬥位',remedy:'宜放粉紅色物件，化解是非（靠口才維生者亦可不化解）',fortune:'是非口舌之年，忌衝動爭拗，以靜制動、慎言為上。'},
   4:{name:'四綠文曲',el:'木',type:'auspicious',label:'文昌位',remedy:'宜放四枝富貴竹或一杯水，催旺文昌',fortune:'文昌當旺，利進修考試、文書簽約，思路清晰易有成。'},
   5:{name:'五黃廉貞',el:'土',type:'danger',label:'大病位',remedy:'宜放音樂盒及一杯水，化五黃煞',fortune:'災病潛伏，此方大忌動土裝修，化煞為先、低調為上。'},
   6:{name:'六白武曲',el:'金',type:'auspicious',label:'武曲位',remedy:'宜放一杯水催財或八粒白石利升遷',fortune:'偏財與權貴之助，利升遷求職、地位提升，把握良機。'},
   7:{name:'七赤破軍',el:'金',type:'inauspicious',label:'破軍位',remedy:'宜放一杯水，洩化破軍之氣（七赤屬金，以水泄金；忌放音樂盒／金屬助金）',fortune:'破財之星，防被騙失竊，理財宜保守，不宜投機。'},
   8:{name:'八白左輔',el:'土',type:'auspicious',label:'財位',remedy:'宜放一杯水，催旺財星',fortune:'當時得令之財星，大利置業儲蓄投資，財運全年最旺。'},
-  9:{name:'九紫右弼',el:'火',type:'auspicious',label:'喜慶位',remedy:'宜放四盆植物及九枝紅花，催旺喜慶',fortune:'喜慶桃花之星，利婚嫁添丁、喜事臨門，人緣旺盛。'}
+  9:{name:'九紫右弼',el:'火',type:'auspicious',label:'喜慶位',remedy:'宜放四盆植物，外圍九枝紅花，催旺喜慶（已婚有孩子者可不放九枝紅花）',fortune:'喜慶桃花之星，利婚嫁添丁、喜事臨門，人緣旺盛。'}
 };
 const LUOSHU=[[4,9,2],[3,5,7],[8,1,6]];
 const COMPASS=[['東南 (SE)','南 (S)','西南 (SW)'],['東 (E)','中宮','西 (W)'],['東北 (NE)','北 (N)','西北 (NW)']];
@@ -56,6 +56,18 @@ function getTSZodiacs(ts){
   ts.punish.split('、').forEach(p=>s.add(p.replace('（自刑）','')));
   s.add(ts.harm);s.add(ts.dest);return s;
 }
+/* ── 真書 2027 犯太歲逐類型化解法（原著羊年運程 特別注意事項篇）──
+   有真書資料嘅年份用原著寫法；其他年份 fallback 通用體系推理。 */
+const TS_REAL={2027:{
+  value:'情緒起伏較大，易見感情變化、遷移、外遊、結婚、分手或添丁等事——所謂「一喜擋三災，無喜心情壞」。十二歲者心情不定；二十四歲者易有感情變化、損傷疾病，須注意腸胃，農曆六月及十二月宜捐血、洗牙，農曆六月宜外遊化解（寒命去東南、熱命去西北或北、平命隨意偏西北或北）；三十六及四十八歲者易悲觀，宜農曆六月外遊、十二月捐血洗牙；六十歲者留意唇色暗黑、門牙脫落。家居可在正西位置放金屬發聲物件化解。',
+  clash:'沖者動也——易見感情、事業或住屋變化，變化本身無好壞，須再配合命格。寒命人今年宜動、新投資亦可嘗試；熱命人宜守；平命人運程普通。流年屬土、肖牛屬水土，須注意胃腸腹洩及情緒不穩；農曆六月及十二月宜捐血、洗牙，亦可在家居正西放音樂盒化解。',
+  punish:'刑者是非較多、人事不和；可在今年西北桃花位放一杯水，有助減免是非。',
+  harm:'太歲相穿，是非稍多；可在西北桃花位放水、東北放粉紅色物件，以旺人緣、化是非。',
+  he:'太歲相合，人緣好、易得貴人扶助，人緣亦佳，宜把握人和之利。',
+  all:'凡今年犯太歲者，可在家中西北方放一個豬形擺設、正東方放一個兔形擺設化解；如相信佩戴飾物，可佩戴一個馬形鏈墜（肖鼠者宜改用雞形擺設及鏈墜）。'
+}};
+const TS_REAL_LABEL={'值':'value','沖':'clash','刑':'punish','害':'harm','破':'dest','-':'he'};
+
 function renderTS(){
   const y=+document.getElementById('ts-year').value;
   const z=document.getElementById('ts-zodiac').value;
@@ -80,8 +92,14 @@ function renderTS(){
   if(safe.length){pendantLine+='屬'+z+'可佩戴 <span style="color:var(--green);font-weight:600">'+safe.join('、')+'</span> 生肖飾物——與太歲'+taishou+'三合/六合，可和合太歲、催旺人緣。';}
   if(forbidden.length){pendantLine+='<br><span style="color:var(--orange);font-size:12.5px">⚠️ '+forbidden.join('；')+'</span>';}
   r.innerHTML='<div class="ts-rel"><span class="badge '+cls+'">'+type+'</span> '+detail+'</div>'
-    +'<div class="ts-remedy"><b>化解建議：</b>'+(label!=='-'?'拜太歲、穿紅內衣或紅繩、避免探病問喪':'保持心態平和，多行善事。')+'</div>'
-    +'<div class="ts-remedy">'+pendantLine+'</div>';
+    +(()=>{
+      const real=TS_REAL[y]&&TS_REAL[y][TS_REAL_LABEL[label]];
+      const generic=(label!=='-'?'傳統做法：拜太歲、穿紅內衣或紅繩、避免探病問喪。':'保持心態平和，多行善事。');
+      return '<div class="ts-remedy"><b>化解建議'+(real?'（原著）':'')+'：</b>'+(real||generic)+'</div>';
+    })()
+    +'<div class="ts-remedy">'+(TS_REAL[y]?'<b>飾物／擺設（原著）：</b>'+TS_REAL[y].all:'')+'</div>'
+    +(TS_REAL[y]?'':'<div class="ts-remedy">'+pendantLine+'</div>')
+    +'<div class="ts-remedy"><span style="color:var(--dim);font-size:12.5px">※ '+(TS_REAL[y]?'以上為原著寫法。':'飾物配對為體系三合／六合通用推理，並非原著原文。')+'</span></div>';
 }
 
 
